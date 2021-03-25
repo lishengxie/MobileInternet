@@ -6,13 +6,13 @@ import (
 	"github.com/lishengxie/MobileInternet/web/controller"
 )
 
-func WebStart() {
+func WebStart(app *controller.Application) {
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	http.HandleFunc("/", IndexView)
-	http.HandleFunc("/index", IndexView)
-	http.HandleFunc("/setInfo", SetInfoView)
+	http.HandleFunc("/", app.IndexView)
+	http.HandleFunc("/index", app.IndexView)
+	http.HandleFunc("/setInfo", app.SetInfoView)
 
 	fmt.Println("启动Web服务, 监听端口号: 9000")
 

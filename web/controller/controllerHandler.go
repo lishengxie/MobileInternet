@@ -4,10 +4,14 @@ import (
 	"net/http"
 )
 
-func IndexView(w http.ResponseWriter, r *http.Request) {
+type Application struct {
+
+}
+
+func (app *Application) IndexView(w http.ResponseWriter, r *http.Request) {
 	showView(w, r, "index.html", nil)
 }
 
-func SetInfoView(w http.ResponseWriter, r *http.Request) {
+func (app *Application) SetInfoView(w http.ResponseWriter, r *http.Request) {
 	showView(w, r, "setinfo.html", nil)
 }
