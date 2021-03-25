@@ -3,7 +3,7 @@ package web
 import (
 	"net/http"
 	"fmt"
-	"github.com/lishengxie/MobileInternet/web/controller"
+	"MobileInternet/web/controller"
 )
 
 func WebStart(app *controller.Application) {

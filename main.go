@@ -12,8 +12,8 @@ import (
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config/lookup"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
 	"github.com/pkg/errors"
-	"github.com/lishengxie/MobileInternet/web"
-	"github.com/lishengxie/MobileInternet/web/controller"
+	"MobileInternet/web"
+	"MobileInternet/web/controller"
 )
 
 const (
