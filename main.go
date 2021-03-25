@@ -3,8 +3,6 @@ package main
 import (
 	"log"
 	"strings"
-	"os"
-	"fmt"
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/resmgmt"
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/errors/retry"
@@ -33,7 +31,10 @@ func main() {
 	defer sdk.Close()
 	queryChannel(sdk)
 
-	web.WebStart()
+	app := controller.Application{
+	}
+
+	web.WebStart(&app)
 }
 
 func queryChannel(sdk *fabsdk.FabricSDK) {
