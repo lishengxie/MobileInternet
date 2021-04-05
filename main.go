@@ -11,14 +11,17 @@ import (
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config/lookup"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
+	"github.com/hyperledger/fabric-sdk-go/pkg/client/channel"
 	"github.com/pkg/errors"
-	"MobileInternet/web"
-	"MobileInternet/web/controller"
 )
 
 const (
-	orgName  = "Org1"
-	orgAdmin = "Admin"
+	channelID 		= "mychannel"
+	orgName  		= "Org1"
+	orgAdmin 		= "Admin"
+	ordererOrgName 	= "OrdererOrg"
+	peer1 			= "peer0.org1.example.com"
+	userName		= "User1"
 )
 
 func main() {
@@ -29,13 +32,48 @@ func main() {
 		log.Fatalf("Failed to create new SDK: %s", err)
 	}
 	defer sdk.Close()
-	queryChannel(sdk)
 
-	app := controller.Application{
+	queryChannel(sdk)
+	invokeChaincode(sdk, "basic", "GetAllAssets", []string{})
+
+	// app := controller.Application{
+	// }
+
+	// web.WebStart(&app)
+}
+
+func invokeChaincode(sdk *fabsdk.FabricSDK, chaincode string, function string, arguments []string) {
+	// configBackend, err := sdk.Config()
+	// if err != nil {
+	// 	log.Fatalf("Failed to get config backend from SDK: %s", err)
+	// }
+	// targets, err := orgTargetPeers([]string{orgName}, configBackend)
+	// if err != nil {
+	// 	log.Fatalf("creating peers failed: %s", err)
+	// }
+
+	clientChannelContext := sdk.ChannelContext(channelID, fabsdk.WithUser(userName), fabsdk.WithOrg(orgName))
+	client, err := channel.New(clientChannelContext)
+	if err != nil {
+	  log.Panicf("failed to create channel client: %s", err)
 	}
 
-	web.WebStart(&app)
+	args := packArgs(arguments)
+	req := channel.Request{
+		ChaincodeID: 	chaincode,
+		Fcn:			function,
+		Args:			args,
+	}
+	reqPeers := channel.WithTargetEndpoints("peer0.org1.example.com","peer0.org2.example.com")
+	resp, err := client.Execute(req,reqPeers)
+	if err != nil {
+  		log.Fatalf("query chaincode failed: %s", err)
+  	}
+
+  	log.Printf("query chaincode tx: %s", resp.TransactionID)
+	log.Printf("result: %v", string(resp.Payload))
 }
+
 
 func queryChannel(sdk *fabsdk.FabricSDK) {
 	configBackend, err := sdk.Config()
@@ -78,4 +116,12 @@ func orgTargetPeers(orgs []string, configBackend ...core.ConfigBackend) ([]strin
 		peers = append(peers, orgConfig.Peers...)
 	}
 	return peers, nil
+}
+
+func packArgs(paras []string) [][]byte {
+	var args [][]byte
+	for _, k := range paras {
+		args = append(args, []byte(k))
+	}
+	return args
 }
