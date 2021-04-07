@@ -13,6 +13,9 @@ import (
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/channel"
 	"github.com/pkg/errors"
+	
+	"MobileInternet/web"
+	"MobileInternet/web/controller"
 )
 
 const (
@@ -36,22 +39,13 @@ func main() {
 	queryChannel(sdk)
 	invokeChaincode(sdk, "basic", "GetAllAssets", []string{})
 
-	// app := controller.Application{
-	// }
+	app := controller.Application{
+	}
 
-	// web.WebStart(&app)
+	web.WebStart(&app)
 }
 
 func invokeChaincode(sdk *fabsdk.FabricSDK, chaincode string, function string, arguments []string) {
-	// configBackend, err := sdk.Config()
-	// if err != nil {
-	// 	log.Fatalf("Failed to get config backend from SDK: %s", err)
-	// }
-	// targets, err := orgTargetPeers([]string{orgName}, configBackend)
-	// if err != nil {
-	// 	log.Fatalf("creating peers failed: %s", err)
-	// }
-
 	clientChannelContext := sdk.ChannelContext(channelID, fabsdk.WithUser(userName), fabsdk.WithOrg(orgName))
 	client, err := channel.New(clientChannelContext)
 	if err != nil {

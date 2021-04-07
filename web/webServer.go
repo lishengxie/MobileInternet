@@ -13,10 +13,11 @@ func WebStart(app *controller.Application) {
 	http.HandleFunc("/", app.IndexView)
 	http.HandleFunc("/index", app.IndexView)
 	http.HandleFunc("/setInfo", app.SetInfoView)
+	http.HandleFunc("/upload", app.Upload)
 
-	fmt.Println("启动Web服务, 监听端口号: 8000")
+	fmt.Println("启动Web服务, 监听端口号: 9000")
 
-	err := http.ListenAndServe(":8000", nil)
+	err := http.ListenAndServe(":9000", nil)
 	if err != nil {
 		fmt.Println("启动Web服务错误")
 	}
