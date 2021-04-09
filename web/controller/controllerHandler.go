@@ -13,12 +13,30 @@ import (
 type Application struct {
 }
 
-func (app *Application) IndexView(w http.ResponseWriter, r *http.Request) {
-	showView(w, r, "upload.html", nil)
+func (app *Application)HomeView(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	name := r.Form.Get("name")
+	passwd := r.Form.Get("passwd")
+	identity := r.Form.Get("identity")
+	if identity == "author" {
+		if name == "lishengxie" && passwd == "123456" {
+			fmt.Fprintf(w, "OK")
+		}
+	} else {
+		fmt.Fprintf(w, "Wrong")
+	}
 }
 
-func (app *Application) SetInfoView(w http.ResponseWriter, r *http.Request) {
-	showView(w, r, "setinfo.html", nil)
+func (app *Application) LoginView(w http.ResponseWriter, r *http.Request) {
+	showView(w, r, "login.html", nil)
+}
+
+func (app *Application) RegisterView(w http.ResponseWriter, r *http.Request) {
+	showView(w, r, "register.html", nil)
+}
+
+func (app *Application) RegisterReviewerView(w http.ResponseWriter, r *http.Request) {
+	showView(w, r, "registerReviewer.html", nil)
 }
 
 func (app *Application) Upload(w http.ResponseWriter, r *http.Request) {
@@ -49,4 +67,3 @@ func (app *Application) Upload(w http.ResponseWriter, r *http.Request) {
 	s := hex.EncodeToString(sum)
 	fmt.Fprintln(w, string(s))
 }
-

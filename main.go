@@ -4,43 +4,41 @@ import (
 	"log"
 	"strings"
 
+	"github.com/hyperledger/fabric-sdk-go/pkg/client/channel"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/resmgmt"
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/errors/retry"
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/providers/core"
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/providers/fab"
-	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config/lookup"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
-	"github.com/hyperledger/fabric-sdk-go/pkg/client/channel"
 	"github.com/pkg/errors"
-	
+
 	"MobileInternet/web"
 	"MobileInternet/web/controller"
 )
 
 const (
-	channelID 		= "mychannel"
-	orgName  		= "Org1"
-	orgAdmin 		= "Admin"
-	ordererOrgName 	= "OrdererOrg"
-	peer1 			= "peer0.org1.example.com"
-	userName		= "User1"
+	channelID      = "mychannel"
+	orgName        = "Org1"
+	orgAdmin       = "Admin"
+	ordererOrgName = "OrdererOrg"
+	peer1          = "peer0.org1.example.com"
+	userName       = "User1"
 )
 
 func main() {
-	configPath := "./e2e.yaml"
-	configProvider := config.FromFile(configPath)
-	sdk, err := fabsdk.New(configProvider)
-	if err != nil {
-		log.Fatalf("Failed to create new SDK: %s", err)
-	}
-	defer sdk.Close()
+	// configPath := "./e2e.yaml"
+	// configProvider := config.FromFile(configPath)
+	// sdk, err := fabsdk.New(configProvider)
+	// if err != nil {
+	// 	log.Fatalf("Failed to create new SDK: %s", err)
+	// }
+	// defer sdk.Close()
 
-	queryChannel(sdk)
-	invokeChaincode(sdk, "basic", "GetAllAssets", []string{})
+	// queryChannel(sdk)
+	// invokeChaincode(sdk, "basic", "GetAllAssets", []string{})
 
-	app := controller.Application{
-	}
+	app := controller.Application{}
 
 	web.WebStart(&app)
 }
@@ -49,25 +47,24 @@ func invokeChaincode(sdk *fabsdk.FabricSDK, chaincode string, function string, a
 	clientChannelContext := sdk.ChannelContext(channelID, fabsdk.WithUser(userName), fabsdk.WithOrg(orgName))
 	client, err := channel.New(clientChannelContext)
 	if err != nil {
-	  log.Panicf("failed to create channel client: %s", err)
+		log.Panicf("failed to create channel client: %s", err)
 	}
 
 	args := packArgs(arguments)
 	req := channel.Request{
-		ChaincodeID: 	chaincode,
-		Fcn:			function,
-		Args:			args,
+		ChaincodeID: chaincode,
+		Fcn:         function,
+		Args:        args,
 	}
-	reqPeers := channel.WithTargetEndpoints("peer0.org1.example.com","peer0.org2.example.com")
-	resp, err := client.Execute(req,reqPeers)
+	reqPeers := channel.WithTargetEndpoints("peer0.org1.example.com", "peer0.org2.example.com")
+	resp, err := client.Execute(req, reqPeers)
 	if err != nil {
-  		log.Fatalf("query chaincode failed: %s", err)
-  	}
+		log.Fatalf("query chaincode failed: %s", err)
+	}
 
-  	log.Printf("query chaincode tx: %s", resp.TransactionID)
+	log.Printf("query chaincode tx: %s", resp.TransactionID)
 	log.Printf("result: %v", string(resp.Payload))
 }
-
 
 func queryChannel(sdk *fabsdk.FabricSDK) {
 	configBackend, err := sdk.Config()

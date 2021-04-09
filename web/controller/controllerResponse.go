@@ -1,10 +1,10 @@
 package controller
 
 import (
+	"fmt"
+	"html/template"
 	"net/http"
 	"path/filepath"
-	"html/template"
-	"fmt"
 )
 
 func showView(w http.ResponseWriter, r *http.Request, templateName string, data interface{})  {
