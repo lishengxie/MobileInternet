@@ -13,15 +13,31 @@
 
     </div>
     <ul class="nav nav-tabs">
-        <li class="active">
-            <a href="/reviewerHome">Reviewed Papers</a></li>
         <li>
+            <a href="/reviewerHome">Reviewed Papers</a></li>
+        <li class="active">
             <a href="/reviewerCommit">Paper to Review</a></li>
     </ul>
 
 
     <div class="col-md-10 col-md-offset-1" style="margin-top: 20px">
-
+        <table class="table">
+            <caption>待评论的论文列表</caption>
+            <thead>
+            <tr>
+                <th>论文标题</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        <a href="/review"><button class="btn btn-primary">去评论</button></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->

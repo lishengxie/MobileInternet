@@ -16,14 +16,14 @@
 
     <ul class="nav nav-tabs">
         <li>
-            <a href="/register">Author</a></li>
+            <a href="/registerAuthor">Author</a></li>
         <li class = "active">
             <a href="/registerReviewer">Reviewer</a></li>
     </ul>
 
 
     <div class="col-md-9" style="margin-top: 20px">
-        <form class="form-horizontal" role="form" action="/home" method="post">
+        <form class="form-horizontal" role="form" action="/register?identity=reviewer" method="post">
             <div class="form-group">
                 <label for="name" class="col-md-4 control-label">用户名</label>
                 <div class="col-md-8">
@@ -50,12 +50,12 @@
 
                 <div class="col-md-8">
                     <textarea class="form-control" rows="3" id="researchTarget" name="researchTarget"
-                              placeholder="请输入研究方向,以空格分隔"></textarea>
+                              placeholder="请输入研究方向,以'/'空格分隔"></textarea>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-offset-4 col-sm-8">
-                    <button type="submit" class="btn btn-default">注册</button>
+                    <button type="submit" class="btn btn-primary">注册</button>
                 </div>
             </div>
         </form>

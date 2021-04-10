@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>审稿人主页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入 Bootstrap -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="col-md-offset-2 col-md-8">
+    <div class="page-header">
+    </div>
+
+    <div class="col-md-10 col-md-offset-1" style="margin-top: 20px">
+        <h3>Towards Fair and Privacy-Preserving Federated Deep Models</h3>
+        <form class="form-horizontal" role="form" enctype="multipart/form-data" action="/commitReview" method="post">
+            <p>评论</p>
+            <div class="col-md-8">
+                    <textarea class="form-control" rows="5" id="reviewContent" name="reviewContent"
+                              placeholder="请输入评论"></textarea>
+            </div>
+            <div class="form-group" style="margin-top: 10px">
+                <div class="col-md-offset-1 col-md-3">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+<script src="/static/js/jquery.min.js"></script>
+<!-- 包括所有已编译的插件 -->
+<script src="/static/js/bootstrap.min.js"></script>
+</body>
+</html>

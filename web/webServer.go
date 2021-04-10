@@ -13,12 +13,14 @@ func WebStart(app *controller.Application) {
 	http.HandleFunc("/", app.LoginView)
 	http.HandleFunc("/login", app.LoginView)
 	http.HandleFunc("/home", app.HomeView)
-	http.HandleFunc("/register", app.RegisterView)
+	http.HandleFunc("/registerAuthor", app.RegisterAuthorView)
 	http.HandleFunc("/registerReviewer", app.RegisterReviewerView)
 	http.HandleFunc("/authorHome", app.AuthorHomeView)
 	http.HandleFunc("/authorCommit", app.AuthorCommitView)
 	http.HandleFunc("/reviewerHome", app.ReviewerHomeView)
 	http.HandleFunc("/reviewerCommit", app.ReviewerCommitView)
+	http.HandleFunc("/register",app.RegisterView)
+	http.HandleFunc("/review",app.ReviewView)
 
 	fmt.Println("启动Web服务, 监听端口号: 9000")
 

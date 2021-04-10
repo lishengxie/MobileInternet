@@ -5,7 +5,7 @@
     <title>用户主页面</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 引入 Bootstrap -->
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="col-md-offset-2 col-md-8">
@@ -20,8 +20,41 @@
     </ul>
 
 
-    <div class="col-md-10 col-md-offset-1" style="margin-top: 20px">
-
+    <div class="col-md-10" style="margin-top: 20px">
+        <form class="form-horizontal" role="form" enctype="multipart/form-data" action="/commitPaper" method="post">
+            <div class="form-group">
+                <label for="title" class="col-md-4 control-label">论文标题</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="title" name="title"
+                           placeholder="请输入论文标题" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="authorlist" class="col-md-4 control-label">论文作者</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="authorlist" name = "authorlist"
+                           placeholder="请输入论文作者列表,以'/'做分隔" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="keywords" class="col-md-4 control-label">Keywords</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="keywords" name = "keywords"
+                           placeholder="请输入论文关键词,以'/'做分隔" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="paper" class="col-md-4 control-label">上传论文</label>
+                <div class="col-md-8">
+                    <input id="paper" name="paper" type="file">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-4 col-sm-8">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
