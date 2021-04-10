@@ -20,11 +20,34 @@ func (app *Application)HomeView(w http.ResponseWriter, r *http.Request) {
 	identity := r.Form.Get("identity")
 	if identity == "author" {
 		if name == "lishengxie" && passwd == "123456" {
-			fmt.Fprintf(w, "OK")
+			app.AuthorHomeView(w,r)
 		}
-	} else {
-		fmt.Fprintf(w, "Wrong")
+	} else if identity == "reviewer" {
+		if name == "lishengxie" && passwd == "123456" {
+			app.ReviewerHomeView(w, r)
+		}
 	}
+}
+
+func (app *Application) AuthorHomeView(w http.ResponseWriter, r *http.Request) {
+	data := struct {
+		Name []string
+	}{
+		[]string{"1","2"},
+	}
+	showView(w, r, "authorHome.html", data)
+}
+
+func (app *Application) AuthorCommitView(w http.ResponseWriter, r *http.Request) {
+	showView(w, r, "authorCommit.html", nil)
+}
+
+func (app *Application) ReviewerHomeView(w http.ResponseWriter, r *http.Request) {
+	showView(w, r, "reviewerHome.html", nil)
+}
+
+func (app *Application) ReviewerCommitView(w http.ResponseWriter, r *http.Request) {
+	showView(w, r, "reviewerCommit.html", nil)
 }
 
 func (app *Application) LoginView(w http.ResponseWriter, r *http.Request) {

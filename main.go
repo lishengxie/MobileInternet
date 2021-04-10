@@ -27,17 +27,17 @@ const (
 )
 
 func main() {
-	// configPath := "./e2e.yaml"
-	// configProvider := config.FromFile(configPath)
-	// sdk, err := fabsdk.New(configProvider)
-	// if err != nil {
-	// 	log.Fatalf("Failed to create new SDK: %s", err)
-	// }
-	// defer sdk.Close()
-
-	// queryChannel(sdk)
-	// invokeChaincode(sdk, "basic", "GetAllAssets", []string{})
-
+	//configPath := "./e2e.yaml"
+	//configProvider := config.FromFile(configPath)
+	//sdk, err := fabsdk.New(configProvider)
+	//if err != nil {
+	//	log.Fatalf("Failed to create new SDK: %s", err)
+	//}
+	//defer sdk.Close()
+	//
+	//queryChannel(sdk)
+	//invokeChaincode(sdk, "basic", "GetAllAssets", []string{})
+	//
 	app := controller.Application{}
 
 	web.WebStart(&app)
