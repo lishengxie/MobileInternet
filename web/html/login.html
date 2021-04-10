@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>登录页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入 Bootstrap -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+            margin-top:8% ;
+        }
+
+        .row{
+            display: table-cell;
+            vertical-align: middle;
+        }
+        /* centered columns styles */
+        .row-centered {
+            text-align:center;
+        }
+        .col-centered {
+            display:inline-block;
+            float:none;
+            text-align:left;
+            margin-right:-4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row row-centered">
+            <div class="well col-md-6 col-centered">
+                <form class="form-horizontal" role="form" action="/home" method="post">
+                    <h2 style="text-align: center;">欢迎登录</h2>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">用户名</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="name" name="name"
+                                   placeholder="请输入名字" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwd" class="col-sm-2 control-label">密码</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="passwd" name = "passwd"
+                                   placeholder="请输入密码" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" name="identity" value="author"> Author
+                                </label>
+                                <label  class="radio-inline">
+                                    <input type="radio" name="identity" value="reviewer"> Reviewer
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <button type="submit" class="btn btn-default">登录</button>
+                            <a href="/register" style="display: block;text-align: right">尚未注册？点击此处</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+<script src="/static/js/jquery.min.js"></script>
+<!-- 包括所有已编译的插件 -->
+<script src="/static/js/bootstrap.min.js"></script>
+</body>
+</html>

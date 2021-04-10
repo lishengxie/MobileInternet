@@ -1,0 +1,67 @@
+version: 1.0.0
+client:
+  organization: Org1
+  logging:
+    level: info
+  cryptoconfig:
+    path: /home/lishengxie/hyperledger/fabric/fabric-samples/test-network/organizations
+  credentialStore:
+    path: "/tmp/state-store"
+    cryptoStore:
+      path: /tmp/msp
+  tlsCerts:
+    client:
+      key:
+        path: /home/lishengxie/hyperledger/fabric/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/tls/client.key
+      cert:
+        path: /home/lishengxie/hyperledger/fabric/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/User1@org1.example.com/tls/client.crt
+
+channels:
+  mychannel:
+    orderers:
+      - orderer.example.com
+
+    peers:
+      peer0.org1.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true    
+
+      peer0.org2.example.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true 
+
+        
+organizations:
+  Org1:
+    mspid: Org1MSP
+    cryptoPath:  /home/lishengxie/hyperledger/fabric/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/{username}@org1.example.com/msp
+    peers:
+      - peer0.org1.example.com
+
+  Org2:
+    mspid: Org2MSP
+    cryptoPath:  /home/lishengxie/hyperledger/fabric/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/users/{username}@org2.example.com/msp
+    peers:
+      - peer0.org2.example.com
+
+orderers:
+  orderer.example.com:
+    url: orderer.example.com:7050
+    tlsCACerts:
+      path: /home/lishengxie/hyperledger/fabric/fabric-samples/test-network/organizations/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem
+
+
+peers:
+  peer0.org1.example.com:
+    url: peer0.org1.example.com:7051
+    tlsCACerts:
+      path: /home/lishengxie/hyperledger/fabric/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem
+
+  peer0.org2.example.com:
+    url: peer0.org2.example.com:9051
+    tlsCACerts:
+      path: /home/lishengxie/hyperledger/fabric/fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/tlsca/tlsca.org2.example.com-cert.pem
