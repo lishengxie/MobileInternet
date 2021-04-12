@@ -27,9 +27,10 @@ const (
 	ordererOrgName = "OrdererOrg"
 	peer1          = "peer0.org1.example.com"
 	userName       = "User1"
+	chaincode 	   = "smartreview"
 )
 
-func invokeChaincode(service *ServiceSetup, chaincode string, function string, arguments []string) {
+func (s *ServiceSetup)InvokeChaincode(function string, arguments []string) (*channel.Response,error){
 	args := packArgs(arguments)
 	req := channel.Request{
 		ChaincodeID: chaincode,
@@ -37,26 +38,29 @@ func invokeChaincode(service *ServiceSetup, chaincode string, function string, a
 		Args:        args,
 	}
 	reqPeers := channel.WithTargetEndpoints("peer0.org1.example.com", "peer0.org2.example.com")
-	resp, err := service.Client.Execute(req, reqPeers)
+	resp, err := s.Client.Execute(req, reqPeers)
 	if err != nil {
-		log.Fatalf("query chaincode failed: %s", err)
+		return nil, err
 	}
 
 	log.Printf("query chaincode tx: %s", resp.TransactionID)
 	log.Printf("result: %v", string(resp.Payload))
+	log.Printf("Status: %v", string(resp.ChaincodeStatus))
+
+	return &resp,nil;
 }
 
-func queryChannel(service *ServiceSetup) {
-	configBackend, err := service.Sdk.Config()
+func (s *ServiceSetup)queryChannel() {
+	configBackend, err := s.Sdk.Config()
 	if err != nil {
 		log.Fatalf("Failed to get config backend from SDK: %s", err)
 	}
-	targets, err := orgTargetPeers([]string{orgName}, configBackend)
+	targets, err := s.orgTargetPeers([]string{orgName}, configBackend)
 	if err != nil {
 		log.Fatalf("creating peers failed: %s", err)
 	}
 
-	clientContext := service.Sdk.Context(fabsdk.WithUser("User1"), fabsdk.WithOrg("Org1"))
+	clientContext := s.Sdk.Context(fabsdk.WithUser("User1"), fabsdk.WithOrg("Org1"))
 	resMgmtClient, err := resmgmt.New(clientContext)
 	if err != nil {
 		log.Fatalf("failed to query channel management client:%s", err)
@@ -71,7 +75,7 @@ func queryChannel(service *ServiceSetup) {
 	}
 }
 
-func orgTargetPeers(orgs []string, configBackend ...core.ConfigBackend) ([]string, error) {
+func (s *ServiceSetup)orgTargetPeers(orgs []string, configBackend ...core.ConfigBackend) ([]string, error) {
 	networkConfig := fab.NetworkConfig{}
 	err := lookup.New(configBackend...).UnmarshalKey("organizations", &networkConfig.Organizations)
 	if err != nil {

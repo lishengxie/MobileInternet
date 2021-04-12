@@ -18,20 +18,28 @@ type Application struct {
 
 func (app *Application) HomeView(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
-	if err != nil{
+	if err != nil {
 		log.Fatalf("Failed to parse Form: %s", err)
 	}
 	name := r.Form.Get("name")
 	passwd := r.Form.Get("passwd")
 	identity := r.Form.Get("identity")
 	if identity == "author" {
-		if name == "lishengxie" && passwd == "123456" {
-			app.AuthorHomeView(w, r)
+		arguments := []string{name,passwd}
+		resp,err := app.Service.InvokeChaincode("ValidateAuthor",arguments)
+		if err!=nil {
+			log.Fatalf("Failed to invoke chaincode %s : %s", "ValidateAuthor", err)
 		}
+		fmt.Println(resp.Payload)
+		app.AuthorHomeView(w, r)
 	} else if identity == "reviewer" {
-		if name == "lishengxie" && passwd == "123456" {
-			app.ReviewerHomeView(w, r)
+		arguments := []string{name,passwd}
+		resp,err := app.Service.InvokeChaincode("ValidateReviewer",arguments)
+		if err!=nil {
+			log.Fatalf("Failed to invoke chaincode %s : %s", "ValidateReviewer", err)
 		}
+		fmt.Println(resp.Payload)
+		app.ReviewerHomeView(w, r)
 	}
 }
 
