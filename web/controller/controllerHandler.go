@@ -233,18 +233,20 @@ func (app *Application) ReviewView(w http.ResponseWriter, r *http.Request){
 }
 
 func (app *Application) CommitPaperView(w http.ResponseWriter, r *http.Request){
-	err := r.ParseForm()
+	err := r.ParseMultipartForm(32 << 20)
 	if err != nil {
 		log.Fatalf("Failed to parse Form: %s", err)
 	}
 	title := r.Form.Get("title")
 	authorlist := r.Form.Get("authorlist")
 	keywords := r.Form.Get("keywords")
+	fmt.Println(title,authorlist,keywords)
 	ID,err := app.Upload(w,r)
 	if err != nil{
 		log.Fatalf("Failed to Upload Paper: %s", err)
 	}
 	arguments := []string{title,ID,authorlist,keywords}
+	fmt.Println(arguments)
 	resp,err := app.Service.InvokeChaincode("AddPaper",arguments)
 	if err!=nil {
 		log.Fatalf("Failed to invoke chaincode %s : %s", "AddPaper", err)

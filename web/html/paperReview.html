@@ -14,7 +14,7 @@
 
     <div class="col-md-10 col-md-offset-1" style="margin-top: 20px">
         <h3>{{.Title}}</h3>
-        <form class="form-horizontal" role="form" enctype="multipart/form-data" action="/commitReview?name={{.Name}}&title={{.Title}}" method="post">
+        <form class="form-horizontal" role="form" action="/commitReview?name={{.Name}}&title={{.Title}}" method="post">
             <p>评论</p>
             <div class="col-md-8">
                     <textarea class="form-control" rows="5" id="reviewContent" name="reviewContent"
