@@ -30,15 +30,15 @@
             </tr>
             </thead>
             <tbody>
-            	{{$name:=.Name}}
-                {{range $each:=.Paper}}
+            {{$name:=.Name}}
+            {{range $each:=.Paper}}
                 <tr>
-                <td>{{$each}}</td>
-                <td>
-                    <a href="/review?name={{$name}}&title={{$each}}"><button class="btn btn-primary">去评论</button></a>
-                </td>
+                    <td>{{$each}}</td>
+                    <td>
+                        <a href="/review?name={{$name}}&title={{$each}}"><button class="btn btn-primary">去评论</button></a>
+                    </td>
                 </tr>
-                {{end}}
+            {{end}}
             </tbody>
         </table>
     </div>
