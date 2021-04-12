@@ -5,12 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/controller/controllerHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/controller/controllerHandler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/html/authorCommit.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/authorCommit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/authorHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/authorHome.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/paperReview.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/paperReview.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/registerAuthor.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/registerAuthor.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/html/reviewerCommit.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/reviewerCommit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/reviewerHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/reviewerHome.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webServer.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/webServer.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
