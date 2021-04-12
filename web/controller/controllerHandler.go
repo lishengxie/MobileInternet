@@ -294,7 +294,7 @@ func (app *Application) CommitReviewView(w http.ResponseWriter, r *http.Request)
 		log.Fatalf("Failed to invoke chaincode %s : %s", "AddReview", err)
 	}
 	fmt.Println(resp.TxValidationCode)
-	fmt.Fprintf(w,"Add Review to %s successfully",title)
+	fmt.Fprintf(w,"Add Review to %s successfully %s",title,reviewContent)
 }
 
 func randomID() string {
