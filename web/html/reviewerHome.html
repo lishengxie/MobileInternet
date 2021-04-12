@@ -14,9 +14,9 @@
     </div>
     <ul class="nav nav-tabs">
         <li class="active">
-            <a href="/reviewerHome">Reviewed Papers</a></li>
+            <a href="/reviewerHome?name={{.Name}}">Reviewed Papers</a></li>
         <li>
-            <a href="/reviewerCommit">Paper to Review</a></li>
+            <a href="/reviewerCommit?name={{.Name}}">Paper to Review</a></li>
     </ul>
 
 
@@ -30,11 +30,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>Just So So</td>
-            </tr>
-
+                {{range $each:=.Paper}}
+                <tr>
+                    <td>{{$each.Name}}</td>
+                    <td>{{$each.Review}}</td>
+                </tr>
+                {{end}}
 
             </tbody>
         </table>

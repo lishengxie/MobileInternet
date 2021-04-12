@@ -17,8 +17,10 @@ func WebStart(app *controller.Application) {
 	http.HandleFunc("/registerReviewer", app.RegisterReviewerView)
 	http.HandleFunc("/authorHome", app.AuthorHomeView)
 	http.HandleFunc("/authorCommit", app.AuthorCommitView)
+	http.HandleFunc("/commitPaper",app.CommitPaperView)
 	http.HandleFunc("/reviewerHome", app.ReviewerHomeView)
 	http.HandleFunc("/reviewerCommit", app.ReviewerCommitView)
+	http.HandleFunc("/commitReview",app.CommitReviewView)
 	http.HandleFunc("/register",app.RegisterView)
 	http.HandleFunc("/review",app.ReviewView)
 

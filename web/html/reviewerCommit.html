@@ -14,9 +14,9 @@
     </div>
     <ul class="nav nav-tabs">
         <li>
-            <a href="/reviewerHome">Reviewed Papers</a></li>
+            <a href="/reviewerHome?name={{.Name}}">Reviewed Papers</a></li>
         <li class="active">
-            <a href="/reviewerCommit">Paper to Review</a></li>
+            <a href="/reviewerCommit?name={{.Name}}">Paper to Review</a></li>
     </ul>
 
 
@@ -30,12 +30,14 @@
             </tr>
             </thead>
             <tbody>
+                {{range $each:=.Paper}}
                 <tr>
-                    <td>2</td>
-                    <td>
-                        <a href="/review"><button class="btn btn-primary">去评论</button></a>
-                    </td>
+                <td>$each</td>
+                <td>
+                    <a href="/review?name={{.Name}}&title={{$each}}"><button class="btn btn-primary">去评论</button></a>
+                </td>
                 </tr>
+                {{end}}
             </tbody>
         </table>
     </div>
