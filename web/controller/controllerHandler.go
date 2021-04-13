@@ -233,7 +233,7 @@ func (app *Application) ReviewView(w http.ResponseWriter, r *http.Request){
 }
 
 func (app *Application) CommitPaperView(w http.ResponseWriter, r *http.Request){
-	err := r.ParseForm()
+	err := r.ParseMultipartForm(32 << 20)
 	if err != nil {
 		log.Fatalf("Failed to parse Form: %s", err)
 	}
