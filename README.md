@@ -36,5 +36,5 @@
 
    ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200919183413742.png#pic_center)
 
-7. 进入```MobileIntenet```目录下，运行```go run main.go```，在浏览器中输入```localhost:9000```使用。
+7. 进入```MobileIntenet```目录下，进入root模式下，运行```go run main.go```，在浏览器中输入```localhost:9000```使用。
 
