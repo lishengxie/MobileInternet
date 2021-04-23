@@ -14,7 +14,54 @@ type Paper struct {
 	ID           string   `json:"id"`
 	AuthorList   []string `json:"authorlist"`
 	ReviewerList []string `json:"reviewerlist"`
-	ReviewList   []Review `json:"reviewlist"`
+	ReviewList   map[string]Review `json:"reviewlist"`
+}
+
+func (s *SmartContract) AddtoPaperSet(ctx contractapi.TransactionContextInterface, title string, id string) error {
+	paperSetJson, err := ctx.GetStub().GetState("paperset")
+	if err != nil {
+		return err
+	}
+	var paperSet PaperSet
+	err = json.Unmarshal(paperSetJson, &paperSet)
+	if err != nil {
+		return err
+	}
+
+	if _, ok := paperSet.Papers[title]; ok {
+		return fmt.Errorf("Paper already %s exists", title)
+	}
+
+	paperSet.Papers[title] = id
+	newPaperSet := PaperSet{
+		Papers: paperSet.Papers,
+	}
+	newPaperSetJSON, err := json.Marshal(newPaperSet)
+	if err != nil {
+		return err
+	}
+	err = ctx.GetStub().PutState("paperset", newPaperSetJSON)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SmartContract) GetPaperID(ctx contractapi.TransactionContextInterface, title string) (string, error){
+	paperSetJson, err := ctx.GetStub().GetState("paperset")
+	if err != nil {
+		return "",err
+	}
+	var paperSet PaperSet
+	err = json.Unmarshal(paperSetJson, &paperSet)
+	if err != nil {
+		return "", err
+	}
+
+	if _, ok := paperSet.Papers[title]; !ok {
+		return "", fmt.Errorf("Paper %s not exist", title)
+	}
+	return paperSet.Papers[title],nil
 }
 
 func (s *SmartContract) AddPaper(ctx contractapi.TransactionContextInterface, title string, id string, authorList string, keywords string) error {
@@ -24,13 +71,11 @@ func (s *SmartContract) AddPaper(ctx contractapi.TransactionContextInterface, ti
 	keywords = strings.Trim(keywords, " ")
 	keywordsArr := strings.Split(keywords, "/")
 
-	exists, err := s.AssetExists(ctx, title)
+	err := s.AddtoPaperSet(ctx,title,id)
 	if err != nil {
 		return err
 	}
-	if exists {
-		return fmt.Errorf("%s exists", title)
-	}
+
 	reviewerList, err := s.distributePaper(ctx, keywordsArr)
 	if err != nil {
 		return err
@@ -40,43 +85,25 @@ func (s *SmartContract) AddPaper(ctx contractapi.TransactionContextInterface, ti
 		ID:           id,
 		AuthorList:   authorListArr,
 		ReviewerList: reviewerList,
-		ReviewList:   []Review{},
+		ReviewList:   make(map[string]Review),
 	}
 	paperJSON, err := json.Marshal(paper)
 	if err != nil {
 		return err
 	}
-	err = ctx.GetStub().PutState(title, paperJSON)
+	err = ctx.GetStub().PutState(id, paperJSON)
 	if err != nil {
 		return err
 	}
 
-	var author Author
-	var authorID string
-
-	authorSetJSON, err := ctx.GetStub().GetState("authorset")
-	if err != nil {
-		return err
-	}
-
-	var authorSet AuthorSet
-	err = json.Unmarshal(authorSetJSON, &authorSet)
-	if err != nil {
-		return err
-	}
+	var author *Author
 	for _, each := range authorListArr {
-		if _, ok := authorSet.Authors[each]; !ok {
-			return fmt.Errorf("Author %s not exists", each)
-		}
-		authorID = authorSet.Authors[each]
-		authorJSON, err := ctx.GetStub().GetState(authorID)
-		if err != nil {
+
+		author, err = s.ReadAuthor(ctx,each)
+		if err != nil{
 			return err
 		}
-		err = json.Unmarshal(authorJSON, &author)
-		if err != nil {
-			return err
-		}
+
 		newAuthor := Author{
 			ID:             author.ID,
 			Name:           author.Name,
@@ -95,16 +122,6 @@ func (s *SmartContract) AddPaper(ctx contractapi.TransactionContextInterface, ti
 	}
 
 	var reviewer Reviewer
-	reviewerSetJSON, err := ctx.GetStub().GetState("reviewerset")
-	if err != nil {
-		return err
-	}
-	var reviewerSet ReviewerSet
-	err = json.Unmarshal(reviewerSetJSON, &reviewerSet)
-	if err != nil {
-		return err
-	}
-
 	for _, each := range reviewerList {
 		reviewerJSON, err := ctx.GetStub().GetState(each)
 		if err != nil {
@@ -136,7 +153,8 @@ func (s *SmartContract) AddPaper(ctx contractapi.TransactionContextInterface, ti
 }
 
 func (s *SmartContract) GetPaper(ctx contractapi.TransactionContextInterface, title string) (*Paper, error) {
-	paperJSON, err := ctx.GetStub().GetState(title)
+	paperID,err := s.GetPaperID(ctx,title)
+	paperJSON, err := ctx.GetStub().GetState(paperID)
 	if err != nil {
 		return nil, err
 	}

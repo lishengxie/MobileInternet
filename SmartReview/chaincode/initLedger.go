@@ -20,6 +20,11 @@ type AuthorSet struct {
 	Authors map[string]string `json:"authors"`
 }
 
+// 论文集合
+type PaperSet struct {
+	Papers map[string]string `json:"papers"`
+}
+
 func (s *SmartContract) Init(ctx contractapi.TransactionContextInterface) error {
 	reviewerSet := ReviewerSet{
 		Reviewers: make(map[string]string),
@@ -41,6 +46,18 @@ func (s *SmartContract) Init(ctx contractapi.TransactionContextInterface) error 
 		return err
 	}
 	err = ctx.GetStub().PutState("authorset", authorSetJSON)
+	if err != nil {
+		return err
+	}
+
+	paperSet := PaperSet{
+		Papers: make(map[string]string),
+	}
+	paperSetJSON, err := json.Marshal(paperSet)
+	if err != nil {
+		return err
+	}
+	err = ctx.GetStub().PutState("paperset", paperSetJSON)
 	if err != nil {
 		return err
 	}

@@ -18,10 +18,17 @@ type Reviewer struct {
 	UNReviewedPaper []string `json:"unreviewedpaper"`
 }
 
+type Rebuttal struct{
+	ID		string 	`json:"id"`
+	Question string	`json:"question"`
+	Answer	string	`json:"answer"`
+}
+
 // 审稿内容结构体
 type Review struct {
 	ReviewerID string `json:"reviewerid"`
 	Content    string `json:"content"`
+	RebuttalList	[]Rebuttal `json:"rebuttallist"`
 }
 
 func (s *SmartContract) AddtoReviewerSet(ctx contractapi.TransactionContextInterface, name string, id string) error {
@@ -103,16 +110,8 @@ func (s *SmartContract) GetReviewerID(ctx contractapi.TransactionContextInterfac
 }
 
 func (s *SmartContract) AddReview(ctx contractapi.TransactionContextInterface, title string, reviewerName string, content string) error {
-	paperJSON, err := ctx.GetStub().GetState(title)
-	if err != nil {
-		return err
-	}
-	if paperJSON == nil {
-		return fmt.Errorf("paper %s not exist", title)
-	}
-	var paper Paper
-	err = json.Unmarshal(paperJSON, &paper)
-	if err != nil {
+	paper, err := s.GetPaper(ctx,title)
+	if err != nil{
 		return err
 	}
 
@@ -124,19 +123,24 @@ func (s *SmartContract) AddReview(ctx contractapi.TransactionContextInterface, t
 	review := Review{
 		ReviewerID: reviewerID,
 		Content:    content,
+		RebuttalList: []Rebuttal{},
 	}
+	if _,ok := paper.ReviewList[reviewerID]; ok{
+		return fmt.Errorf("Review has been added by %s to %s.",reviewerID,paper.Title)
+	}
+	paper.ReviewList[reviewerID] = review;
 	newPaper := Paper{
 		Title:        paper.Title,
 		ID:           paper.ID,
 		AuthorList:   paper.AuthorList,
 		ReviewerList: paper.ReviewerList,
-		ReviewList:   append(paper.ReviewList, review),
+		ReviewList:   paper.ReviewList,
 	}
 	newPaperJSON, err := json.Marshal(newPaper)
 	if err != nil {
 		return err
 	}
-	err = ctx.GetStub().PutState(paper.Title, newPaperJSON)
+	err = ctx.GetStub().PutState(paper.ID, newPaperJSON)
 	if err != nil {
 		return err
 	}
@@ -233,6 +237,7 @@ func (s *SmartContract) GetUNReviewedPaper(ctx contractapi.TransactionContextInt
 type reviewedPaper struct {
 	Name   string `json:"name"`
 	Review string `json:"review"`
+	RebuttalList []Rebuttal `json:"rebuttallist"`
 }
 
 func (s *SmartContract) ValidateReviewer(ctx contractapi.TransactionContextInterface, name string, passwd string) (bool, error) {
@@ -260,16 +265,12 @@ func (s *SmartContract) ReviewerReviewedPaper(ctx contractapi.TransactionContext
 	var res []reviewedPaper
 
 	for _, paper := range papers {
-		var content string
-		for _, review := range paper.ReviewList {
-			if review.ReviewerID == reviewerID {
-				content = review.Content
-				break
-			}
-		}
+		review := paper.ReviewList[reviewerID]
+
 		tmp := reviewedPaper{
 			Name:   paper.Title,
-			Review: content,
+			Review: review.Content,
+			RebuttalList: review.RebuttalList,
 		}
 		res = append(res, tmp)
 	}

@@ -16,6 +16,7 @@ type Author struct {
 	CommittedPaper []string `json:"committedpaper"`
 }
 
+
 func (s *SmartContract) AddtoAuthorSet(ctx contractapi.TransactionContextInterface, name string, id string) error {
 	authorSetJson, err := ctx.GetStub().GetState("authorset")
 	if err != nil {
@@ -124,7 +125,7 @@ func (s *SmartContract) GetCommittedPaper(ctx contractapi.TransactionContextInte
 type comittedPaper struct {
 	Name       string   `json:"name"`
 	AuthorList []string `json:"authorlist"`
-	Reviews    []Review `json:"reviews"`
+	Reviews    map[string]Review `json:"reviews"`
 }
 
 func (s *SmartContract) AuthorCommittedPaper(ctx contractapi.TransactionContextInterface, name string) ([]comittedPaper, error) {
