@@ -11,6 +11,7 @@
 3. 将此仓库克隆到本地
 
    ```
+   cd /home/lishengxie/hyperledger/fabric/fabric-samples/test-network/sdkdemo
    git clone https://github.com/lishengxie/MobileInternet.git
    ```
 
