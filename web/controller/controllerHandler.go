@@ -17,15 +17,20 @@ type Application struct {
 	Service *service.ServiceSetup
 }
 
+type Review struct {
+	ReviewerID string `json:"reviewerid"`
+	Content    string `json:"content"`
+}
+
 type comittedPaper struct {
 	Name       string   `json:"name"`
 	AuthorList []string `json:"authorlist"`
-	Reviews    []string `json:"reviews"`
+	Reviews    []Review `json:"reviews"`
 }
 
 type reviewedPaper struct {
 	Name   string `json:"name"`
-	Review string `json:"review"`
+	ReviewContent string `json:"reviewcontent"`
 }
 
 func (app *Application) HomeView(w http.ResponseWriter, r *http.Request) {

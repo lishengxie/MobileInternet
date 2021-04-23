@@ -6,45 +6,45 @@ import (
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
-const (
-	putStateError = 1
-	getStateError = 2
-	jsonMarshalError = 3
-	jsonUnMarshalError = 4
-	distributePaperFailed = 5
-	existsError = 6
-	notExistsError = 7
-)
-
 type SmartContract struct {
 	contractapi.Contract
 }
 
-func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) int {
+// 审稿人集合
+type ReviewerSet struct {
+	Reviewers map[string]string `json:"reviewers"`
+}
+
+// 作者集合
+type AuthorSet struct {
+	Authors map[string]string `json:"authors"`
+}
+
+func (s *SmartContract) Init(ctx contractapi.TransactionContextInterface) error {
 	reviewerSet := ReviewerSet{
-		Reviewers: map[string]string{},
+		Reviewers: make(map[string]string),
 	}
 	reviewerSetJSON, err := json.Marshal(reviewerSet)
 	if err != nil {
-		return jsonMarshalError
+		return err
 	}
 	err = ctx.GetStub().PutState("reviewerset", reviewerSetJSON)
 	if err != nil {
-		return putStateError
+		return err
 	}
 
 	authorSet := AuthorSet{
-		Authors: map[string]string{},
+		Authors: make(map[string]string),
 	}
 	authorSetJSON, err := json.Marshal(authorSet)
 	if err != nil {
-		return jsonMarshalError
+		return err
 	}
 	err = ctx.GetStub().PutState("authorset", authorSetJSON)
 	if err != nil {
-		return putStateError
+		return err
 	}
-	return 0
+	return nil
 }
 
 func (s *SmartContract) AssetExists(ctx contractapi.TransactionContextInterface, id string) (bool, error) {
