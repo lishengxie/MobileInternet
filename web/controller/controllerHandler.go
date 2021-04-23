@@ -17,20 +17,29 @@ type Application struct {
 	Service *service.ServiceSetup
 }
 
+type Rebuttal struct{
+	ID		string 	`json:"id"`
+	Question string	`json:"question"`
+	Answer	string	`json:"answer"`
+}
+
+// 审稿内容结构体
 type Review struct {
 	ReviewerID string `json:"reviewerid"`
 	Content    string `json:"content"`
+	RebuttalList	[]Rebuttal `json:"rebuttallist"`
 }
 
 type comittedPaper struct {
 	Name       string   `json:"name"`
 	AuthorList []string `json:"authorlist"`
-	Reviews    []Review `json:"reviews"`
+	Reviews    map[string]Review `json:"reviews"`
 }
 
 type reviewedPaper struct {
 	Name   string `json:"name"`
-	ReviewContent string `json:"reviewcontent"`
+	Review string `json:"review"`
+	RebuttalList []Rebuttal `json:"rebuttallist"`
 }
 
 func (app *Application) HomeView(w http.ResponseWriter, r *http.Request) {
@@ -317,3 +326,4 @@ func randomID() string {
 	id := hex.EncodeToString(sum)
 	return id
 }
+
