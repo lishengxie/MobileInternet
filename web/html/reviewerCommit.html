@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>审稿人主页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入 Bootstrap -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="col-md-offset-2 col-md-8">
+    <div class="page-header">
+
+    </div>
+    <ul class="nav nav-tabs">
+        <li>
+            <a href="/reviewerHome?name={{.Name}}">Reviewed Papers</a></li>
+        <li class="active">
+            <a href="/reviewerCommit?name={{.Name}}">Paper to Review</a></li>
+
+    </ul>
+
+
+    <div class="col-md-10 col-md-offset-1" style="margin-top: 20px">
+        <table class="table">
+            <caption>待评论的论文列表</caption>
+            <thead>
+            <tr>
+                <th>论文标题</th>
+                <th>去评论</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{$name:=.Name}}
+            {{range $each:=.Paper}}
+                <tr>
+                    <td>{{$each}}</td>
+                    <td>
+                        <a href="/review?name={{$name}}&title={{$each}}"><button class="btn btn-primary">去评论</button></a>
+                    </td>
+                </tr>
+            {{end}}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+<script src="/static/js/jquery.min.js"></script>
+<!-- 包括所有已编译的插件 -->
+<script src="/static/js/bootstrap.min.js"></script>
+</body>
+</html>
