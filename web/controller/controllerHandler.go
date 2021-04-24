@@ -264,13 +264,14 @@ func (app *Application) RegisterView(w http.ResponseWriter, r *http.Request){
 		researchTarget := r.Form.Get("researchTarget")
 		ID := randomID()
 		arguments := []string{name,ID,passwd,email,researchTarget}
+		fmt.Println(arguments)
 		resp,err := app.Service.InvokeChaincode("CreateReviewer",arguments)
 		if err!=nil {
 			log.Fatalf("Failed to invoke chaincode %s : %s", "CreateReviewer", err)
 		}
 		fmt.Println(resp.TxValidationCode)
 		app.LoginView(w, r)
-		fmt.Println(name+" "+passwd+" "+email+" "+researchTarget)
+
 	}
 }
 

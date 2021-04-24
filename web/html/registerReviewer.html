@@ -89,15 +89,15 @@
                     <br />
                     <form role="form" action="/register?identity=reviewer" method="post">
                         <label>Enter User Name : </label>
-                        <input type="name" class="form-control" />
+                        <input type="name" id="name" name="name" class="form-control" />
                         <label>Enter Password :  </label>
-                        <input type="password" class="form-control" />
+                        <input type="password" id="passwd" name="passwd" class="form-control" />
                         <label>Enter Email :  </label>
-                        <input type="email" class="form-control" />
+                        <input type="email" id="email" name="email" class="form-control" />
                         <label>Enter Research Targets, split by "/" :  </label>
-                        <textarea type="email" class="form-control"></textarea>
+                        <textarea type="text" id="researchTarget" name="researchTarget" class="form-control"></textarea>
                         <hr />
-                        <button type="submit" class="btn btn-info">Register Now</a>&nbsp;
+                        <button type="submit" class="btn btn-info">Register Now</button>&nbsp;
                     </form>
                 </div>
 
