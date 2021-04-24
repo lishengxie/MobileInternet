@@ -399,7 +399,7 @@ func (app *Application) CommitReplyView(w http.ResponseWriter, r *http.Request) 
 	title := r.Form.Get("title")
 	reply := r.Form.Get("replycontent")
 
-	arguments := []string{title, title, reviewerName,reply}
+	arguments := []string{title, reviewerName,reply}
 
 	resp,err := app.Service.InvokeChaincode("AddReply",arguments)
 	if err!=nil {
@@ -409,7 +409,7 @@ func (app *Application) CommitReplyView(w http.ResponseWriter, r *http.Request) 
 	data := &struct {
 		Content string
 	}{
-		Content: fmt.Sprintf("Add Reply to <strong>%s</strong> successfully:<br/> %s", title, reply),
+		Content: fmt.Sprintf("Add Reply to {%s} successfully:{%s}", title, reply),
 	}
 
 	showView(w, r, "blank.html", data)
