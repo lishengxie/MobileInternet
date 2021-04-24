@@ -18,9 +18,10 @@ type Application struct {
 }
 
 type Rebuttal struct{
-	ID		string 	`json:"id"`
-	Question string	`json:"question"`
-	Answer	string	`json:"answer"`
+	AuthorID		string 	`json:"authorid"`
+	ReviewerID		string 	`json:"reviewerid"`
+	Question 		string	`json:"question"`
+	Reply			string	`json:"reply"`
 }
 
 // 审稿内容结构体

@@ -155,3 +155,49 @@ func (s *SmartContract) ValidateAuthor(ctx contractapi.TransactionContextInterfa
 	}
 	return author.Passwd == passwd, nil
 }
+
+func (s *SmartContract) AddRebuttal(ctx contractapi.TransactionContextInterface,title string, author_name string, reviewerID string, question string)error{
+	authorID, err := s.GetAuthorID(ctx,author_name)
+	if err != nil {
+		return err
+	}
+	paper, err := s.GetPaper(ctx,title)
+	if err != nil {
+		return err
+	}
+
+	rebuttal := Rebuttal{
+		AuthorID: authorID,
+		ReviewerID: reviewerID,
+		Question: question,
+		Reply: "",
+		IsReplyed: false,
+	}
+
+	review := Review{
+		ReviewerID: reviewerID,
+		Content: paper.ReviewList[reviewerID].Content,
+		RebuttalList: rebuttal,
+	}
+
+	newReviewList := paper.ReviewList
+	newReviewList[reviewerID] = review
+	newPaper := Paper{
+		Title:        paper.Title,
+		ID:           paper.ID,
+		AuthorList:   paper.AuthorList,
+		ReviewerList: paper.ReviewerList,
+		ReviewList:   newReviewList,
+	}
+
+	newPaperJSON, err := json.Marshal(newPaper)
+	if err != nil{
+		return err
+	}
+
+	err = ctx.GetStub().PutState(paper.ID,newPaperJSON)
+	if err != nil{
+		return err
+	}
+	return nil
+}

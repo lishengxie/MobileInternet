@@ -19,16 +19,18 @@ type Reviewer struct {
 }
 
 type Rebuttal struct{
-	ID		string 	`json:"id"`
-	Question string	`json:"question"`
-	Answer	string	`json:"answer"`
+	AuthorID		string 	`json:"authorid"`
+	ReviewerID		string 	`json:"reviewerid"`
+	Question 		string	`json:"question"`
+	Reply			string	`json:"reply"`
+	IsReplyed		bool	`json:"isreplyed"`
 }
 
 // 审稿内容结构体
 type Review struct {
-	ReviewerID string `json:"reviewerid"`
-	Content    string `json:"content"`
-	RebuttalList	[]Rebuttal `json:"rebuttallist"`
+	ReviewerID 		string `json:"reviewerid"`
+	Content    		string `json:"content"`
+	RebuttalList	Rebuttal `json:"rebuttallist"`
 }
 
 func (s *SmartContract) AddtoReviewerSet(ctx contractapi.TransactionContextInterface, name string, id string) error {
@@ -123,7 +125,7 @@ func (s *SmartContract) AddReview(ctx contractapi.TransactionContextInterface, t
 	review := Review{
 		ReviewerID: reviewerID,
 		Content:    content,
-		RebuttalList: []Rebuttal{},
+		RebuttalList: Rebuttal{},
 	}
 	if _,ok := paper.ReviewList[reviewerID]; ok{
 		return fmt.Errorf("Review has been added by %s to %s.",reviewerID,paper.Title)
@@ -237,7 +239,7 @@ func (s *SmartContract) GetUNReviewedPaper(ctx contractapi.TransactionContextInt
 type reviewedPaper struct {
 	Name   string `json:"name"`
 	Review string `json:"review"`
-	RebuttalList []Rebuttal `json:"rebuttallist"`
+	RebuttalList Rebuttal `json:"rebuttallist"`
 }
 
 func (s *SmartContract) ValidateReviewer(ctx contractapi.TransactionContextInterface, name string, passwd string) (bool, error) {
@@ -287,4 +289,52 @@ func (s *SmartContract) ReviewerUNReviewedPaper(ctx contractapi.TransactionConte
 		res = append(res, paper.Title)
 	}
 	return res, nil
+}
+
+func (s *SmartContract) AddReply(ctx contractapi.TransactionContextInterface, title string, reviewer_name string, reply string) error {
+	reviewerID, err := s.GetReviewerID(ctx, reviewer_name)
+	if err != nil{
+		return err
+	}
+
+	paper, err := s.GetPaper(ctx,title)
+	if err != nil {
+		return err
+	}
+
+	rebuttal := paper.ReviewList[reviewerID].RebuttalList
+	newRebuttal := Rebuttal{
+		AuthorID: rebuttal.AuthorID,
+		ReviewerID: reviewerID,
+		Question: rebuttal.Question,
+		Reply: reply,
+		IsReplyed: true,
+	}
+
+	review := Review{
+		ReviewerID: reviewerID,
+		Content: paper.ReviewList[reviewerID].Content,
+		RebuttalList: newRebuttal,
+	}
+
+	newReviewList := paper.ReviewList
+	newReviewList[reviewerID] = review
+	newPaper := Paper{
+		Title:        paper.Title,
+		ID:           paper.ID,
+		AuthorList:   paper.AuthorList,
+		ReviewerList: paper.ReviewerList,
+		ReviewList:   newReviewList,
+	}
+
+	newPaperJSON, err := json.Marshal(newPaper)
+	if err != nil{
+		return err
+	}
+
+	err = ctx.GetStub().PutState(paper.ID,newPaperJSON)
+	if err != nil{
+		return err
+	}
+	return nil
 }

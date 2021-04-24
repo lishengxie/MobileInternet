@@ -35,7 +35,16 @@
                 <tr>
                     <td>{{$each.Name}}</td>
                     <td>{{$each.AuthorList}}</td>
-                    <td>{{$each.Reviews}}</td>
+                    <td>
+                        {{range $key, $value := $each.Reviews}}
+                            <span>{{$value.Content}}</span>
+                            {{range $rebuttal := $value.RebuttalList}}
+                                <span><strong>Question:</strong>{{$rebuttal.Question}}</span><br/>
+                                <span><strong>Reply:</strong>{{$rebuttal.Reply}}</span><br/>
+                            {{end}}
+                            <a href="/rebuttal?authorname={{.Name}}&reviewerid={{$value.ReviewerID}}"><button class="btn btn-primary">去提问</button></a>
+                        {{end}}
+                    </td>
                 </tr>
             {{end}}
 
