@@ -22,6 +22,7 @@ type Rebuttal struct{
 	ReviewerID		string 	`json:"reviewerid"`
 	Question 		string	`json:"question"`
 	Reply			string	`json:"reply"`
+	IsReplyed		bool 	`json:"isreplyed"`
 }
 
 // 审稿内容结构体
