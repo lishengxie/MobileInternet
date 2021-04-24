@@ -28,7 +28,7 @@ type Rebuttal struct{
 type Review struct {
 	ReviewerID string `json:"reviewerid"`
 	Content    string `json:"content"`
-	RebuttalList	[]Rebuttal `json:"rebuttallist"`
+	RebuttalList	Rebuttal `json:"rebuttallist"`
 }
 
 type comittedPaper struct {
@@ -40,7 +40,7 @@ type comittedPaper struct {
 type reviewedPaper struct {
 	Name   string `json:"name"`
 	Review string `json:"review"`
-	RebuttalList []Rebuttal `json:"rebuttallist"`
+	RebuttalList Rebuttal `json:"rebuttallist"`
 }
 
 func (app *Application) HomeView(w http.ResponseWriter, r *http.Request) {
