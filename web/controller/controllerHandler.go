@@ -124,6 +124,61 @@ func (app *Application) AuthorCommitView(w http.ResponseWriter, r *http.Request)
 	showView(w, r, "authorCommit.html", data)
 }
 
+func (app *Application) CommitPaperView(w http.ResponseWriter, r *http.Request){
+	err := r.ParseMultipartForm(32 << 20)
+	if err != nil {
+		log.Fatalf("Failed to parse Form: %s", err)
+	}
+	title := r.Form.Get("title")
+	authorlist := r.Form.Get("authorlist")
+	keywords := r.Form.Get("keywords")
+	fmt.Println(title,authorlist,keywords)
+	ID,err := app.Upload(w,r)
+	if err != nil{
+		log.Fatalf("Failed to Upload Paper: %s", err)
+	}
+	arguments := []string{title,ID,authorlist,keywords}
+	fmt.Println(arguments)
+	resp,err := app.Service.InvokeChaincode("AddPaper",arguments)
+	if err!=nil {
+		log.Fatalf("Failed to invoke chaincode %s : %s", "AddPaper", err)
+	}
+	fmt.Println(resp.TxValidationCode)
+	data := &struct {
+		Content string
+	}{
+		Content: fmt.Sprintf("Commit Paper <strong>%s</strong> successfully", title),
+	}
+	showView(w, r, "blank.html", data)
+}
+
+func (app *Application) Upload(w http.ResponseWriter, r *http.Request)(string,error) {
+	r.ParseMultipartForm(32 << 20)
+	file, handler, err := r.FormFile("paper")
+	if err != nil {
+		return "",err
+	}
+	defer file.Close()
+
+	content, err := ioutil.ReadFile(handler.Filename)
+	if err != nil {
+		return "",err
+	}
+
+	rand.Seed(time.Now().UnixNano())
+	randStr := make([]byte, 10)
+	for i := 0; i < 10; i++ {
+		b := rand.Intn(26) + 65
+		randStr[i] = byte(b)
+	}
+
+	h := sha256.New()
+	h.Write([]byte(string(content) + string(randStr)))
+	sum := h.Sum(nil)
+	s := hex.EncodeToString(sum)
+	return string(s),nil
+}
+
 func (app *Application) ReviewerHomeView(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -248,56 +303,6 @@ func (app *Application) ReviewView(w http.ResponseWriter, r *http.Request){
 	showView(w, r, "paperReview.html", data)
 }
 
-func (app *Application) CommitPaperView(w http.ResponseWriter, r *http.Request){
-	err := r.ParseMultipartForm(32 << 20)
-	if err != nil {
-		log.Fatalf("Failed to parse Form: %s", err)
-	}
-	title := r.Form.Get("title")
-	authorlist := r.Form.Get("authorlist")
-	keywords := r.Form.Get("keywords")
-	fmt.Println(title,authorlist,keywords)
-	ID,err := app.Upload(w,r)
-	if err != nil{
-		log.Fatalf("Failed to Upload Paper: %s", err)
-	}
-	arguments := []string{title,ID,authorlist,keywords}
-	fmt.Println(arguments)
-	resp,err := app.Service.InvokeChaincode("AddPaper",arguments)
-	if err!=nil {
-		log.Fatalf("Failed to invoke chaincode %s : %s", "AddPaper", err)
-	}
-	fmt.Println(resp.TxValidationCode)
-	fmt.Fprintf(w,"Commit Paper %s successfully",title)
-}
-
-func (app *Application) Upload(w http.ResponseWriter, r *http.Request)(string,error) {
-	r.ParseMultipartForm(32 << 20)
-	file, handler, err := r.FormFile("paper")
-	if err != nil {
-		return "",err
-	}
-	defer file.Close()
-
-	content, err := ioutil.ReadFile(handler.Filename)
-	if err != nil {
-		return "",err
-	}
-
-	rand.Seed(time.Now().UnixNano())
-	randStr := make([]byte, 10)
-	for i := 0; i < 10; i++ {
-		b := rand.Intn(26) + 65
-		randStr[i] = byte(b)
-	}
-
-	h := sha256.New()
-	h.Write([]byte(string(content) + string(randStr)))
-	sum := h.Sum(nil)
-	s := hex.EncodeToString(sum)
-	return string(s),nil
-}
-
 func (app *Application) CommitReviewView(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -312,7 +317,101 @@ func (app *Application) CommitReviewView(w http.ResponseWriter, r *http.Request)
 		log.Fatalf("Failed to invoke chaincode %s : %s", "AddReview", err)
 	}
 	fmt.Println(resp.TxValidationCode)
-	fmt.Fprintf(w,"Add Review to %s successfully %s",title,reviewContent)
+	data := &struct {
+		Content string
+	}{
+		Content: fmt.Sprintf("Add Review to <strong>%s</strong> successfully:<br/> %s", title, reviewContent),
+	}
+	showView(w, r, "blank.html", data)
+}
+
+func (app *Application) RebuttalView(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Fatalf("Failed to parse Form: %s", err)
+	}
+	authorName := r.Form.Get("authorname")
+	title := r.Form.Get("title")
+	reviewerID := r.Form.Get("reviewerid")
+	data := &struct{
+		Name string
+		Title string
+		ReviewerID	string
+	}{
+		Name : authorName,
+		Title : title,
+		ReviewerID : reviewerID,
+	}
+	showView(w, r, "rebuttal.html", data)
+}
+
+func (app *Application) ReplyView(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Fatalf("Failed to parse Form: %s", err)
+	}
+	reviewerName := r.Form.Get("reviewername")
+	title := r.Form.Get("title")
+
+	data := &struct{
+		Name string
+		Title string
+	}{
+		Name : reviewerName,
+		Title : title,
+	}
+	showView(w, r, "reply.html", data)
+}
+
+func (app *Application) CommitRebuttalView(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Fatalf("Failed to parse Form: %s", err)
+	}
+	authorName := r.Form.Get("name")
+	title := r.Form.Get("title")
+	reviewerID := r.Form.Get("reviewerid")
+	question := r.Form.Get("rebuttalcontent")
+
+	arguments := []string{title, authorName, reviewerID,question}
+
+	resp,err := app.Service.InvokeChaincode("AddRebuttal",arguments)
+	if err!=nil {
+		log.Fatalf("Failed to invoke chaincode %s : %s", "AddRebuttal", err)
+	}
+	fmt.Println(resp.TxValidationCode)
+	data := &struct {
+		Content string
+	}{
+		Content: fmt.Sprintf("Add Rebuttal to <strong>%s</strong> successfully:<br/> %s", title, question),
+	}
+
+	showView(w, r, "blank.html", data)
+}
+
+func (app *Application) CommitReplyView(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Fatalf("Failed to parse Form: %s", err)
+	}
+	reviewerName := r.Form.Get("name")
+	title := r.Form.Get("title")
+	reply := r.Form.Get("replycontent")
+
+	arguments := []string{title, title, reviewerName,reply}
+
+	resp,err := app.Service.InvokeChaincode("AddReply",arguments)
+	if err!=nil {
+		log.Fatalf("Failed to invoke chaincode %s : %s", "AddReply", err)
+	}
+	fmt.Println(resp.TxValidationCode)
+	data := &struct {
+		Content string
+	}{
+		Content: fmt.Sprintf("Add Reply to <strong>%s</strong> successfully:<br/> %s", title, reply),
+	}
+
+	showView(w, r, "blank.html", data)
 }
 
 func randomID() string {
