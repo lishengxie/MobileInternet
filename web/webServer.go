@@ -21,8 +21,8 @@ func WebStart(app *controller.Application) {
 
 	http.HandleFunc("/rebuttal",app.RebuttalView)
 	http.HandleFunc("/reply",app.ReplyView)
-	http.HandleFunc("/rebuttal",app.CommitRebuttalView)
-	http.HandleFunc("/reply",app.CommitReplyView)
+	http.HandleFunc("/commitRebuttal",app.CommitRebuttalView)
+	http.HandleFunc("/commitReply",app.CommitReplyView)
 
 	http.HandleFunc("/reviewerHome", app.ReviewerHomeView)
 	http.HandleFunc("/reviewerCommit", app.ReviewerCommitView)
