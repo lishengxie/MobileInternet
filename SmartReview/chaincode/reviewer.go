@@ -95,6 +95,36 @@ func (s *SmartContract) CreateReviewer(ctx contractapi.TransactionContextInterfa
 	return nil
 }
 
+func (s *SmartContract) UpdateReviewerInfo(ctx contractapi.TransactionContextInterface, name string, passwd string, email string, researchTarget string) error {
+	researchTarget = strings.Trim(researchTarget, " ")
+	researchTargetArr := strings.Split(researchTarget, "/")
+
+	reviewer, err := s.ReadReviewer(ctx,name)
+	if err != nil {
+		return err
+	}
+	newReviewer := Reviewer {
+		ID: reviewer.ID,
+		Name: reviewer.Name,
+		Passwd: passwd,
+		Email: email,
+		ResearchTarget: researchTargetArr,
+		ReviewedPaper: reviewer.ReviewedPaper,
+		UNReviewedPaper: reviewer.UNReviewedPaper,
+	}
+
+	reviewerJSON,err := json.Marshal(newReviewer)
+	if err != nil {
+		return err
+	}
+
+	err = ctx.GetStub().PutState(reviewer.ID, reviewerJSON)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (s *SmartContract) GetReviewerID(ctx contractapi.TransactionContextInterface, name string) (string, error) {
 	reviewerSetJSON, err := ctx.GetStub().GetState("reviewerset")
 	if err != nil {

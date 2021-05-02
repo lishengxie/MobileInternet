@@ -47,6 +47,39 @@ func (s *SmartContract) AddtoPaperSet(ctx contractapi.TransactionContextInterfac
 	return nil
 }
 
+func (s *SmartContract) UpdatePaperSet(ctx contractapi.TransactionContextInterface, origin_title string, new_title string) error {
+	paperSetJson, err := ctx.GetStub().GetState("paperset")
+	if err != nil {
+		return err
+	}
+	var paperSet PaperSet
+	err = json.Unmarshal(paperSetJson, &paperSet)
+	if err != nil {
+		return err
+	}
+
+	if _, ok := paperSet.Papers[origin_title]; !ok {
+		return fmt.Errorf("Paper not exists", origin_title)
+	}
+
+	id := paperSet.Papers[new_title]
+	delete(paperSet.Papers, origin_title)
+	paperSet.Papers[new_title] = id
+
+	newPaperSet := PaperSet{
+		Papers: paperSet.Papers,
+	}
+	newPaperSetJSON, err := json.Marshal(newPaperSet)
+	if err != nil {
+		return err
+	}
+	err = ctx.GetStub().PutState("paperset", newPaperSetJSON)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (s *SmartContract) GetPaperID(ctx contractapi.TransactionContextInterface, title string) (string, error){
 	paperSetJson, err := ctx.GetStub().GetState("paperset")
 	if err != nil {
@@ -149,6 +182,68 @@ func (s *SmartContract) AddPaper(ctx contractapi.TransactionContextInterface, ti
 			return err
 		}
 	}
+	return nil
+}
+
+func (s *SmartContract) UpdatePaperInfo (ctx contractapi.TransactionContextInterface, origin_title string, new_title string, addedAuthorList string) error {
+	if origin_title!= new_title {
+		err := s.UpdatePaperSet(ctx,origin_title,new_title)
+		if err != nil{
+			return err
+		}
+	}
+
+	addedAuthor := strings.Trim(addedAuthorList, " ")
+	addedAuthorArr := strings.Split(addedAuthor, "/")
+
+	paper, err := s.GetPaper(ctx,new_title)
+	if err != nil{
+		return err
+	}
+
+	newPaper := Paper{
+		Title: new_title,
+		ID : paper.ID,
+		AuthorList: append(paper.AuthorList,addedAuthorArr...),
+		ReviewList: paper.ReviewList,
+		ReviewerList: paper.ReviewerList,
+	}
+
+	newPaperJSON, err := json.Marshal(newPaper)
+	if err!= nil {
+		return err
+	}
+
+	err = ctx.GetStub().PutState(paper.ID, newPaperJSON)
+	if err != nil {
+		return err
+	}
+
+	var author *Author
+	for _, each := range addedAuthorArr {
+
+		author, err = s.ReadAuthor(ctx,each)
+		if err != nil{
+			return err
+		}
+
+		newAuthor := Author{
+			ID:             author.ID,
+			Name:           author.Name,
+			Passwd:         author.Passwd,
+			Email:          author.Email,
+			CommittedPaper: append(author.CommittedPaper, new_title),
+		}
+		newAuthorJSON, err := json.Marshal(newAuthor)
+		if err != nil {
+			return err
+		}
+		err = ctx.GetStub().PutState(author.ID, newAuthorJSON)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 

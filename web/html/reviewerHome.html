@@ -45,7 +45,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="/reviewerHome?name={{.Name}}">
 
                     <img class="img-responsive" src="/static/img/prchain.png" />
                 </a>
@@ -75,7 +75,8 @@
                                 <h5><strong>Personal Identity : </strong></h5>
                                 Reviewer
                                 <hr />
-                                <a href="#" class="btn btn-info btn-sm">Full Profile</a>&nbsp; <a href="/login" class="btn btn-danger btn-sm">Logout</a>
+                                <a href="/updateReviewer?name={{.Name}}" class="btn btn-info btn-sm">Edit Profile</a>&nbsp;
+                                <a href="/login" class="btn btn-danger btn-sm">Logout</a>
 
                             </div>
                         </li>

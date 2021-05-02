@@ -71,6 +71,31 @@ func (s *SmartContract) CreateAuthor(ctx contractapi.TransactionContextInterface
 	return nil
 }
 
+func (s *SmartContract) UpdateAuthorInfo(ctx contractapi.TransactionContextInterface, name string, passwd string, email string) error {
+	author, err := s.ReadAuthor(ctx,name)
+	if err != nil{
+		return err
+	}
+
+	newAuthor := Author{
+		ID : author.ID,
+		Name: author.Name,
+		Passwd: passwd,
+		Email: email,
+		CommittedPaper: author.CommittedPaper,
+	}
+	authorJSON, err := json.Marshal(newAuthor)
+	if err != nil {
+		return err
+	}
+	err = ctx.GetStub().PutState(author.ID, authorJSON)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (s *SmartContract) GetAuthorID(ctx contractapi.TransactionContextInterface, name string) (string, error) {
 	authorSetJson, err := ctx.GetStub().GetState("authorset")
 	if err != nil {

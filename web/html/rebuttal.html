@@ -45,7 +45,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="/authorHome?name={{.Name}}">
 
                     <img class="img-responsive" src="/static/img/prchain.png" />
                 </a>
@@ -67,16 +67,16 @@
                                     </a>
                                     <div class="media-body">
                                         <h4 class="media-heading">{{.Name}}</h4>
-                                        <h5>Author</h5>
+                                        <!-- <h5>Developer & Designer</h5> -->
 
                                     </div>
                                 </div>
                                 <hr />
-                                <h5><strong>Personal Bio : </strong></h5>
-                                Anim pariatur cliche reprehen derit.
+                                <h5><strong>Personal Identity : </strong></h5>
+                                Author
                                 <hr />
-                                <a href="#" class="btn btn-info btn-sm">Full Profile</a>&nbsp; <a href="/login" class="btn btn-danger btn-sm">Logout</a>
-
+                                <a href="/updateAuthor?name={{.Name}}" class="btn btn-info btn-sm">Edit Profile</a>&nbsp;
+                                <a href="/login" class="btn btn-danger btn-sm">Logout</a>
                             </div>
                         </li>
 
@@ -106,7 +106,7 @@
                             <form role="form" action="/commitRebuttal?name={{.Name}}&title={{.Title}}&reviewerid={{.ReviewerID}}" method="post">
 
                                 <div class="form-group">
-                                    <label for="rebuttalcontent">Add Review</label>
+                                    <label for="rebuttalcontent">Add Rebuttal</label>
                                     <textarea class="form-control" rows="5" id="rebuttalcontent" name="rebuttalcontent" placeholder="Enter your question"></textarea>
                                 </div>
 
