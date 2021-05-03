@@ -44,6 +44,23 @@ type reviewedPaper struct {
 	RebuttalList Rebuttal `json:"rebuttallist"`
 }
 
+type AuthorInfo struct {
+	Name           string   `json:"name"`
+	Passwd         string   `json:"passwd"`
+	Email          string   `json:"email"`
+	CommittedPaper []string `json:"committedpaper"`
+}
+
+type ReviewerInfo struct {
+	Name            string   `json:"name"`
+	Passwd          string   `json:"passwd"`
+	Email           string   `json:"email"`
+	ResearchTarget  []string `json:"researchtarget"`
+	ReviewedPaper   []string `json:"reviewedpaper"`
+	UNReviewedPaper []string `json:"unreviewedpaper"`
+}
+
+
 func (app *Application) HomeView(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -124,6 +141,69 @@ func (app *Application) AuthorCommitView(w http.ResponseWriter, r *http.Request)
 	showView(w, r, "authorCommit.html", data)
 }
 
+func (app *Application) AuthorUpdateView(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Fatalf("Failed to parse Form: %s", err)
+	}
+	name := r.Form.Get("name")
+	arguments := []string{name}
+	fmt.Println(arguments)
+
+	resp, err := app.Service.InvokeChaincode("GetAuthorInfo",arguments)
+	if err!=nil {
+		log.Fatalf("Failed to invoke chaincode %s : %s", "GetAuthorInfo", err)
+	}
+
+	var authorInfo AuthorInfo
+	if resp.Payload == nil{
+		authorInfo = AuthorInfo{}
+	}else {
+		err = json.Unmarshal(resp.Payload, &authorInfo)
+		if err != nil {
+			log.Fatalf("%v", err)
+		}
+	}
+
+	data := &struct {
+		Name           string   `json:"name"`
+		Email          string   `json:"email"`
+		Paper 		   []string `json:"committedpaper"`
+
+	}{
+		Name: authorInfo.Name,
+		Email: authorInfo.Email,
+		Paper: authorInfo.CommittedPaper,
+	}
+	showView(w, r, "updateAuthorInfo.html", data)
+}
+
+func (app *Application) AuthorUpdateCommitView(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Fatalf("Failed to parse Form: %s", err)
+	}
+
+	name := r.Form.Get("name")
+	old_passwd := r.Form.Get("old_passwd")
+	new_passwd := r.Form.Get("new_passwd")
+	email := r.Form.Get("email")
+
+	arguments := []string{name,old_passwd,new_passwd,email}
+	resp, err := app.Service.InvokeChaincode("UpdateAuthorInfo",arguments)
+	if err!=nil {
+		log.Fatalf("Failed to invoke chaincode %s : %s", "UpdateAuthorInfo", err)
+	}
+	fmt.Println(resp.TxValidationCode)
+	data := &struct {
+		Content string
+	}{
+		Content: fmt.Sprintf("Update Author Info Successfully."),
+	}
+	showView(w, r, "blank.html", data)
+
+}
+
 func (app *Application) CommitPaperView(w http.ResponseWriter, r *http.Request){
 	err := r.ParseMultipartForm(32 << 20)
 	if err != nil {
@@ -147,7 +227,31 @@ func (app *Application) CommitPaperView(w http.ResponseWriter, r *http.Request){
 	data := &struct {
 		Content string
 	}{
-		Content: fmt.Sprintf("Commit Paper <strong>%s</strong> successfully", title),
+		Content: fmt.Sprintf("Commit Paper \"%s\" successfully", title),
+	}
+	showView(w, r, "blank.html", data)
+}
+
+func (app *Application) PaperUpdateView(w http.ResponseWriter, r *http.Request){
+	err := r.ParseForm()
+	if err != nil {
+		log.Fatalf("Failed to parse Form: %s", err)
+	}
+
+	old_title := r.Form.Get("old_title")
+	new_title := r.Form.Get("new_title")
+	addedauthor := r.Form.Get("addedauthor")
+
+	arguments := []string{old_title,new_title,addedauthor}
+	resp, err := app.Service.InvokeChaincode("UpdatePaperInfo",arguments)
+	if err!=nil {
+		log.Fatalf("Failed to invoke chaincode %s : %s", "UpdatePaperInfo", err)
+	}
+	fmt.Println(resp.TxValidationCode)
+	data := &struct {
+		Content string
+	}{
+		Content: fmt.Sprintf("Update Paper Info Successfully."),
 	}
 	showView(w, r, "blank.html", data)
 }
@@ -239,6 +343,73 @@ func (app *Application) ReviewerCommitView(w http.ResponseWriter, r *http.Reques
 	showView(w, r, "reviewerCommit.html", data)
 }
 
+func (app *Application) ReviewerUpdateView(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Fatalf("Failed to parse Form: %s", err)
+	}
+	name := r.Form.Get("name")
+	arguments := []string{name}
+	fmt.Println(arguments)
+
+	resp, err := app.Service.InvokeChaincode("GetReviewerInfo",arguments)
+	if err!=nil {
+		log.Fatalf("Failed to invoke chaincode %s : %s", "GetReviewerInfo", err)
+	}
+
+	var reviewerInfo ReviewerInfo
+	if resp.Payload == nil{
+		reviewerInfo = ReviewerInfo{}
+	}else {
+		err = json.Unmarshal(resp.Payload, &reviewerInfo)
+		if err != nil {
+			log.Fatalf("%v", err)
+		}
+	}
+
+	data := &struct {
+		Name           string   `json:"name"`
+		Email          string   `json:"email"`
+		Paper 		   []string `json:"committedpaper"`
+		ResearchTarget  []string `json:"researchtarget"`
+		ReviewedPaper   []string `json:"reviewedpaper"`
+		UNReviewedPaper []string `json:"unreviewedpaper"`
+	}{
+		Name: reviewerInfo.Name,
+		Email: reviewerInfo.Email,
+		ResearchTarget: reviewerInfo.ResearchTarget,
+		ReviewedPaper: reviewerInfo.ReviewedPaper,
+		UNReviewedPaper: reviewerInfo.UNReviewedPaper,
+	}
+	showView(w, r, "updateAuthorInfo.html", data)
+}
+
+func (app *Application) ReviewerUpdateCommitView(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Fatalf("Failed to parse Form: %s", err)
+	}
+
+	name := r.Form.Get("name")
+	old_passwd := r.Form.Get("old_passwd")
+	new_passwd := r.Form.Get("new_passwd")
+	email := r.Form.Get("email")
+	researchTarget := r.Form.Get("researchTarget")
+
+	arguments := []string{name,old_passwd,new_passwd,email,researchTarget}
+	resp, err := app.Service.InvokeChaincode("UpdateReviewerInfo",arguments)
+	if err!=nil {
+		log.Fatalf("Failed to invoke chaincode %s : %s", "UpdateReviewerInfo", err)
+	}
+	fmt.Println(resp.TxValidationCode)
+	data := &struct {
+		Content string
+	}{
+		Content: fmt.Sprintf("Update Reviewer Info Successfully."),
+	}
+	showView(w, r, "blank.html", data)
+}
+
 func (app *Application) RegisterView(w http.ResponseWriter, r *http.Request){
 	err := r.ParseForm()
 	if err != nil{
@@ -321,7 +492,7 @@ func (app *Application) CommitReviewView(w http.ResponseWriter, r *http.Request)
 	data := &struct {
 		Content string
 	}{
-		Content: fmt.Sprintf("Add Review to <strong>%s</strong> successfully:<br/> %s", title, reviewContent),
+		Content: fmt.Sprintf("Add Review to \"%s\" successfully: \"%s\"", title, reviewContent),
 	}
 	showView(w, r, "blank.html", data)
 }
@@ -384,7 +555,7 @@ func (app *Application) CommitRebuttalView(w http.ResponseWriter, r *http.Reques
 	data := &struct {
 		Content string
 	}{
-		Content: fmt.Sprintf("Add Rebuttal to <strong>%s</strong> successfully:<br/> %s", title, question),
+		Content: fmt.Sprintf("Add Rebuttal to \"%s\" successfully: \"%s\"", title, question),
 	}
 
 	showView(w, r, "blank.html", data)
@@ -409,7 +580,7 @@ func (app *Application) CommitReplyView(w http.ResponseWriter, r *http.Request) 
 	data := &struct {
 		Content string
 	}{
-		Content: fmt.Sprintf("Add Reply to {%s} successfully:{%s}", title, reply),
+		Content: fmt.Sprintf("Add Reply to \"%s\" successfully:\"%s\"", title, reply),
 	}
 
 	showView(w, r, "blank.html", data)

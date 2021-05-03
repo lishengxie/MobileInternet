@@ -18,6 +18,9 @@ func WebStart(app *controller.Application) {
 	http.HandleFunc("/authorHome", app.AuthorHomeView)
 	http.HandleFunc("/authorCommit", app.AuthorCommitView)
 	http.HandleFunc("/commitPaper",app.CommitPaperView)
+	http.HandleFunc("/updateAuthor",app.AuthorUpdateView)
+	http.HandleFunc("/commitUpdateAuthor",app.AuthorUpdateCommitView)
+	http.HandleFunc("/paperUpdate", app.PaperUpdateView)
 
 	http.HandleFunc("/rebuttal",app.RebuttalView)
 	http.HandleFunc("/reply",app.ReplyView)
@@ -29,6 +32,8 @@ func WebStart(app *controller.Application) {
 	http.HandleFunc("/commitReview",app.CommitReviewView)
 	http.HandleFunc("/register",app.RegisterView)
 	http.HandleFunc("/review",app.ReviewView)
+	http.HandleFunc("/updateReviewer",app.ReviewerUpdateView)
+	http.HandleFunc("/commitUpdateReviewer",app.ReviewerUpdateCommitView)
 
 	fmt.Println("启动Web服务, 监听端口号: 9000")
 

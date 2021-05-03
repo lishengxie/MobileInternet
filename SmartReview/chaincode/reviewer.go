@@ -18,6 +18,15 @@ type Reviewer struct {
 	UNReviewedPaper []string `json:"unreviewedpaper"`
 }
 
+type ReviewerInfo struct {
+	Name            string   `json:"name"`
+	Passwd          string   `json:"passwd"`
+	Email           string   `json:"email"`
+	ResearchTarget  []string `json:"researchtarget"`
+	ReviewedPaper   []string `json:"reviewedpaper"`
+	UNReviewedPaper []string `json:"unreviewedpaper"`
+}
+
 type Rebuttal struct{
 	AuthorID		string 	`json:"authorid"`
 	ReviewerID		string 	`json:"reviewerid"`
@@ -95,7 +104,7 @@ func (s *SmartContract) CreateReviewer(ctx contractapi.TransactionContextInterfa
 	return nil
 }
 
-func (s *SmartContract) UpdateReviewerInfo(ctx contractapi.TransactionContextInterface, name string, passwd string, email string, researchTarget string) error {
+func (s *SmartContract) UpdateReviewerInfo(ctx contractapi.TransactionContextInterface, name string, old_passwd string, new_passwd string, email string, researchTarget string) error {
 	researchTarget = strings.Trim(researchTarget, " ")
 	researchTargetArr := strings.Split(researchTarget, "/")
 
@@ -103,10 +112,15 @@ func (s *SmartContract) UpdateReviewerInfo(ctx contractapi.TransactionContextInt
 	if err != nil {
 		return err
 	}
+
+	if old_passwd != reviewer.Passwd {
+		return fmt.Errorf("wrong passwd")
+	}
+
 	newReviewer := Reviewer {
 		ID: reviewer.ID,
 		Name: reviewer.Name,
-		Passwd: passwd,
+		Passwd: new_passwd,
 		Email: email,
 		ResearchTarget: researchTargetArr,
 		ReviewedPaper: reviewer.ReviewedPaper,
@@ -230,6 +244,21 @@ func (s *SmartContract) ReadReviewer(ctx contractapi.TransactionContextInterface
 		return nil, err
 	}
 	return &reviewer, nil
+}
+
+func (s *SmartContract) GetReviewerInfo(ctx contractapi.TransactionContextInterface, name string)(*ReviewerInfo, error){
+	reviewer, err := s.ReadReviewer(ctx, name)
+	if err != nil {
+		return nil,err
+	}
+	return &ReviewerInfo{
+		Name: reviewer.Name,
+		Passwd: reviewer.Passwd,
+		Email: reviewer.Email,
+		ResearchTarget: reviewer.ResearchTarget,
+		ReviewedPaper: reviewer.ReviewedPaper,
+		UNReviewedPaper: reviewer.UNReviewedPaper,
+	},nil
 }
 
 func (s *SmartContract) GetReviewedPaper(ctx contractapi.TransactionContextInterface, name string) ([]Paper, error) {

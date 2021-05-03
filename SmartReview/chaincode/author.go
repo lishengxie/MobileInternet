@@ -16,6 +16,13 @@ type Author struct {
 	CommittedPaper []string `json:"committedpaper"`
 }
 
+type AuthorInfo struct {
+	Name           string   `json:"name"`
+	Passwd         string   `json:"passwd"`
+	Email          string   `json:"email"`
+	CommittedPaper []string `json:"committedpaper"`
+}
+
 
 func (s *SmartContract) AddtoAuthorSet(ctx contractapi.TransactionContextInterface, name string, id string) error {
 	authorSetJson, err := ctx.GetStub().GetState("authorset")
@@ -71,16 +78,20 @@ func (s *SmartContract) CreateAuthor(ctx contractapi.TransactionContextInterface
 	return nil
 }
 
-func (s *SmartContract) UpdateAuthorInfo(ctx contractapi.TransactionContextInterface, name string, passwd string, email string) error {
+func (s *SmartContract) UpdateAuthorInfo(ctx contractapi.TransactionContextInterface, name string, old_passwd string, new_passwd string, email string) error {
 	author, err := s.ReadAuthor(ctx,name)
 	if err != nil{
 		return err
 	}
 
+	if old_passwd != author.Passwd {
+		return fmt.Errorf("wrong passwd")
+	}
+
 	newAuthor := Author{
 		ID : author.ID,
 		Name: author.Name,
-		Passwd: passwd,
+		Passwd: new_passwd,
 		Email: email,
 		CommittedPaper: author.CommittedPaper,
 	}
@@ -110,6 +121,19 @@ func (s *SmartContract) GetAuthorID(ctx contractapi.TransactionContextInterface,
 		return "", fmt.Errorf("Author %s doesn't exist",name)
 	}
 	return authorSet.Authors[name], nil
+}
+
+func (s *SmartContract) GetAuthorInfo(ctx contractapi.TransactionContextInterface, name string) (*AuthorInfo,error){
+	author, err := s.ReadAuthor(ctx,name)
+	if err!= nil {
+		return nil,err
+	}
+	return &AuthorInfo{
+		Name: author.Name,
+		Passwd: author.Passwd,
+		Email: author.Email,
+		CommittedPaper: author.CommittedPaper,
+	}, nil
 }
 
 func (s *SmartContract) ReadAuthor(ctx contractapi.TransactionContextInterface, name string) (*Author, error) {
