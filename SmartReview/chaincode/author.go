@@ -23,25 +23,31 @@ type AuthorInfo struct {
 	CommittedPaper []string `json:"committedpaper"`
 }
 
-
-func (s *SmartContract) AddtoAuthorSet(ctx contractapi.TransactionContextInterface, name string, id string) error {
+func (s *SmartContract) GetAuthorSet(ctx contractapi.TransactionContextInterface) (*AuthorSet, error) {
 	authorSetJson, err := ctx.GetStub().GetState("authorset")
 	if err != nil {
-		return err
+		return nil,err
 	}
 	var authorSet AuthorSet
 	err = json.Unmarshal(authorSetJson, &authorSet)
 	if err != nil {
+		return nil,err
+	}
+	return &authorSet, nil
+}
+
+func (s *SmartContract) AddtoAuthorSet(ctx contractapi.TransactionContextInterface, name string, id string) error {
+	authorSet, err := s.GetAuthorSet(ctx)
+	if err != nil {
 		return err
 	}
 
-	authors := authorSet.Authors
-	if _, ok := authors[name]; ok {
+	if _, ok := authorSet.Authors[name]; ok {
 		return fmt.Errorf("Author %s exists", name)
 	}
-	authors[name] = id
+	authorSet.Authors[name] = id
 	newAuthorSet := AuthorSet{
-		Authors: authors,
+		Authors: authorSet.Authors,
 	}
 	newAuthorSetJSON, err := json.Marshal(newAuthorSet)
 	if err != nil {
@@ -79,7 +85,12 @@ func (s *SmartContract) CreateAuthor(ctx contractapi.TransactionContextInterface
 }
 
 func (s *SmartContract) UpdateAuthorInfo(ctx contractapi.TransactionContextInterface, name string, old_passwd string, new_passwd string, email string) error {
-	author, err := s.ReadAuthor(ctx,name)
+	authorID, err := s.GetAuthorID(ctx,name)
+	if err != nil {
+		return err
+	}
+
+	author, err := s.ReadAuthor(ctx,authorID)
 	if err != nil{
 		return err
 	}
@@ -108,12 +119,7 @@ func (s *SmartContract) UpdateAuthorInfo(ctx contractapi.TransactionContextInter
 }
 
 func (s *SmartContract) GetAuthorID(ctx contractapi.TransactionContextInterface, name string) (string, error) {
-	authorSetJson, err := ctx.GetStub().GetState("authorset")
-	if err != nil {
-		return "", err
-	}
-	var authorSet AuthorSet
-	err = json.Unmarshal(authorSetJson, &authorSet)
+	authorSet, err := s.GetAuthorSet(ctx)
 	if err != nil {
 		return "", err
 	}
@@ -124,25 +130,36 @@ func (s *SmartContract) GetAuthorID(ctx contractapi.TransactionContextInterface,
 }
 
 func (s *SmartContract) GetAuthorInfo(ctx contractapi.TransactionContextInterface, name string) (*AuthorInfo,error){
-	author, err := s.ReadAuthor(ctx,name)
-	if err!= nil {
-		return nil,err
-	}
-	return &AuthorInfo{
-		Name: author.Name,
-		Passwd: author.Passwd,
-		Email: author.Email,
-		CommittedPaper: author.CommittedPaper,
-	}, nil
-}
-
-func (s *SmartContract) ReadAuthor(ctx contractapi.TransactionContextInterface, name string) (*Author, error) {
 	authorID, err := s.GetAuthorID(ctx, name)
 	if err != nil {
 		return nil, err
 	}
 
-	authorJSON, err := ctx.GetStub().GetState(authorID)
+	author, err := s.ReadAuthor(ctx,authorID)
+	if err!= nil {
+		return nil,err
+	}
+
+	var committedPaper []string
+
+	for _, each := range author.CommittedPaper {
+		paper, err := s.GetPaper(ctx,each)
+		if err != nil {
+			return nil,err
+		}
+		committedPaper = append(committedPaper,paper.Title)
+	}
+
+	return &AuthorInfo{
+		Name: author.Name,
+		Passwd: author.Passwd,
+		Email: author.Email,
+		CommittedPaper: committedPaper,
+	}, nil
+}
+
+func (s *SmartContract) ReadAuthor(ctx contractapi.TransactionContextInterface, ID string) (*Author, error) {
+	authorJSON, err := ctx.GetStub().GetState(ID)
 	if err != nil {
 		return nil, err
 	}
@@ -156,7 +173,12 @@ func (s *SmartContract) ReadAuthor(ctx contractapi.TransactionContextInterface, 
 }
 
 func (s *SmartContract) GetCommittedPaper(ctx contractapi.TransactionContextInterface, name string) ([]Paper, error) {
-	author, err := s.ReadAuthor(ctx, name)
+	authorID, err := s.GetAuthorID(ctx, name)
+	if err != nil {
+		return nil, err
+	}
+
+	author, err := s.ReadAuthor(ctx, authorID)
 	if err != nil {
 		return nil, err
 	}
@@ -183,10 +205,19 @@ func (s *SmartContract) AuthorCommittedPaper(ctx contractapi.TransactionContextI
 		return nil, err
 	}
 	var res []comittedPaper
+
 	for _, paper := range papers {
+		var authorList []string
+		for _, authorID := range paper.AuthorList{
+			author,err := s.ReadAuthor(ctx, authorID)
+			if err != nil {
+				return nil, err
+			}
+			authorList = append(authorList,author.Name)
+		}
 		tmp := comittedPaper{
 			Name:       paper.Title,
-			AuthorList: paper.AuthorList,
+			AuthorList: authorList,
 			Reviews:    paper.ReviewList,
 		}
 		res = append(res, tmp)
@@ -195,7 +226,12 @@ func (s *SmartContract) AuthorCommittedPaper(ctx contractapi.TransactionContextI
 }
 
 func (s *SmartContract) ValidateAuthor(ctx contractapi.TransactionContextInterface, name string, passwd string) (bool, error) {
-	author, err := s.ReadAuthor(ctx, name)
+	authorID, err := s.GetAuthorID(ctx, name)
+	if err != nil {
+		return false, err
+	}
+
+	author, err := s.ReadAuthor(ctx, authorID)
 	if err != nil {
 		return false, err
 	}
@@ -210,7 +246,12 @@ func (s *SmartContract) AddRebuttal(ctx contractapi.TransactionContextInterface,
 	if err != nil {
 		return err
 	}
-	paper, err := s.GetPaper(ctx,title)
+
+	paperID, err := s.GetPaperID(ctx,title)
+	if err!= nil{
+		return err
+	}
+	paper, err := s.GetPaper(ctx,paperID)
 	if err != nil {
 		return err
 	}
@@ -234,6 +275,7 @@ func (s *SmartContract) AddRebuttal(ctx contractapi.TransactionContextInterface,
 	newPaper := Paper{
 		Title:        paper.Title,
 		ID:           paper.ID,
+		KeyWords: 	  paper.KeyWords,
 		AuthorList:   paper.AuthorList,
 		ReviewerList: paper.ReviewerList,
 		ReviewList:   newReviewList,

@@ -12,18 +12,35 @@ import (
 type Paper struct {
 	Title        string   `json:"title"`
 	ID           string   `json:"id"`
+	KeyWords	 []string `json:"keywords"`
 	AuthorList   []string `json:"authorlist"`
 	ReviewerList []string `json:"reviewerlist"`
 	ReviewList   map[string]Review `json:"reviewlist"`
 }
 
-func (s *SmartContract) AddtoPaperSet(ctx contractapi.TransactionContextInterface, title string, id string) error {
+type PaperInfo struct {
+	Title        string   `json:"title"`
+	KeyWords	 []string `json:"keywords"`
+	AuthorList   []string `json:"authorlist"`
+	ReviewList   map[string]Review `json:"reviewlist"`
+}
+
+func (s *SmartContract) GetPaperSet(ctx contractapi.TransactionContextInterface) (*PaperSet,error){
 	paperSetJson, err := ctx.GetStub().GetState("paperset")
 	if err != nil {
-		return err
+		return nil, err
 	}
 	var paperSet PaperSet
 	err = json.Unmarshal(paperSetJson, &paperSet)
+	if err != nil {
+		return nil,err
+	}
+
+	return &paperSet, nil
+}
+
+func (s *SmartContract) AddtoPaperSet(ctx contractapi.TransactionContextInterface, title string, id string) error {
+	paperSet,err := s.GetPaperSet(ctx)
 	if err != nil {
 		return err
 	}
@@ -48,12 +65,7 @@ func (s *SmartContract) AddtoPaperSet(ctx contractapi.TransactionContextInterfac
 }
 
 func (s *SmartContract) UpdatePaperSet(ctx contractapi.TransactionContextInterface, origin_title string, new_title string) error {
-	paperSetJson, err := ctx.GetStub().GetState("paperset")
-	if err != nil {
-		return err
-	}
-	var paperSet PaperSet
-	err = json.Unmarshal(paperSetJson, &paperSet)
+	paperSet,err := s.GetPaperSet(ctx)
 	if err != nil {
 		return err
 	}
@@ -62,7 +74,7 @@ func (s *SmartContract) UpdatePaperSet(ctx contractapi.TransactionContextInterfa
 		return fmt.Errorf("Paper not exists", origin_title)
 	}
 
-	id := paperSet.Papers[new_title]
+	id := paperSet.Papers[origin_title]
 	delete(paperSet.Papers, origin_title)
 	paperSet.Papers[new_title] = id
 
@@ -80,26 +92,9 @@ func (s *SmartContract) UpdatePaperSet(ctx contractapi.TransactionContextInterfa
 	return nil
 }
 
-func (s *SmartContract) GetPaperID(ctx contractapi.TransactionContextInterface, title string) (string, error){
-	paperSetJson, err := ctx.GetStub().GetState("paperset")
-	if err != nil {
-		return "",err
-	}
-	var paperSet PaperSet
-	err = json.Unmarshal(paperSetJson, &paperSet)
-	if err != nil {
-		return "", err
-	}
-
-	if _, ok := paperSet.Papers[title]; !ok {
-		return "", fmt.Errorf("Paper %s not exist", title)
-	}
-	return paperSet.Papers[title],nil
-}
-
-func (s *SmartContract) AddPaper(ctx contractapi.TransactionContextInterface, title string, id string, authorList string, keywords string) error {
+func (s *SmartContract) CreatePaper(ctx contractapi.TransactionContextInterface, title string, id string, authorList string, keywords string) error {
 	authorList = strings.Trim(authorList, " ")
-	authorListArr := strings.Split(authorList, "/")
+	authorsArr := strings.Split(authorList, "/")
 
 	keywords = strings.Trim(keywords, " ")
 	keywordsArr := strings.Split(keywords, "/")
@@ -109,15 +104,27 @@ func (s *SmartContract) AddPaper(ctx contractapi.TransactionContextInterface, ti
 		return err
 	}
 
-	reviewerList, err := s.distributePaper(ctx, keywordsArr)
+	reviewerIDList, err := s.distributePaper(ctx, keywordsArr)
 	if err != nil {
 		return err
 	}
+
+	var authorIDList []string
+	for _,authorName := range authorsArr{
+		authorID,err := s.GetAuthorID(ctx,authorName)
+		if err != nil {
+			return err
+		}
+		authorIDList = append(authorIDList,authorID)
+	}
+
+
 	paper := Paper{
 		Title:        title,
 		ID:           id,
-		AuthorList:   authorListArr,
-		ReviewerList: reviewerList,
+		KeyWords: 	  keywordsArr,
+		AuthorList:   authorIDList,
+		ReviewerList: reviewerIDList,
 		ReviewList:   make(map[string]Review),
 	}
 	paperJSON, err := json.Marshal(paper)
@@ -130,8 +137,7 @@ func (s *SmartContract) AddPaper(ctx contractapi.TransactionContextInterface, ti
 	}
 
 	var author *Author
-	for _, each := range authorListArr {
-
+	for _, each := range authorIDList {
 		author, err = s.ReadAuthor(ctx,each)
 		if err != nil{
 			return err
@@ -142,7 +148,7 @@ func (s *SmartContract) AddPaper(ctx contractapi.TransactionContextInterface, ti
 			Name:           author.Name,
 			Passwd:         author.Passwd,
 			Email:          author.Email,
-			CommittedPaper: append(author.CommittedPaper, title),
+			CommittedPaper: append(author.CommittedPaper, id),
 		}
 		newAuthorJSON, err := json.Marshal(newAuthor)
 		if err != nil {
@@ -154,13 +160,9 @@ func (s *SmartContract) AddPaper(ctx contractapi.TransactionContextInterface, ti
 		}
 	}
 
-	var reviewer Reviewer
-	for _, each := range reviewerList {
-		reviewerJSON, err := ctx.GetStub().GetState(each)
-		if err != nil {
-			return err
-		}
-		err = json.Unmarshal(reviewerJSON, &reviewer)
+	var reviewer *Reviewer
+	for _, each := range reviewerIDList {
+		reviewer, err = s.ReadReviewer(ctx,each)
 		if err != nil {
 			return err
 		}
@@ -171,7 +173,7 @@ func (s *SmartContract) AddPaper(ctx contractapi.TransactionContextInterface, ti
 			Email:           reviewer.Email,
 			ResearchTarget:  reviewer.ResearchTarget,
 			ReviewedPaper:   reviewer.ReviewedPaper,
-			UNReviewedPaper: append(reviewer.UNReviewedPaper, title),
+			UNReviewedPaper: append(reviewer.UNReviewedPaper, id),
 		}
 		newReviewerJSON, err := json.Marshal(newReviewer)
 		if err != nil {
@@ -186,17 +188,28 @@ func (s *SmartContract) AddPaper(ctx contractapi.TransactionContextInterface, ti
 }
 
 func (s *SmartContract) UpdatePaperInfo (ctx contractapi.TransactionContextInterface, origin_title string, new_title string, addedAuthorList string) error {
-	if origin_title!= new_title {
-		err := s.UpdatePaperSet(ctx,origin_title,new_title)
-		if err != nil{
-			return err
-		}
+	err := s.UpdatePaperSet(ctx,origin_title,new_title)
+	if err != nil{
+		return err
 	}
 
 	addedAuthor := strings.Trim(addedAuthorList, " ")
 	addedAuthorArr := strings.Split(addedAuthor, "/")
 
-	paper, err := s.GetPaper(ctx,new_title)
+	var addedAuthorIDList []string
+	for _,authorName := range addedAuthorArr{
+		authorID,err := s.GetAuthorID(ctx,authorName)
+		if err != nil {
+			return err
+		}
+		addedAuthorIDList = append(addedAuthorIDList,authorID)
+	}
+
+	id, err:= s.GetPaperID(ctx,origin_title)
+	if err != nil {
+		return err
+	}
+	paper, err := s.GetPaper(ctx,id)
 	if err != nil{
 		return err
 	}
@@ -204,7 +217,8 @@ func (s *SmartContract) UpdatePaperInfo (ctx contractapi.TransactionContextInter
 	newPaper := Paper{
 		Title: new_title,
 		ID : paper.ID,
-		AuthorList: append(paper.AuthorList,addedAuthorArr...),
+		KeyWords: paper.KeyWords,
+		AuthorList: append(paper.AuthorList,addedAuthorIDList...),
 		ReviewList: paper.ReviewList,
 		ReviewerList: paper.ReviewerList,
 	}
@@ -220,7 +234,7 @@ func (s *SmartContract) UpdatePaperInfo (ctx contractapi.TransactionContextInter
 	}
 
 	var author *Author
-	for _, each := range addedAuthorArr {
+	for _, each := range addedAuthorIDList {
 
 		author, err = s.ReadAuthor(ctx,each)
 		if err != nil{
@@ -232,7 +246,7 @@ func (s *SmartContract) UpdatePaperInfo (ctx contractapi.TransactionContextInter
 			Name:           author.Name,
 			Passwd:         author.Passwd,
 			Email:          author.Email,
-			CommittedPaper: append(author.CommittedPaper, new_title),
+			CommittedPaper: append(author.CommittedPaper, paper.ID),
 		}
 		newAuthorJSON, err := json.Marshal(newAuthor)
 		if err != nil {
@@ -247,14 +261,22 @@ func (s *SmartContract) UpdatePaperInfo (ctx contractapi.TransactionContextInter
 	return nil
 }
 
-func (s *SmartContract) GetPaper(ctx contractapi.TransactionContextInterface, title string) (*Paper, error) {
-	paperID,err := s.GetPaperID(ctx,title)
-	paperJSON, err := ctx.GetStub().GetState(paperID)
+func (s *SmartContract) GetPaperID(ctx contractapi.TransactionContextInterface, title string) (string, error){
+	paperSet,err := s.GetPaperSet(ctx)
+	if err != nil {
+		return "", err
+	}
+
+	if _, ok := paperSet.Papers[title]; !ok {
+		return "", fmt.Errorf("Paper %s not exist", title)
+	}
+	return paperSet.Papers[title],nil
+}
+
+func (s *SmartContract) GetPaper(ctx contractapi.TransactionContextInterface, ID string) (*Paper, error) {
+	paperJSON, err := ctx.GetStub().GetState(ID)
 	if err != nil {
 		return nil, err
-	}
-	if paperJSON == nil {
-		return nil, fmt.Errorf("Paper %s doesn't exist", title)
 	}
 	var paper Paper
 	err = json.Unmarshal(paperJSON, &paper)
@@ -262,6 +284,34 @@ func (s *SmartContract) GetPaper(ctx contractapi.TransactionContextInterface, ti
 		return nil, err
 	}
 	return &paper, nil
+}
+
+func (s *SmartContract) GetPaperInfo(ctx contractapi.TransactionContextInterface, title string)(*PaperInfo, error) {
+	paperID,err := s.GetPaperID(ctx,title)
+	if err!= nil {
+		return nil, err
+	}
+	paper,err := s.GetPaper(ctx,paperID)
+	if err != nil {
+		return nil,err
+	}
+
+	var authorList []string
+	for _, authorID := range paper.AuthorList{
+		author,err := s.ReadAuthor(ctx, authorID)
+		if err != nil {
+			return nil, err
+		}
+		authorList = append(authorList,author.Name)
+	}
+
+
+	return &PaperInfo{
+		Title: paper.Title,
+		KeyWords: paper.KeyWords,
+		AuthorList: authorList,
+		ReviewList: paper.ReviewList,
+	},nil
 }
 
 func (s *SmartContract) distributePaper(ctx contractapi.TransactionContextInterface, keywords []string) ([]string, error) {

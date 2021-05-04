@@ -60,6 +60,13 @@ type ReviewerInfo struct {
 	UNReviewedPaper []string `json:"unreviewedpaper"`
 }
 
+type PaperInfo struct {
+	Title        string   `json:"title"`
+	KeyWords	 []string `json:"keywords"`
+	AuthorList   []string `json:"authorlist"`
+	ReviewList   map[string]Review `json:"reviewlist"`
+}
+
 
 func (app *Application) HomeView(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
@@ -195,13 +202,8 @@ func (app *Application) AuthorUpdateCommitView(w http.ResponseWriter, r *http.Re
 		log.Fatalf("Failed to invoke chaincode %s : %s", "UpdateAuthorInfo", err)
 	}
 	fmt.Println(resp.TxValidationCode)
-	data := &struct {
-		Content string
-	}{
-		Content: fmt.Sprintf("Update Author Info Successfully."),
-	}
-	showView(w, r, "blank.html", data)
 
+	app.ShowInfo(w,r,"Update Author Info Successfully.")
 }
 
 func (app *Application) CommitPaperView(w http.ResponseWriter, r *http.Request){
@@ -219,17 +221,12 @@ func (app *Application) CommitPaperView(w http.ResponseWriter, r *http.Request){
 	}
 	arguments := []string{title,ID,authorlist,keywords}
 	fmt.Println(arguments)
-	resp,err := app.Service.InvokeChaincode("AddPaper",arguments)
+	resp,err := app.Service.InvokeChaincode("CreatePaper",arguments)
 	if err!=nil {
 		log.Fatalf("Failed to invoke chaincode %s : %s", "AddPaper", err)
 	}
 	fmt.Println(resp.TxValidationCode)
-	data := &struct {
-		Content string
-	}{
-		Content: fmt.Sprintf("Commit Paper \"%s\" successfully", title),
-	}
-	showView(w, r, "blank.html", data)
+	app.ShowInfo(w,r,fmt.Sprintf("Commit Paper \"%s\" successfully",title))
 }
 
 func (app *Application) PaperUpdateView(w http.ResponseWriter, r *http.Request){
@@ -237,23 +234,60 @@ func (app *Application) PaperUpdateView(w http.ResponseWriter, r *http.Request){
 	if err != nil {
 		log.Fatalf("Failed to parse Form: %s", err)
 	}
+	title := r.Form.Get("title")
+	name := r.Form.Get("name")
+	arguments := []string{title}
+	fmt.Println(arguments)
 
-	old_title := r.Form.Get("old_title")
+	resp, err := app.Service.InvokeChaincode("GetPaperInfo",arguments)
+	if err!=nil {
+		log.Fatalf("Failed to invoke chaincode %s : %s", "GetPaperInfo", err)
+	}
+
+	var paperInfo PaperInfo
+	if resp.Payload == nil{
+		paperInfo = PaperInfo{}
+	}else {
+		err = json.Unmarshal(resp.Payload, &paperInfo)
+		if err != nil {
+			log.Fatalf("%v", err)
+		}
+	}
+
+
+	data := &struct {
+		Name		string
+		Title        string   `json:"title"`
+		KeyWords	 []string `json:"keywords"`
+		AuthorList   []string `json:"authorlist"`
+		//ReviewList   map[string]Review `json:"reviewlist"`
+	}{
+		Name:name,
+		Title: paperInfo.Title,
+		KeyWords: paperInfo.KeyWords,
+		AuthorList: paperInfo.AuthorList,
+	}
+	showView(w, r, "updatePaperInfo.html", data)
+}
+
+func (app *Application) PaperUpdateCommitView(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Fatalf("Failed to parse Form: %s", err)
+	}
+
+	title := r.Form.Get("title")
 	new_title := r.Form.Get("new_title")
 	addedauthor := r.Form.Get("addedauthor")
 
-	arguments := []string{old_title,new_title,addedauthor}
+	arguments := []string{title,new_title,addedauthor}
 	resp, err := app.Service.InvokeChaincode("UpdatePaperInfo",arguments)
 	if err!=nil {
 		log.Fatalf("Failed to invoke chaincode %s : %s", "UpdatePaperInfo", err)
 	}
 	fmt.Println(resp.TxValidationCode)
-	data := &struct {
-		Content string
-	}{
-		Content: fmt.Sprintf("Update Paper Info Successfully."),
-	}
-	showView(w, r, "blank.html", data)
+
+	app.ShowInfo(w,r,fmt.Sprintf("Update Paper Info Successfully."))
 }
 
 func (app *Application) Upload(w http.ResponseWriter, r *http.Request)(string,error) {
@@ -370,7 +404,6 @@ func (app *Application) ReviewerUpdateView(w http.ResponseWriter, r *http.Reques
 	data := &struct {
 		Name           string   `json:"name"`
 		Email          string   `json:"email"`
-		Paper 		   []string `json:"committedpaper"`
 		ResearchTarget  []string `json:"researchtarget"`
 		ReviewedPaper   []string `json:"reviewedpaper"`
 		UNReviewedPaper []string `json:"unreviewedpaper"`
@@ -381,7 +414,7 @@ func (app *Application) ReviewerUpdateView(w http.ResponseWriter, r *http.Reques
 		ReviewedPaper: reviewerInfo.ReviewedPaper,
 		UNReviewedPaper: reviewerInfo.UNReviewedPaper,
 	}
-	showView(w, r, "updateAuthorInfo.html", data)
+	showView(w, r, "updateReviewerInfo.html", data)
 }
 
 func (app *Application) ReviewerUpdateCommitView(w http.ResponseWriter, r *http.Request) {
@@ -402,12 +435,8 @@ func (app *Application) ReviewerUpdateCommitView(w http.ResponseWriter, r *http.
 		log.Fatalf("Failed to invoke chaincode %s : %s", "UpdateReviewerInfo", err)
 	}
 	fmt.Println(resp.TxValidationCode)
-	data := &struct {
-		Content string
-	}{
-		Content: fmt.Sprintf("Update Reviewer Info Successfully."),
-	}
-	showView(w, r, "blank.html", data)
+
+	app.ShowInfo(w,r,"Update Reviewer Info Successfully.")
 }
 
 func (app *Application) RegisterView(w http.ResponseWriter, r *http.Request){
@@ -489,12 +518,8 @@ func (app *Application) CommitReviewView(w http.ResponseWriter, r *http.Request)
 		log.Fatalf("Failed to invoke chaincode %s : %s", "AddReview", err)
 	}
 	fmt.Println(resp.TxValidationCode)
-	data := &struct {
-		Content string
-	}{
-		Content: fmt.Sprintf("Add Review to \"%s\" successfully: \"%s\"", title, reviewContent),
-	}
-	showView(w, r, "blank.html", data)
+
+	app.ShowInfo(w,r,fmt.Sprintf("Add Review to \"%s\" successfully: \"%s\"", title, reviewContent))
 }
 
 func (app *Application) RebuttalView(w http.ResponseWriter, r *http.Request) {
@@ -552,13 +577,8 @@ func (app *Application) CommitRebuttalView(w http.ResponseWriter, r *http.Reques
 		log.Fatalf("Failed to invoke chaincode %s : %s", "AddRebuttal", err)
 	}
 	fmt.Println(resp.TxValidationCode)
-	data := &struct {
-		Content string
-	}{
-		Content: fmt.Sprintf("Add Rebuttal to \"%s\" successfully: \"%s\"", title, question),
-	}
 
-	showView(w, r, "blank.html", data)
+	app.ShowInfo(w,r,fmt.Sprintf("Add Rebuttal to \"%s\" successfully: \"%s\"", title, question))
 }
 
 func (app *Application) CommitReplyView(w http.ResponseWriter, r *http.Request) {
@@ -577,13 +597,7 @@ func (app *Application) CommitReplyView(w http.ResponseWriter, r *http.Request) 
 		log.Fatalf("Failed to invoke chaincode %s : %s", "AddReply", err)
 	}
 	fmt.Println(resp.TxValidationCode)
-	data := &struct {
-		Content string
-	}{
-		Content: fmt.Sprintf("Add Reply to \"%s\" successfully:\"%s\"", title, reply),
-	}
-
-	showView(w, r, "blank.html", data)
+	app.ShowInfo(w,r,fmt.Sprintf("Add Reply to \"%s\" successfully:\"%s\"", title, reply))
 }
 
 func randomID() string {
@@ -598,5 +612,14 @@ func randomID() string {
 	sum := h.Sum(nil)
 	id := hex.EncodeToString(sum)
 	return id
+}
+
+func (app *Application) ShowInfo (w http.ResponseWriter, r *http.Request, info string){
+	data := &struct {
+		Content string
+	}{
+		Content: info,
+	}
+	showView(w, r, "blank.html", data)
 }
 

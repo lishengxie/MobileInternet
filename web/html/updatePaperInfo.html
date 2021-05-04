@@ -45,7 +45,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/reviewerHome?name={{.Name}}">
+            <a class="navbar-brand" href="/authorHome?name={{.Name}}">
 
                 <img class="img-responsive" src="/static/img/prchain.png" />
             </a>
@@ -66,18 +66,17 @@
                                     <img src="/static/img/people_head.png" alt="" class="img-rounded" />
                                 </a>
                                 <div class="media-body">
-                                    <h4 class="media-heading">{{.Name}} </h4>
+                                    <h4 class="media-heading">{{.Name}}</h4>
                                     <!-- <h5>Developer & Designer</h5> -->
 
                                 </div>
                             </div>
                             <hr />
                             <h5><strong>Personal Identity : </strong></h5>
-                            Reviewer
+                            Author
                             <hr />
-                            <a href="/updateReviewer?name={{.Name}}" class="btn btn-info btn-sm">Edit Profile</a>&nbsp;
+                            <a href="/updateAuthor?name={{.Name}}" class="btn btn-info btn-sm">Edit Profile</a>&nbsp;
                             <a href="/login" class="btn btn-danger btn-sm">Logout</a>
-
                         </div>
                     </li>
 
@@ -96,48 +95,33 @@
             <div class="col-md-3">
                 <span style="font-size: 40px;" class="glyphicon glyphicon-user"></span>
                 <br/>
-                <strong>{{.Name}}</strong><br/>
-                <strong>Email:</strong>{{.Email}}<hr/>
-                <strong>Research Targets</strong><br/>
-                {{range $each:=.ResearchTarget}}
-                    {{$each}}&nbsp;
+                <strong>{{.Title}}</strong><br/>
+                <strong>Author List:</strong><br/>
+                {{range $author:=.AuthorList}}
+                    <span>{{$author}}&nbsp;</span>
                 {{end}}
-                <hr/>
-                <strong>Reviewed Papers</strong><br/>
-                {{range $each:=.ReviewedPaper}}
-                    {{$each}}<br/>
-                {{end}}
-                <hr/>
-                <strong>UNReviewed Papers</strong><br/>
-                {{range $each:=.UNReviewedPaper}}
-                    {{$each}}<br/>
+                <br/>
+                <strong>Keywords</strong><br/>
+                {{range $keyword:=.KeyWords}}
+                    <span>{{$keyword}}&nbsp;</span>
                 {{end}}
             </div>
             <div class = "col-md-offset-2 col-md-7">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Update Personal Info
+                        Update Paper Info
                     </div>
                     <div class="panel-body">
-                        <form role="form" action="/commitUpdateReviewer?name={{.Name}}" method="post">
+                        <form role="form" action="/commitUpdatePaper?title={{.Title}}" method="post">
                             <div class="form-group">
-                                <label for="old_passwd">Old Passwd</label>
-                                <input type="password" class="form-control" id="old_passwd" name="old_passwd" placeholder="Please input old password" />
-                            </div>
-                            <div class="form-group">
-                                <label for="new_passwd">New Passwd</label>
-                                <input type="password" class="form-control" id="new_passwd" name="new_passwd" placeholder="Please input new password" />
+                                <label for="new_title">New Title</label>
+                                <input type="text" class="form-control" id="new_title" name="new_title" placeholder="Please input new title" />
                             </div>
 
                             <div class="form-group">
-                                <label for="email">New Email</label>
-                                <input type="text" class="form-control" id="email" name="email" placeholder="Please input new email" />
+                                <label for="addedauthor">Added Authors</label>
+                                <input type="text" class="form-control" id="addedauthor" name="addedauthor" placeholder="Please input added authors, split by '/'" />
                             </div>
-                            <div class="form-group">
-                                <label for="researchTarget">Enter Research Targets, split by "/" :  </label>
-                                <textarea type="text" id = "researchTarget" name="researchTarget" class="form-control"></textarea>
-                            </div>
-
                             <button class="btn btn-info">Update Now</button>
                         </form>
                     </div>

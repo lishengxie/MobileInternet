@@ -108,7 +108,7 @@
                         Update Personal Info
                     </div>
                     <div class="panel-body">
-                        <form role="form" action="/commitUpdateAuthor" method="post">
+                        <form role="form" action="/commitUpdateAuthor?name={{.Name}}" method="post">
                             <div class="form-group">
                                 <label for="old_passwd">Old Passwd</label>
                                 <input type="password" class="form-control" id="old_passwd" name="old_passwd" placeholder="Please input old password" />

@@ -20,7 +20,9 @@ func WebStart(app *controller.Application) {
 	http.HandleFunc("/commitPaper",app.CommitPaperView)
 	http.HandleFunc("/updateAuthor",app.AuthorUpdateView)
 	http.HandleFunc("/commitUpdateAuthor",app.AuthorUpdateCommitView)
-	http.HandleFunc("/paperUpdate", app.PaperUpdateView)
+
+	http.HandleFunc("/updatePaper", app.PaperUpdateView)
+	http.HandleFunc("/commitUpdatePaper",app.PaperUpdateCommitView)
 
 	http.HandleFunc("/rebuttal",app.RebuttalView)
 	http.HandleFunc("/reply",app.ReplyView)
