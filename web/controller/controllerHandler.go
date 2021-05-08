@@ -6,10 +6,12 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -42,6 +44,12 @@ type reviewedPaper struct {
 	Name   string `json:"name"`
 	Review string `json:"review"`
 	RebuttalList Rebuttal `json:"rebuttallist"`
+	StorePath string `json:"storepath"`
+}
+
+type unReviewedPaper struct {
+	Name   string `json:"name"`
+	StorePath string `json:"storepath"`
 }
 
 type AuthorInfo struct {
@@ -215,11 +223,11 @@ func (app *Application) CommitPaperView(w http.ResponseWriter, r *http.Request){
 	authorlist := r.Form.Get("authorlist")
 	keywords := r.Form.Get("keywords")
 	fmt.Println(title,authorlist,keywords)
-	ID,err := app.Upload(w,r)
+	ID, path, err := app.Upload(w,r)
 	if err != nil{
 		log.Fatalf("Failed to Upload Paper: %s", err)
 	}
-	arguments := []string{title,ID,authorlist,keywords}
+	arguments := []string{title,ID,authorlist,keywords,path}
 	fmt.Println(arguments)
 	resp,err := app.Service.InvokeChaincode("CreatePaper",arguments)
 	if err!=nil {
@@ -290,17 +298,25 @@ func (app *Application) PaperUpdateCommitView(w http.ResponseWriter, r *http.Req
 	app.ShowInfo(w,r,fmt.Sprintf("Update Paper Info Successfully."))
 }
 
-func (app *Application) Upload(w http.ResponseWriter, r *http.Request)(string,error) {
+func (app *Application) Upload(w http.ResponseWriter, r *http.Request) (string, string, error) {
 	r.ParseMultipartForm(32 << 20)
 	file, handler, err := r.FormFile("paper")
 	if err != nil {
-		return "",err
+		return "", "", err
 	}
 	defer file.Close()
 
+	os.Mkdir("./upload",os.ModePerm)
+	cur, err := os.Create("./upload/"+handler.Filename)
+	defer cur.Close()
+	if err != nil {
+		return "", "", err
+	}
+	io.Copy(cur,file)
+
 	content, err := ioutil.ReadFile(handler.Filename)
 	if err != nil {
-		return "",err
+		return "", "", err
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -314,7 +330,7 @@ func (app *Application) Upload(w http.ResponseWriter, r *http.Request)(string,er
 	h.Write([]byte(string(content) + string(randStr)))
 	sum := h.Sum(nil)
 	s := hex.EncodeToString(sum)
-	return string(s),nil
+	return string(s), "./upload/"+handler.Filename, nil
 }
 
 func (app *Application) ReviewerHomeView(w http.ResponseWriter, r *http.Request) {

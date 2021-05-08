@@ -279,6 +279,7 @@ func (s *SmartContract) AddRebuttal(ctx contractapi.TransactionContextInterface,
 		AuthorList:   paper.AuthorList,
 		ReviewerList: paper.ReviewerList,
 		ReviewList:   newReviewList,
+		StorePath: paper.StorePath,
 	}
 
 	newPaperJSON, err := json.Marshal(newPaper)

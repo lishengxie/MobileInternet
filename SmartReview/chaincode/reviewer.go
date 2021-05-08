@@ -205,6 +205,7 @@ func (s *SmartContract) AddReview(ctx contractapi.TransactionContextInterface, t
 		AuthorList:   paper.AuthorList,
 		ReviewerList: paper.ReviewerList,
 		ReviewList:   paper.ReviewList,
+		StorePath:    paper.StorePath,
 	}
 	newPaperJSON, err := json.Marshal(newPaper)
 	if err != nil {
@@ -334,6 +335,12 @@ type reviewedPaper struct {
 	Name   string `json:"name"`
 	Review string `json:"review"`
 	RebuttalList Rebuttal `json:"rebuttallist"`
+	StorePath string	`json:"storepath"`
+}
+
+type unReviewedPaper struct {
+	Name   string `json:"name"`
+	StorePath string	`json:"storepath"`
 }
 
 func (s *SmartContract) ValidateReviewer(ctx contractapi.TransactionContextInterface, name string, passwd string) (bool, error) {
@@ -372,20 +379,25 @@ func (s *SmartContract) ReviewerReviewedPaper(ctx contractapi.TransactionContext
 			Name:   paper.Title,
 			Review: review.Content,
 			RebuttalList: review.RebuttalList,
+			StorePath: paper.StorePath,
 		}
 		res = append(res, tmp)
 	}
 	return res, nil
 }
 
-func (s *SmartContract) ReviewerUNReviewedPaper(ctx contractapi.TransactionContextInterface, name string) ([]string, error) {
+func (s *SmartContract) ReviewerUNReviewedPaper(ctx contractapi.TransactionContextInterface, name string) ([]unReviewedPaper, error) {
 	papers, err := s.GetUNReviewedPaper(ctx, name)
 	if err != nil {
 		return nil, err
 	}
-	var res []string
+	var res []unReviewedPaper
 	for _, paper := range papers {
-		res = append(res, paper.Title)
+		tmp := unReviewedPaper{
+			Name: paper.Title,
+			StorePath: paper.StorePath,
+		}
+		res = append(res, tmp)
 	}
 	return res, nil
 }
@@ -421,12 +433,12 @@ func (s *SmartContract) AddReply(ctx contractapi.TransactionContextInterface, ti
 	newPaper := Paper{
 		Title:        paper.Title,
 		ID:           paper.ID,
-		KeyWords: 	  paper.KeyWords,
+		KeyWords:     paper.KeyWords,
 		AuthorList:   paper.AuthorList,
 		ReviewerList: paper.ReviewerList,
 		ReviewList:   newReviewList,
+		StorePath:    paper.StorePath,
 	}
-
 	newPaperJSON, err := json.Marshal(newPaper)
 	if err != nil{
 		return err
