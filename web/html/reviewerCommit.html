@@ -117,7 +117,7 @@
                     {{$name:=.Name}} {{range $each:=.Paper}}
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            {{$each}}
+                            {{$each.Name}}
                             <a class="pull-right" href="/review?name={{$name}}&title={{$each.Name}}&path={{$each.StorePath}}">Go to Review</a>
                         </div>
                     </div>

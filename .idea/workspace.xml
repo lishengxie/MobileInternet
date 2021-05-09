@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bffe560a-64cc-44b8-9731-02bdfafc7767" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/web/html/previewPaper.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SmartReview/chaincode/author.go" beforeDir="false" afterPath="$PROJECT_DIR$/SmartReview/chaincode/author.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SmartReview/chaincode/reviewer.go" beforeDir="false" afterPath="$PROJECT_DIR$/SmartReview/chaincode/reviewer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/controller/controllerHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/controller/controllerHandler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/authorHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/authorHome.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/paperReview.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/paperReview.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/reply.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/reply.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/html/reviewerCommit.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/reviewerCommit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/reviewerHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/reviewerHome.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webServer.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/webServer.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
