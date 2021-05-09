@@ -629,6 +629,7 @@ func (app *Application) CommitReplyView(w http.ResponseWriter, r *http.Request) 
 	rebuttalID := r.Form.Get("rebuttalid")
 
 	arguments := []string{title, reviewerName,reply,rebuttalID}
+	fmt.Println(arguments)
 
 	resp,err := app.Service.InvokeChaincode("AddReply",arguments)
 	if err!=nil {

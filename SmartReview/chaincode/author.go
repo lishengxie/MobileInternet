@@ -262,12 +262,13 @@ func (s *SmartContract) AddRebuttal(ctx contractapi.TransactionContextInterface,
 	rebuttal := Rebuttal{
 		AuthorID: authorID,
 		ReviewerID: reviewerID,
+		RebuttalID: strconv.Itoa(rebuttalID),
 		Question: question,
 		Reply: "",
 		IsReplyed: false,
 	}
-
-	rebuttalList := make(map[string]Rebuttal)
+	
+	rebuttalList := paper.ReviewList[reviewerID].RebuttalList
 	rebuttalList[strconv.Itoa(rebuttalID)] = rebuttal
 
 	review := Review{

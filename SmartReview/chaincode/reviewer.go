@@ -409,15 +409,23 @@ func (s *SmartContract) AddReply(ctx contractapi.TransactionContextInterface, ti
 		return err
 	}
 
-	paper, err := s.GetPaper(ctx,title)
+	paperID, err := s.GetPaperID(ctx,title)
+	if err != nil {
+		return err
+	}
+	
+	paper, err := s.GetPaper(ctx,paperID)
 	if err != nil {
 		return err
 	}
 
-	rebuttal := paper.ReviewList[reviewerID].RebuttalList[rebuttalID]
-	paper.ReviewList[reviewerID].RebuttalList[rebuttalID] = Rebuttal{
+	rebuttalList := paper.ReviewList[reviewerID].RebuttalList
+	rebuttal := rebuttalList[rebuttalID]
+
+	rebuttalList[rebuttalID] = Rebuttal{
 		AuthorID: rebuttal.AuthorID,
 		ReviewerID: reviewerID,
+		RebuttalID: rebuttalID,
 		Question: rebuttal.Question,
 		Reply: reply,
 		IsReplyed: true,
@@ -426,7 +434,7 @@ func (s *SmartContract) AddReply(ctx contractapi.TransactionContextInterface, ti
 	review := Review{
 		ReviewerID: reviewerID,
 		Content: paper.ReviewList[reviewerID].Content,
-		RebuttalList: paper.ReviewList[reviewerID].RebuttalList,
+		RebuttalList: rebuttalList,
 	}
 
 	newReviewList := paper.ReviewList

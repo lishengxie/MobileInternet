@@ -141,8 +141,14 @@
                                             <span><strong>Reply:</strong>{{$rebuttal.Reply}}</span>
                                         {{ else }}
                                             <a class="pull-right" href="/rebuttal?authorname={{$author}}&title={{$each.Name}}&reviewerid={{$value.ReviewerID}}">Go to Rebuttal</a>
-                                        {{end}}
-                                    {{end}}
+                                        {{ end }}
+                                    {{ end }}
+                                    <br/>
+
+                                    <span>
+                                        <a class="pull-right"  
+                                        href="/rebuttal?authorname={{$author}}&title={{$each.Name}}&reviewerid={{$value.ReviewerID}}">Go to Rebuttal</a>
+                                    </span>
 									<hr/> 
 								{{end}}
 							</div>
