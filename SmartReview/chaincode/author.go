@@ -27,12 +27,12 @@ type AuthorInfo struct {
 func (s *SmartContract) GetAuthorSet(ctx contractapi.TransactionContextInterface) (*AuthorSet, error) {
 	authorSetJson, err := ctx.GetStub().GetState("authorset")
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 	var authorSet AuthorSet
 	err = json.Unmarshal(authorSetJson, &authorSet)
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 	return &authorSet, nil
 }
@@ -86,13 +86,13 @@ func (s *SmartContract) CreateAuthor(ctx contractapi.TransactionContextInterface
 }
 
 func (s *SmartContract) UpdateAuthorInfo(ctx contractapi.TransactionContextInterface, name string, old_passwd string, new_passwd string, email string) error {
-	authorID, err := s.GetAuthorID(ctx,name)
+	authorID, err := s.GetAuthorID(ctx, name)
 	if err != nil {
 		return err
 	}
 
-	author, err := s.ReadAuthor(ctx,authorID)
-	if err != nil{
+	author, err := s.ReadAuthor(ctx, authorID)
+	if err != nil {
 		return err
 	}
 
@@ -101,10 +101,10 @@ func (s *SmartContract) UpdateAuthorInfo(ctx contractapi.TransactionContextInter
 	}
 
 	newAuthor := Author{
-		ID : author.ID,
-		Name: author.Name,
-		Passwd: new_passwd,
-		Email: email,
+		ID:             author.ID,
+		Name:           author.Name,
+		Passwd:         new_passwd,
+		Email:          email,
 		CommittedPaper: author.CommittedPaper,
 	}
 	authorJSON, err := json.Marshal(newAuthor)
@@ -125,36 +125,36 @@ func (s *SmartContract) GetAuthorID(ctx contractapi.TransactionContextInterface,
 		return "", err
 	}
 	if _, ok := authorSet.Authors[name]; !ok {
-		return "", fmt.Errorf("Author %s doesn't exist",name)
+		return "", fmt.Errorf("Author %s doesn't exist", name)
 	}
 	return authorSet.Authors[name], nil
 }
 
-func (s *SmartContract) GetAuthorInfo(ctx contractapi.TransactionContextInterface, name string) (*AuthorInfo,error){
+func (s *SmartContract) GetAuthorInfo(ctx contractapi.TransactionContextInterface, name string) (*AuthorInfo, error) {
 	authorID, err := s.GetAuthorID(ctx, name)
 	if err != nil {
 		return nil, err
 	}
 
-	author, err := s.ReadAuthor(ctx,authorID)
-	if err!= nil {
-		return nil,err
+	author, err := s.ReadAuthor(ctx, authorID)
+	if err != nil {
+		return nil, err
 	}
 
 	var committedPaper []string
 
 	for _, each := range author.CommittedPaper {
-		paper, err := s.GetPaper(ctx,each)
+		paper, err := s.GetPaper(ctx, each)
 		if err != nil {
-			return nil,err
+			return nil, err
 		}
-		committedPaper = append(committedPaper,paper.Title)
+		committedPaper = append(committedPaper, paper.Title)
 	}
 
 	return &AuthorInfo{
-		Name: author.Name,
-		Passwd: author.Passwd,
-		Email: author.Email,
+		Name:           author.Name,
+		Passwd:         author.Passwd,
+		Email:          author.Email,
 		CommittedPaper: committedPaper,
 	}, nil
 }
@@ -195,8 +195,8 @@ func (s *SmartContract) GetCommittedPaper(ctx contractapi.TransactionContextInte
 }
 
 type comittedPaper struct {
-	Name       string   `json:"name"`
-	AuthorList []string `json:"authorlist"`
+	Name       string            `json:"name"`
+	AuthorList []string          `json:"authorlist"`
 	Reviews    map[string]Review `json:"reviews"`
 }
 
@@ -209,12 +209,12 @@ func (s *SmartContract) AuthorCommittedPaper(ctx contractapi.TransactionContextI
 
 	for _, paper := range papers {
 		var authorList []string
-		for _, authorID := range paper.AuthorList{
-			author,err := s.ReadAuthor(ctx, authorID)
+		for _, authorID := range paper.AuthorList {
+			author, err := s.ReadAuthor(ctx, authorID)
 			if err != nil {
 				return nil, err
 			}
-			authorList = append(authorList,author.Name)
+			authorList = append(authorList, author.Name)
 		}
 		tmp := comittedPaper{
 			Name:       paper.Title,
@@ -237,22 +237,22 @@ func (s *SmartContract) ValidateAuthor(ctx contractapi.TransactionContextInterfa
 		return false, err
 	}
 	if author == nil {
-		return false, fmt.Errorf("Author %s not exist",author)
+		return false, fmt.Errorf("Author %s not exist", author)
 	}
 	return author.Passwd == passwd, nil
 }
 
-func (s *SmartContract) AddRebuttal(ctx contractapi.TransactionContextInterface,title string, author_name string, reviewerID string, question string)error{
-	authorID, err := s.GetAuthorID(ctx,author_name)
+func (s *SmartContract) AddRebuttal(ctx contractapi.TransactionContextInterface, title string, author_name string, reviewerID string, question string) error {
+	authorID, err := s.GetAuthorID(ctx, author_name)
 	if err != nil {
 		return err
 	}
 
-	paperID, err := s.GetPaperID(ctx,title)
-	if err!= nil{
+	paperID, err := s.GetPaperID(ctx, title)
+	if err != nil {
 		return err
 	}
-	paper, err := s.GetPaper(ctx,paperID)
+	paper, err := s.GetPaper(ctx, paperID)
 	if err != nil {
 		return err
 	}
@@ -260,20 +260,20 @@ func (s *SmartContract) AddRebuttal(ctx contractapi.TransactionContextInterface,
 	rebuttalID := len(paper.ReviewList[reviewerID].RebuttalList)
 
 	rebuttal := Rebuttal{
-		AuthorID: authorID,
+		AuthorID:   authorID,
 		ReviewerID: reviewerID,
 		RebuttalID: strconv.Itoa(rebuttalID),
-		Question: question,
-		Reply: "",
-		IsReplyed: false,
+		Question:   question,
+		Reply:      "",
+		IsReplyed:  false,
 	}
 
 	rebuttalList := paper.ReviewList[reviewerID].RebuttalList
 	rebuttalList[strconv.Itoa(rebuttalID)] = rebuttal
 
 	review := Review{
-		ReviewerID: reviewerID,
-		Content: paper.ReviewList[reviewerID].Content,
+		ReviewerID:   reviewerID,
+		Content:      paper.ReviewList[reviewerID].Content,
 		RebuttalList: rebuttalList,
 	}
 
@@ -282,20 +282,20 @@ func (s *SmartContract) AddRebuttal(ctx contractapi.TransactionContextInterface,
 	newPaper := Paper{
 		Title:        paper.Title,
 		ID:           paper.ID,
-		KeyWords: 	  paper.KeyWords,
+		KeyWords:     paper.KeyWords,
 		AuthorList:   paper.AuthorList,
 		ReviewerList: paper.ReviewerList,
 		ReviewList:   newReviewList,
-		StorePath: paper.StorePath,
+		StorePath:    paper.StorePath,
 	}
 
 	newPaperJSON, err := json.Marshal(newPaper)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 
-	err = ctx.GetStub().PutState(paper.ID,newPaperJSON)
-	if err != nil{
+	err = ctx.GetStub().PutState(paper.ID, newPaperJSON)
+	if err != nil {
 		return err
 	}
 	return nil

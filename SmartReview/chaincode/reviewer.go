@@ -3,8 +3,9 @@ package chaincode
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 	"strings"
+
+	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
 // 审稿人结构体
@@ -26,37 +27,37 @@ type ReviewerInfo struct {
 	UNReviewedPaper []string `json:"unreviewedpaper"`
 }
 
-type Rebuttal struct{
-	AuthorID		string 	`json:"authorid"`
-	ReviewerID		string 	`json:"reviewerid"`
-	RebuttalID		string 	`json:"rebuttalid"`
-	Question 		string	`json:"question"`
-	Reply			string	`json:"reply"`
-	IsReplyed		bool	`json:"isreplyed"`
+type Rebuttal struct {
+	AuthorID   string `json:"authorid"`
+	ReviewerID string `json:"reviewerid"`
+	RebuttalID string `json:"rebuttalid"`
+	Question   string `json:"question"`
+	Reply      string `json:"reply"`
+	IsReplyed  bool   `json:"isreplyed"`
 }
 
 // 审稿内容结构体
 type Review struct {
-	ReviewerID 		string `json:"reviewerid"`
-	Content    		string `json:"content"`
-	RebuttalList	map[string]Rebuttal `json:"rebuttallist"` //rebuttalID => rebuttal
+	ReviewerID   string              `json:"reviewerid"`
+	Content      string              `json:"content"`
+	RebuttalList map[string]Rebuttal `json:"rebuttallist"` //rebuttalID => rebuttal
 }
 
 func (s *SmartContract) GetReviewerSet(ctx contractapi.TransactionContextInterface) (*ReviewerSet, error) {
 	reviewerSetJson, err := ctx.GetStub().GetState("reviewerset")
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 	var reviewerSet ReviewerSet
 	err = json.Unmarshal(reviewerSetJson, &reviewerSet)
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 	return &reviewerSet, nil
 }
 
 func (s *SmartContract) AddtoReviewerSet(ctx contractapi.TransactionContextInterface, name string, id string) error {
-	reviewerSet,err := s.GetReviewerSet(ctx)
+	reviewerSet, err := s.GetReviewerSet(ctx)
 	if err != nil {
 		return err
 	}
@@ -85,7 +86,7 @@ func (s *SmartContract) CreateReviewer(ctx contractapi.TransactionContextInterfa
 	researchTargetArr := strings.Split(researchTarget, "/")
 
 	err := s.AddtoReviewerSet(ctx, name, id)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 
@@ -116,12 +117,12 @@ func (s *SmartContract) UpdateReviewerInfo(ctx contractapi.TransactionContextInt
 	researchTarget = strings.Trim(researchTarget, " ")
 	researchTargetArr := strings.Split(researchTarget, "/")
 
-	reviewerID, err := s.GetReviewerID(ctx,name)
-	if err != nil{
+	reviewerID, err := s.GetReviewerID(ctx, name)
+	if err != nil {
 		return err
 	}
 
-	reviewer, err := s.ReadReviewer(ctx,reviewerID)
+	reviewer, err := s.ReadReviewer(ctx, reviewerID)
 	if err != nil {
 		return err
 	}
@@ -130,17 +131,17 @@ func (s *SmartContract) UpdateReviewerInfo(ctx contractapi.TransactionContextInt
 		return fmt.Errorf("wrong passwd")
 	}
 
-	newReviewer := Reviewer {
-		ID: reviewer.ID,
-		Name: reviewer.Name,
-		Passwd: new_passwd,
-		Email: email,
-		ResearchTarget: researchTargetArr,
-		ReviewedPaper: reviewer.ReviewedPaper,
+	newReviewer := Reviewer{
+		ID:              reviewer.ID,
+		Name:            reviewer.Name,
+		Passwd:          new_passwd,
+		Email:           email,
+		ResearchTarget:  researchTargetArr,
+		ReviewedPaper:   reviewer.ReviewedPaper,
 		UNReviewedPaper: reviewer.UNReviewedPaper,
 	}
 
-	reviewerJSON,err := json.Marshal(newReviewer)
+	reviewerJSON, err := json.Marshal(newReviewer)
 	if err != nil {
 		return err
 	}
@@ -178,10 +179,10 @@ func (s *SmartContract) ReadReviewer(ctx contractapi.TransactionContextInterface
 }
 
 func (s *SmartContract) AddReview(ctx contractapi.TransactionContextInterface, title string, reviewerName string, content string) error {
-	paperID, err := s.GetPaperID(ctx,title)
+	paperID, err := s.GetPaperID(ctx, title)
 
-	paper, err := s.GetPaper(ctx,paperID)
-	if err != nil{
+	paper, err := s.GetPaper(ctx, paperID)
+	if err != nil {
 		return err
 	}
 
@@ -191,18 +192,18 @@ func (s *SmartContract) AddReview(ctx contractapi.TransactionContextInterface, t
 	}
 
 	review := Review{
-		ReviewerID: reviewerID,
-		Content:    content,
+		ReviewerID:   reviewerID,
+		Content:      content,
 		RebuttalList: make(map[string]Rebuttal),
 	}
-	if _,ok := paper.ReviewList[reviewerID]; ok{
-		return fmt.Errorf("Review has been added by %s to %s.",reviewerName,paper.Title)
+	if _, ok := paper.ReviewList[reviewerID]; ok {
+		return fmt.Errorf("Review has been added by %s to %s.", reviewerName, paper.Title)
 	}
 	paper.ReviewList[reviewerID] = review
 	newPaper := Paper{
 		Title:        paper.Title,
 		ID:           paper.ID,
-		KeyWords: 	  paper.KeyWords,
+		KeyWords:     paper.KeyWords,
 		AuthorList:   paper.AuthorList,
 		ReviewerList: paper.ReviewerList,
 		ReviewList:   paper.ReviewList,
@@ -217,7 +218,7 @@ func (s *SmartContract) AddReview(ctx contractapi.TransactionContextInterface, t
 		return err
 	}
 
-	reviewer, err := s.ReadReviewer(ctx,reviewerID)
+	reviewer, err := s.ReadReviewer(ctx, reviewerID)
 	if err != nil {
 		return err
 	}
@@ -249,49 +250,49 @@ func (s *SmartContract) AddReview(ctx contractapi.TransactionContextInterface, t
 	return nil
 }
 
-func (s *SmartContract) GetReviewerInfo(ctx contractapi.TransactionContextInterface, name string)(*ReviewerInfo, error){
-	reviewerID, err := s.GetReviewerID(ctx,name)
-	if err!= nil{
-		return nil,err
+func (s *SmartContract) GetReviewerInfo(ctx contractapi.TransactionContextInterface, name string) (*ReviewerInfo, error) {
+	reviewerID, err := s.GetReviewerID(ctx, name)
+	if err != nil {
+		return nil, err
 	}
 
 	reviewer, err := s.ReadReviewer(ctx, reviewerID)
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 
-	reviewedPaper := make([]string,0)
-	unreviewedPaper := make([]string,0)
+	reviewedPaper := make([]string, 0)
+	unreviewedPaper := make([]string, 0)
 
 	for _, each := range reviewer.ReviewedPaper {
-		paper, err := s.GetPaper(ctx,each)
-		if err != nil{
+		paper, err := s.GetPaper(ctx, each)
+		if err != nil {
 			return nil, err
 		}
-		reviewedPaper = append(reviewedPaper,paper.Title)
+		reviewedPaper = append(reviewedPaper, paper.Title)
 	}
 
 	for _, each := range reviewer.UNReviewedPaper {
-		paper, err := s.GetPaper(ctx,each)
-		if err != nil{
+		paper, err := s.GetPaper(ctx, each)
+		if err != nil {
 			return nil, err
 		}
-		unreviewedPaper = append(unreviewedPaper,paper.Title)
+		unreviewedPaper = append(unreviewedPaper, paper.Title)
 	}
 
 	return &ReviewerInfo{
-		Name: reviewer.Name,
-		Email: reviewer.Email,
-		ResearchTarget: reviewer.ResearchTarget,
-		ReviewedPaper: reviewedPaper,
+		Name:            reviewer.Name,
+		Email:           reviewer.Email,
+		ResearchTarget:  reviewer.ResearchTarget,
+		ReviewedPaper:   reviewedPaper,
 		UNReviewedPaper: unreviewedPaper,
-	},nil
+	}, nil
 }
 
 func (s *SmartContract) GetReviewedPaper(ctx contractapi.TransactionContextInterface, name string) ([]Paper, error) {
-	reviewerID, err := s.GetReviewerID(ctx,name)
-	if err!= nil{
-		return nil,err
+	reviewerID, err := s.GetReviewerID(ctx, name)
+	if err != nil {
+		return nil, err
 	}
 
 	reviewer, err := s.ReadReviewer(ctx, reviewerID)
@@ -311,9 +312,9 @@ func (s *SmartContract) GetReviewedPaper(ctx contractapi.TransactionContextInter
 }
 
 func (s *SmartContract) GetUNReviewedPaper(ctx contractapi.TransactionContextInterface, name string) ([]Paper, error) {
-	reviewerID, err := s.GetReviewerID(ctx,name)
-	if err!= nil{
-		return nil,err
+	reviewerID, err := s.GetReviewerID(ctx, name)
+	if err != nil {
+		return nil, err
 	}
 
 	reviewer, err := s.ReadReviewer(ctx, reviewerID)
@@ -333,21 +334,21 @@ func (s *SmartContract) GetUNReviewedPaper(ctx contractapi.TransactionContextInt
 }
 
 type reviewedPaper struct {
-	Name   string `json:"name"`
-	Review string `json:"review"`
+	Name         string              `json:"name"`
+	Review       string              `json:"review"`
 	RebuttalList map[string]Rebuttal `json:"rebuttallist"`
-	StorePath string	`json:"storepath"`
+	StorePath    string              `json:"storepath"`
 }
 
 type unReviewedPaper struct {
-	Name   string `json:"name"`
-	StorePath string	`json:"storepath"`
+	Name      string `json:"name"`
+	StorePath string `json:"storepath"`
 }
 
 func (s *SmartContract) ValidateReviewer(ctx contractapi.TransactionContextInterface, name string, passwd string) (bool, error) {
-	reviewerID, err := s.GetReviewerID(ctx,name)
-	if err!= nil{
-		return false,err
+	reviewerID, err := s.GetReviewerID(ctx, name)
+	if err != nil {
+		return false, err
 	}
 
 	reviewer, err := s.ReadReviewer(ctx, reviewerID)
@@ -377,10 +378,10 @@ func (s *SmartContract) ReviewerReviewedPaper(ctx contractapi.TransactionContext
 		review := paper.ReviewList[reviewerID]
 
 		tmp := reviewedPaper{
-			Name:   paper.Title,
-			Review: review.Content,
+			Name:         paper.Title,
+			Review:       review.Content,
 			RebuttalList: review.RebuttalList,
-			StorePath: paper.StorePath,
+			StorePath:    paper.StorePath,
 		}
 		res = append(res, tmp)
 	}
@@ -395,7 +396,7 @@ func (s *SmartContract) ReviewerUNReviewedPaper(ctx contractapi.TransactionConte
 	var res []unReviewedPaper
 	for _, paper := range papers {
 		tmp := unReviewedPaper{
-			Name: paper.Title,
+			Name:      paper.Title,
 			StorePath: paper.StorePath,
 		}
 		res = append(res, tmp)
@@ -405,16 +406,16 @@ func (s *SmartContract) ReviewerUNReviewedPaper(ctx contractapi.TransactionConte
 
 func (s *SmartContract) AddReply(ctx contractapi.TransactionContextInterface, title string, reviewer_name string, reply string, rebuttalID string) error {
 	reviewerID, err := s.GetReviewerID(ctx, reviewer_name)
-	if err != nil{
-		return err
-	}
-
-	paperID, err := s.GetPaperID(ctx,title)
 	if err != nil {
 		return err
 	}
 
-	paper, err := s.GetPaper(ctx,paperID)
+	paperID, err := s.GetPaperID(ctx, title)
+	if err != nil {
+		return err
+	}
+
+	paper, err := s.GetPaper(ctx, paperID)
 	if err != nil {
 		return err
 	}
@@ -423,17 +424,17 @@ func (s *SmartContract) AddReply(ctx contractapi.TransactionContextInterface, ti
 	rebuttal := rebuttalList[rebuttalID]
 
 	rebuttalList[rebuttalID] = Rebuttal{
-		AuthorID: rebuttal.AuthorID,
+		AuthorID:   rebuttal.AuthorID,
 		ReviewerID: reviewerID,
 		RebuttalID: rebuttalID,
-		Question: rebuttal.Question,
-		Reply: reply,
-		IsReplyed: true,
+		Question:   rebuttal.Question,
+		Reply:      reply,
+		IsReplyed:  true,
 	}
 
 	review := Review{
-		ReviewerID: reviewerID,
-		Content: paper.ReviewList[reviewerID].Content,
+		ReviewerID:   reviewerID,
+		Content:      paper.ReviewList[reviewerID].Content,
 		RebuttalList: rebuttalList,
 	}
 
@@ -449,12 +450,12 @@ func (s *SmartContract) AddReply(ctx contractapi.TransactionContextInterface, ti
 		StorePath:    paper.StorePath,
 	}
 	newPaperJSON, err := json.Marshal(newPaper)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 
-	err = ctx.GetStub().PutState(paper.ID,newPaperJSON)
-	if err != nil{
+	err = ctx.GetStub().PutState(paper.ID, newPaperJSON)
+	if err != nil {
 		return err
 	}
 	return nil
