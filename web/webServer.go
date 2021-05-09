@@ -29,6 +29,8 @@ func WebStart(app *controller.Application) {
 	http.HandleFunc("/commitRebuttal",app.CommitRebuttalView)
 	http.HandleFunc("/commitReply",app.CommitReplyView)
 
+	http.HandleFunc("/previewPaper",app.PreviewView)
+
 	http.HandleFunc("/reviewerHome", app.ReviewerHomeView)
 	http.HandleFunc("/reviewerCommit", app.ReviewerCommitView)
 	http.HandleFunc("/commitReview",app.CommitReviewView)

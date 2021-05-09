@@ -118,7 +118,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             {{$each}}
-                            <a class="pull-right" href="/review?name={{$name}}&title={{$each}}">Go to Review</a>
+                            <a class="pull-right" href="/review?name={{$name}}&title={{$each.Name}}&path={{$each.StorePath}}">Go to Review</a>
                         </div>
                     </div>
                     {{end}}

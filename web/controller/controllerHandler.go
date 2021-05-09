@@ -22,6 +22,7 @@ type Application struct {
 type Rebuttal struct{
 	AuthorID		string 	`json:"authorid"`
 	ReviewerID		string 	`json:"reviewerid"`
+	RebuttalID		string	`json:"rebuttalid"`
 	Question 		string	`json:"question"`
 	Reply			string	`json:"reply"`
 	IsReplyed		bool 	`json:"isreplyed"`
@@ -29,9 +30,9 @@ type Rebuttal struct{
 
 // 审稿内容结构体
 type Review struct {
-	ReviewerID string `json:"reviewerid"`
-	Content    string `json:"content"`
-	RebuttalList	Rebuttal `json:"rebuttallist"`
+	ReviewerID 		string `json:"reviewerid"`
+	Content    		string `json:"content"`
+	RebuttalList	map[string]Rebuttal `json:"rebuttallist"`
 }
 
 type comittedPaper struct {
@@ -43,7 +44,7 @@ type comittedPaper struct {
 type reviewedPaper struct {
 	Name   string `json:"name"`
 	Review string `json:"review"`
-	RebuttalList Rebuttal `json:"rebuttallist"`
+	RebuttalList map[string]Rebuttal `json:"rebuttallist"`
 	StorePath string `json:"storepath"`
 }
 
@@ -374,9 +375,9 @@ func (app *Application) ReviewerCommitView(w http.ResponseWriter, r *http.Reques
 	if err!=nil {
 		log.Fatalf("Failed to invoke chaincode %s : %s", "ReviewerReviewedPaper", err)
 	}
-	var paper []string
+	var paper []unReviewedPaper
 	if resp.Payload == nil {
-		paper = []string{}
+		paper = []unReviewedPaper{}
 	}else {
 		err = json.Unmarshal(resp.Payload, &paper)
 		if err != nil {
@@ -384,7 +385,7 @@ func (app *Application) ReviewerCommitView(w http.ResponseWriter, r *http.Reques
 		}
 	}
 	data := &struct{
-		Paper []string
+		Paper []unReviewedPaper
 		Name  string
 	}{
 		Paper: paper,
@@ -510,12 +511,15 @@ func (app *Application) ReviewView(w http.ResponseWriter, r *http.Request){
 	}
 	name := r.Form.Get("name")
 	title := r.Form.Get("title")
+	path := r.Form.Get("path")
 	data := &struct{
 		Title string
 		Name  string
+		StorePath string
 	}{
 		Title: title,
 		Name: name,
+		StorePath: path,
 	}
 	showView(w, r, "paperReview.html", data)
 }
@@ -536,6 +540,20 @@ func (app *Application) CommitReviewView(w http.ResponseWriter, r *http.Request)
 	fmt.Println(resp.TxValidationCode)
 
 	app.ShowInfo(w,r,fmt.Sprintf("Add Review to \"%s\" successfully: \"%s\"", title, reviewContent))
+}
+
+func (app *Application) PreviewView(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Fatalf("Failed to parse Form: %s", err)
+	}
+	path := r.Form.Get("path")
+	data := &struct {
+		StorePath string
+	}{
+		StorePath: path,
+	}
+	showView(w, r, "previewPaper.html", data)
 }
 
 func (app *Application) RebuttalView(w http.ResponseWriter, r *http.Request) {
@@ -565,13 +583,16 @@ func (app *Application) ReplyView(w http.ResponseWriter, r *http.Request) {
 	}
 	reviewerName := r.Form.Get("reviewername")
 	title := r.Form.Get("title")
+	rebuttalID := r.Form.Get("rebuttalid")
 
 	data := &struct{
 		Name string
 		Title string
+		RebuttalID string
 	}{
 		Name : reviewerName,
 		Title : title,
+		RebuttalID: rebuttalID,
 	}
 	showView(w, r, "reply.html", data)
 }
@@ -605,8 +626,9 @@ func (app *Application) CommitReplyView(w http.ResponseWriter, r *http.Request) 
 	reviewerName := r.Form.Get("name")
 	title := r.Form.Get("title")
 	reply := r.Form.Get("replycontent")
+	rebuttalID := r.Form.Get("rebuttalid")
 
-	arguments := []string{title, reviewerName,reply}
+	arguments := []string{title, reviewerName,reply,rebuttalID}
 
 	resp,err := app.Service.InvokeChaincode("AddReply",arguments)
 	if err!=nil {

@@ -134,14 +134,15 @@
 								<hr/> 
 								{{range $key, $value := $each.Reviews}}
 									<span>{{$value.Content}}</span>
-									{{$rebuttal := $value.RebuttalList}}
-									{{if ne $rebuttal.Question ""}}
-										<br />
-										<span><strong>Question:</strong>{{$rebuttal.Question}}</span><br/>
-										<span><strong>Reply:</strong>{{$rebuttal.Reply}}</span>										
-									{{ else }}
-										<a class="pull-right" href="/rebuttal?authorname={{$author}}&title={{$each.Name}}&reviewerid={{$value.ReviewerID}}">Go to Rebuttal</a>
-									{{end}}
+									{{range $id, $rebuttal := $value.RebuttalList}}
+                                        {{if ne $rebuttal.Question ""}}
+                                            <br />
+                                            <span><strong>Question:</strong>{{$rebuttal.Question}}</span><br/>
+                                            <span><strong>Reply:</strong>{{$rebuttal.Reply}}</span>
+                                        {{ else }}
+                                            <a class="pull-right" href="/rebuttal?authorname={{$author}}&title={{$each.Name}}&reviewerid={{$value.ReviewerID}}">Go to Rebuttal</a>
+                                        {{end}}
+                                    {{end}}
 									<hr/> 
 								{{end}}
 							</div>

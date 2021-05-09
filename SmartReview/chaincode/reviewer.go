@@ -29,6 +29,7 @@ type ReviewerInfo struct {
 type Rebuttal struct{
 	AuthorID		string 	`json:"authorid"`
 	ReviewerID		string 	`json:"reviewerid"`
+	RebuttalID		string 	`json:"rebuttalid"`
 	Question 		string	`json:"question"`
 	Reply			string	`json:"reply"`
 	IsReplyed		bool	`json:"isreplyed"`
@@ -38,7 +39,7 @@ type Rebuttal struct{
 type Review struct {
 	ReviewerID 		string `json:"reviewerid"`
 	Content    		string `json:"content"`
-	RebuttalList	Rebuttal `json:"rebuttallist"`
+	RebuttalList	map[string]Rebuttal `json:"rebuttallist"` //rebuttalID => rebuttal
 }
 
 func (s *SmartContract) GetReviewerSet(ctx contractapi.TransactionContextInterface) (*ReviewerSet, error) {
@@ -192,7 +193,7 @@ func (s *SmartContract) AddReview(ctx contractapi.TransactionContextInterface, t
 	review := Review{
 		ReviewerID: reviewerID,
 		Content:    content,
-		RebuttalList: Rebuttal{},
+		RebuttalList: make(map[string]Rebuttal),
 	}
 	if _,ok := paper.ReviewList[reviewerID]; ok{
 		return fmt.Errorf("Review has been added by %s to %s.",reviewerName,paper.Title)
@@ -334,7 +335,7 @@ func (s *SmartContract) GetUNReviewedPaper(ctx contractapi.TransactionContextInt
 type reviewedPaper struct {
 	Name   string `json:"name"`
 	Review string `json:"review"`
-	RebuttalList Rebuttal `json:"rebuttallist"`
+	RebuttalList map[string]Rebuttal `json:"rebuttallist"`
 	StorePath string	`json:"storepath"`
 }
 
@@ -402,7 +403,7 @@ func (s *SmartContract) ReviewerUNReviewedPaper(ctx contractapi.TransactionConte
 	return res, nil
 }
 
-func (s *SmartContract) AddReply(ctx contractapi.TransactionContextInterface, title string, reviewer_name string, reply string) error {
+func (s *SmartContract) AddReply(ctx contractapi.TransactionContextInterface, title string, reviewer_name string, reply string, rebuttalID string) error {
 	reviewerID, err := s.GetReviewerID(ctx, reviewer_name)
 	if err != nil{
 		return err
@@ -413,8 +414,8 @@ func (s *SmartContract) AddReply(ctx contractapi.TransactionContextInterface, ti
 		return err
 	}
 
-	rebuttal := paper.ReviewList[reviewerID].RebuttalList
-	newRebuttal := Rebuttal{
+	rebuttal := paper.ReviewList[reviewerID].RebuttalList[rebuttalID]
+	paper.ReviewList[reviewerID].RebuttalList[rebuttalID] = Rebuttal{
 		AuthorID: rebuttal.AuthorID,
 		ReviewerID: reviewerID,
 		Question: rebuttal.Question,
@@ -425,7 +426,7 @@ func (s *SmartContract) AddReply(ctx contractapi.TransactionContextInterface, ti
 	review := Review{
 		ReviewerID: reviewerID,
 		Content: paper.ReviewList[reviewerID].Content,
-		RebuttalList: newRebuttal,
+		RebuttalList: paper.ReviewList[reviewerID].RebuttalList,
 	}
 
 	newReviewList := paper.ReviewList

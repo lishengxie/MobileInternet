@@ -124,18 +124,19 @@
                             <strong>Review:</strong>
                             <span>{{$each.Review}}</span>
                             <hr/>
-							{{$rebuttal := $each.RebuttalList}}
-							{{if ne $rebuttal.Question ""}}
-								<strong>Rebuttal</strong><br/>
-								<strong>Question:</strong>
-								<span>{{$rebuttal.Question}}</span>
-								{{if eq $rebuttal.IsReplyed false}}
-									<a class="pull-right" href="/reply?title={{$each.Name}}&reviewername={{$name}}">Go to Reply</a>
-								{{else}}
-									<br/><strong>Reply:</strong>
-									<span>{{$rebuttal.Reply}}</span>
-								{{end}}
-							{{end}}	
+							{{range $id, $rebuttal := $each.RebuttalList}}
+                                {{if ne $rebuttal.Question ""}}
+                                    <strong>Rebuttal</strong><br/>
+                                    <strong>Question:</strong>
+                                    <span>{{$rebuttal.Question}}</span>
+                                    {{if eq $rebuttal.IsReplyed false}}
+                                        <a class="pull-right" href="/reply?title={{$each.Name}}&reviewername={{$name}}&rebuttalid={{$id}}">Go to Reply</a>
+                                    {{else}}
+                                        <br/><strong>Reply:</strong>
+                                        <span>{{$rebuttal.Reply}}</span>
+                                    {{end}}
+                                {{end}}
+                            {{end}}
                         </div>
                     </div>
                     {{end}}

@@ -3,6 +3,7 @@ package chaincode
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
@@ -256,6 +257,8 @@ func (s *SmartContract) AddRebuttal(ctx contractapi.TransactionContextInterface,
 		return err
 	}
 
+	rebuttalID := len(paper.ReviewList[reviewerID].RebuttalList)
+
 	rebuttal := Rebuttal{
 		AuthorID: authorID,
 		ReviewerID: reviewerID,
@@ -264,10 +267,13 @@ func (s *SmartContract) AddRebuttal(ctx contractapi.TransactionContextInterface,
 		IsReplyed: false,
 	}
 
+	rebuttalList := make(map[string]Rebuttal)
+	rebuttalList[strconv.Itoa(rebuttalID)] = rebuttal
+
 	review := Review{
 		ReviewerID: reviewerID,
 		Content: paper.ReviewList[reviewerID].Content,
-		RebuttalList: rebuttal,
+		RebuttalList: rebuttalList,
 	}
 
 	newReviewList := paper.ReviewList

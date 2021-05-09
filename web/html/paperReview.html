@@ -102,6 +102,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <strong>{{.Title}}</strong>
+                            <a  href="/previewPaper?path={{.StorePath}}"><button type="button" class="btn-primary">Preview Paper</button></a>
                         </div>
                         <div class="panel-body">
                             <form role="form" action="/commitReview?name={{.Name}}&title={{.Title}}" method="post">
