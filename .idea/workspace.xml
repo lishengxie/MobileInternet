@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bffe560a-64cc-44b8-9731-02bdfafc7767" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SmartReview/chaincode/author.go" beforeDir="false" afterPath="$PROJECT_DIR$/SmartReview/chaincode/author.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SmartReview/chaincode/reviewer.go" beforeDir="false" afterPath="$PROJECT_DIR$/SmartReview/chaincode/reviewer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/reviewerCommit.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/reviewerCommit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SmartReview/chaincode/paper.go" beforeDir="false" afterPath="$PROJECT_DIR$/SmartReview/chaincode/paper.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,9 +115,9 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1536.824@0.0.1536.824" timestamp="1619053413096" />
-    <state x="430" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1620011891547">
+    <state x="430" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1620649801281">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="430" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1620011891547" />
+    <state x="430" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1620649801281" />
   </component>
 </project>

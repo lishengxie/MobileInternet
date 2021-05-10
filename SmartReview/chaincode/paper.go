@@ -3,6 +3,7 @@ package chaincode
 import (
 	"encoding/json"
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -105,7 +106,7 @@ func (s *SmartContract) CreatePaper(ctx contractapi.TransactionContextInterface,
 		return err
 	}
 
-	reviewerIDList, err := s.distributePaper(ctx, keywordsArr)
+	reviewerIDList, err := s.distributePaper(ctx, keywordsArr,2)
 	if err != nil {
 		return err
 	}
@@ -315,7 +316,26 @@ func (s *SmartContract) GetPaperInfo(ctx contractapi.TransactionContextInterface
 	}, nil
 }
 
-func (s *SmartContract) distributePaper(ctx contractapi.TransactionContextInterface, keywords []string) ([]string, error) {
+type reviewerScore struct {
+	reviewerID	string
+	score       float64
+}
+
+type rs []reviewerScore
+
+func (r rs) Len() int {
+	return len(r)
+}
+
+func (r rs) Swap(i,j int) {
+	r[i], r[j] = r[j], r[i]
+}
+
+func (r rs) Less(i,j int) bool {
+	return r[j].score < r[i].score
+}
+
+func (s *SmartContract) distributePaper(ctx contractapi.TransactionContextInterface, keywords []string, reviewedNum int) ([]string, error) {
 	//fmt.Println(keywords)
 	reviewerSetJson, err := ctx.GetStub().GetState("reviewerset")
 	if err != nil {
@@ -326,9 +346,47 @@ func (s *SmartContract) distributePaper(ctx contractapi.TransactionContextInterf
 	if err != nil {
 		return nil, err
 	}
+
+	var reviewerScoreSet []reviewerScore
 	var reviewerIDSet []string
+
 	for _, value := range reviewerSet.Reviewers {
-		reviewerIDSet = append(reviewerIDSet, value)
+		reviewer,err := s.ReadReviewer(ctx,value)
+		if err != nil {
+			return nil,err
+		}
+
+		researchTargets := reviewer.ResearchTarget
+		reviewerScoreSet = append(reviewerScoreSet,
+			reviewerScore{
+				value,
+				getScore(keywords,researchTargets),
+			})
+	}
+
+	sort.Sort(rs(reviewerScoreSet))
+
+	for i:=0; i<reviewedNum; i++ {
+		reviewerIDSet = append(reviewerIDSet,reviewerScoreSet[i].reviewerID)
 	}
 	return reviewerIDSet, nil
+}
+
+func getScore(keywords []string, researchTargets []string) float64 {
+	intersection := 0
+	union := 0
+
+	for keyword := range keywords {
+		for target := range researchTargets {
+			if target == keyword {
+				intersection += 1
+			}
+		}
+	}
+
+	union += len(keywords) - intersection
+	union += len(researchTargets) -intersection
+	union += intersection
+
+	return float64(intersection)/float64(union)
 }
