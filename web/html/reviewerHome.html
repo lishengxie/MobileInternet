@@ -121,49 +121,48 @@
                             {{$each.Name}}
                         </div>
 
-
-                        <table class="table table-hover">
-<!--                            <caption>caption</caption>-->
-                            <thead>
-                            <tr>
-                                <th>Steps</th>
-                                <th>Contents</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td><strong>Review:</strong></td>
-                                <td><span>{{$each.Review}}</span></td>
-                            </tr>
-                            {{range $id, $rebuttal := $each.RebuttalList}}
-                                {{if ne $rebuttal.Question ""}}
-                                <tr>
-                                    <td><strong>Question:</strong></td>
-                                    <td><span>{{$rebuttal.Question}}</span></td>>
-                                </tr>
-                                    {{if eq $rebuttal.IsReplyed false}}
-                                <tr>
-                                    <td>
-                                        <a class="pull-left" href="/reply?title={{$each.Name}}&reviewername={{$name}}&rebuttalid={{$id}}">
-                                            <button class="btn btn-primary btn-md pull-left">
-                                                Go to Replay
-                                            </button>
-                                        </a>
-                                    </td>
-                                    <td>
-                                    </td>
-                                </tr>
-                                    {{else}}
-                                <tr>
-                                    <td><strong>Reply:</strong></td>
-                                    <td><span>{{$rebuttal.Reply}}</span></td>
-                                </tr>
+                        <div class ="panel-body">
+                            <div class = "table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Steps</th>
+                                        <th>Contents</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><strong>Review:</strong></td>
+                                        <td><span>{{$each.Review}}</span></td>
+                                    </tr>
+                                    {{range $id, $rebuttal := $each.RebuttalList}}
+                                        {{if ne $rebuttal.Question ""}}
+                                        <tr>
+                                            <td><strong>Question:</strong></td>
+                                            <td><span>{{$rebuttal.Question}}</span></td>
+                                        </tr>
+                                            {{if eq $rebuttal.IsReplyed false}}
+                                                <tr>
+                                                    <td>
+                                                        <a class="pull-left" href="/reply?title={{$each.Name}}&reviewername={{$name}}&rebuttalid={{$id}}">
+                                                            <button class="btn btn-primary btn-md pull-left">
+                                                                Go to Replay
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {{else}}
+                                                <tr>
+                                                    <td><strong>Reply:</strong></td>
+                                                    <td><span>{{$rebuttal.Reply}}</span></td>
+                                                </tr>
+                                            {{end}}
+                                        {{end}}
                                     {{end}}
-                                {{end}}
-                            {{end}}
-                            </tbody>
-                        </table>
-
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                     {{end}}
                 </div>

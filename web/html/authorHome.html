@@ -125,50 +125,51 @@
                                 </a>
 							</div>
 
-                            {{range $key, $value := $each.Reviews}}
-                            <table class="table table-hover">
-<!--                                <caption>caption</caption>-->
-                                <thead>
-                                <tr>
-                                    <th>Reviewer 1</th>
-                                    <th>Contents</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td><span><strong>Review:</strong></span></td>
-                                    <td><span>{{$value.Content}}</span></td>
-                                </tr>
-                                {{range $id, $rebuttal := $value.RebuttalList}}
-                                    {{if ne $rebuttal.Question ""}}
-                                <tr>
-                                    <td><span><strong  style="font-size: 14px">Question:</strong></span></td>
-                                    <td><span>{{$rebuttal.Question}}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span><strong  style="font-size: 14px">Reply:</strong></span></td>
-                                    <td><span>{{$rebuttal.Reply}}</span></td>
-                                </tr>
-                                    {{else}}
+                            <div class ="panel-body">
+                                {{range $key, $value := $each.Reviews}}
+                                <div class = "table-responsive"> 
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Reviewer 1</th>
+                                            <th>Contents</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td><span><strong>Review:</strong></span></td>
+                                            <td><span>{{$value.Content}}</span></td>
+                                        </tr>
+                                        {{range $id, $rebuttal := $value.RebuttalList}}
+                                            {{if ne $rebuttal.Question ""}}
+                                                <tr>
+                                                    <td><span><strong  style="font-size: 14px">Question:</strong></span></td>
+                                                    <td><span>{{$rebuttal.Question}}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span><strong  style="font-size: 14px">Reply:</strong></span></td>
+                                                    <td><span>{{$rebuttal.Reply}}</span></td>
+                                                </tr>
+                                            {{else}}
+                                                <a class="pull-right" href="/rebuttal?authorname={{$author}}&title={{$each.Name}}&reviewerid={{$value.ReviewerID}}">Go to Rebuttal</a>
+                                            {{ end }}
+                                        {{end}}
+                                        <tr>
+                                            <td>
+                                            <a href="/rebuttal?authorname={{$author}}&title={{$each.Name}}&reviewerid={{$value.ReviewerID}}">
+                                                <button class="btn btn-primary btn-md pull-left">
+                                                    Go to Rebuttal
+                                                </button>
+                                            </a>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
 
-                                        <a class="pull-right" href="/rebuttal?authorname={{$author}}&title={{$each.Name}}&reviewerid={{$value.ReviewerID}}">Go to Rebuttal</a>
-                                    {{ end }}
                                 {{end}}
-                                <tr>
-                                    <td>
-                                    <a href="/rebuttal?authorname={{$author}}&title={{$each.Name}}&reviewerid={{$value.ReviewerID}}">
-                                        <button class="btn btn-primary btn-md pull-left">
-                                            Go to Rebuttal
-                                        </button>
-                                    </a>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                </tbody>
-                            </table>
-
-
-                            {{end}}
+                            </div>
 						</div>
 					</div>
                 {{end}}
