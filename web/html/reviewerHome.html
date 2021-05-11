@@ -120,23 +120,50 @@
                         <div class="panel-heading">
                             {{$each.Name}}
                         </div>
-                        <div class="panel-body">
-                            <strong>Review:</strong>
-                            <span>{{$each.Review}}</span>
-                            <hr/>
-							{{range $id, $rebuttal := $each.RebuttalList}}
+
+
+                        <table class="table table-hover">
+<!--                            <caption>caption</caption>-->
+                            <thead>
+                            <tr>
+                                <th>Steps</th>
+                                <th>Contents</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><strong>Review:</strong></td>
+                                <td><span>{{$each.Review}}</span></td>
+                            </tr>
+                            {{range $id, $rebuttal := $each.RebuttalList}}
                                 {{if ne $rebuttal.Question ""}}
-                                    <strong>Question:</strong>
-                                    <span>{{$rebuttal.Question}}</span>
+                                <tr>
+                                    <td><strong>Question:</strong></td>
+                                    <td><span>{{$rebuttal.Question}}</span></td>>
+                                </tr>
                                     {{if eq $rebuttal.IsReplyed false}}
-                                        <a class="pull-right" href="/reply?title={{$each.Name}}&reviewername={{$name}}&rebuttalid={{$id}}">Go to Reply</a>
+                                <tr>
+                                    <td>
+                                        <a class="pull-left" href="/reply?title={{$each.Name}}&reviewername={{$name}}&rebuttalid={{$id}}">
+                                            <button class="btn btn-primary btn-md pull-left">
+                                                Go to Replay
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
                                     {{else}}
-                                        <br/><strong>Reply:</strong>
-                                        <span>{{$rebuttal.Reply}}</span><br/>
+                                <tr>
+                                    <td><strong>Reply:</strong></td>
+                                    <td><span>{{$rebuttal.Reply}}</span></td>
+                                </tr>
                                     {{end}}
                                 {{end}}
                             {{end}}
-                        </div>
+                            </tbody>
+                        </table>
+
                     </div>
                     {{end}}
                 </div>
