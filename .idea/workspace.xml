@@ -2,23 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bd1371dc-faaf-49e8-88fe-ee85452014b2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/web/html/previewPaper.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/controller/controllerHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/controller/controllerHandler.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/html/authorHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/authorHome.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/blank.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/blank.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/paperReview.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/paperReview.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/rebuttal.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/rebuttal.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/registerAuthor.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/registerAuthor.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/registerReviewer.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/registerReviewer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/reply.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/reply.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/reviewerCommit.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/reviewerCommit.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/html/reviewerHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/reviewerHome.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/updateAuthorInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/updateAuthorInfo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/html/updateReviewerInfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/html/updateReviewerInfo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/webServer.go" beforeDir="false" afterPath="$PROJECT_DIR$/web/webServer.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,20 +33,21 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../MobileInternet" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunManager">
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="web-model" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/main.go" />
       <package value="MobileInternet" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/main.go" />
       <method v="2" />
     </configuration>
     <recent_temporary>
