@@ -10,6 +10,9 @@ func WebStart(app *controller.Application) {
 	fs := http.FileServer(http.Dir("web/static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
+	ds := http.FileServer(http.Dir("upload"))
+	http.Handle("/upload/", http.StripPrefix("/upload/", ds))
+
 	http.HandleFunc("/", app.LoginView)
 	http.HandleFunc("/login", app.LoginView)
 	http.HandleFunc("/home", app.HomeView)
@@ -28,8 +31,6 @@ func WebStart(app *controller.Application) {
 	http.HandleFunc("/reply", app.ReplyView)
 	http.HandleFunc("/commitRebuttal", app.CommitRebuttalView)
 	http.HandleFunc("/commitReply", app.CommitReplyView)
-
-	http.HandleFunc("/previewPaper", app.PreviewView)
 
 	http.HandleFunc("/reviewerHome", app.ReviewerHomeView)
 	http.HandleFunc("/reviewerCommit", app.ReviewerCommitView)
