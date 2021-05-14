@@ -181,14 +181,26 @@ func (app *Application) RebuttalreviewerView(w http.ResponseWriter, r *http.Requ
 	if err != nil {
 		log.Fatalf("Failed to parse Form: %s", err)
 	}
-	title := r.Form.Get("title")
 	name := r.Form.Get("name")
-	data := &struct{
-		Name string
-		Title string
+	paper := []reviewedPaper{
+		{
+			Name:   "Bitcoin: peer to peer ecoin system",
+			Review: "Very good paper",
+			RebuttalList: Rebuttal{
+				ReviewerID: "id_reviewer",
+				AuthorID:   "id_author",
+				Question:   "How are you?",
+				Reply:      "",
+				IsReplyed:  false,
+			},
+		},
+	}
+	data := &struct {
+		Paper []reviewedPaper
+		Name  string
 	}{
-		Name : name,
-		Title : title,
+		Paper: paper,
+		Name:  name,
 	}
 	showView(w, r, "rebuttal_reviewer.html", data)
 }

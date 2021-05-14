@@ -181,6 +181,8 @@
                         <h2><strong>Committed Papers</strong></h2>
                     </div>
                     <div class="body">
+                        {{$name := .Name}}
+                        {{range $each:=.Paper}}
                         <div class="table-responsive table_middel">
                             <table class="table m-b-0">
                                 <thead>
@@ -195,7 +197,7 @@
                                 <tbody>
                                     <tr>
                                         <td>1</td>
-                                        <td><span class="text-info">70 Bowman St. South Windsor, CT 06074</span></td>
+                                        <td><a href="/review?name={{$name}}&title={{$each.Name}}">{{$each.Name}}</td>
                                         <td>Sept 13, 2017</td>
                                         <td>Sept 16, 2017</td>
                                         <td><span class="badge badge-success">Reviewed</span></td>
@@ -203,7 +205,8 @@
                                     
                                 </tbody>
                             </table>
-                        </div>                            
+                        </div>
+                        {{end}}                            
                     </div>
                 </div>
             </div>
