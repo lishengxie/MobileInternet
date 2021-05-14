@@ -163,7 +163,7 @@
                         <h2><strong>Information</strong></h2>
                     </div>
                     <div class="body">
-                        <form role="form" enctype="multipart/form-data" action="/commitPaper" method="post">
+                        <form role="form" enctype="multipart/form-data" action="/commitPaper?name={{.Name}}" method="post">
                             <div class="form-group">
                                 <label for="title">Title</label>
                                 <input type="text" class="form-control" id="title" name="title" placeholder="Enter title of paper" />
