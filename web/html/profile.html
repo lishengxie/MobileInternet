@@ -7,20 +7,20 @@
 <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
 
 <title>PRchain</title>
-<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
 <!-- Favicon-->
-<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="assets/plugins/dropzone/dropzone.css">
-<link rel="stylesheet" href="assets/plugins/bootstrap-select/css/bootstrap-select.css"/>
+<link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/plugins/dropzone/dropzone.css">
+<link rel="stylesheet" href="/static/plugins/bootstrap-select/css/bootstrap-select.css"/>
 <!-- Custom Css -->
-<link rel="stylesheet" href="assets/css/main.css">
-<link rel="stylesheet" href="assets/css/color_skins.css">
+<link rel="stylesheet" href="/static/css/main.css">
+<link rel="stylesheet" href="/static/css/color_skins.css">
 </head>
 <body class="theme-cyan">
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
-        <div class="m-t-30"><img class="zmdi-hc-spin" src="assets/images/logo.svg" width="48" height="48" alt="Compass"></div>
+        <div class="m-t-30"><img class="zmdi-hc-spin" src="/static/images/logo.svg" width="48" height="48" alt="Compass"></div>
         <p>Please wait...</p>
     </div>
 </div>
@@ -33,7 +33,7 @@
     <div class="col-12">        
         <div class="navbar-header">
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="index.html"><img src="assets/images/prchain.png" width="150" alt="Compass"><span class="m-l-10"></span></a>
+            <a class="navbar-brand" href="/home?name={{.Name}}"><img src="/static/images/prchain.png" width="150" alt="Compass"><span class="m-l-10"></span></a>
         </div>
         <ul class="nav navbar-nav navbar-left">
             <li><a href="javascript:void(0);" class="ls-toggle-btn" data-close="true"><i class="zmdi zmdi-swap"></i></a></li>            
@@ -112,7 +112,7 @@
         <ul class="list">
             <li>
                 <div class="user-info">
-                    <div class="image"><a href="profile.html"><img src="assets/images/profile_av.jpg" alt="User"></a></div>
+                    <div class="image"><a href="/profile"><img src="/static/images/profile_av.jpg" alt="User"></a></div>
                     <div class="detail">
                         <h4>Dr. Michael</h4>
                         <small>(M.D.)</small>                        
@@ -166,7 +166,7 @@
                     </div>
                     <div class="member-img">
                         <a href="profile.html" class="">
-                        <img src="assets/images/profile_av.jpg" class="rounded-circle" alt="profile-image">
+                        <img src="/static/images/profile_av.jpg" class="rounded-circle" alt="profile-image">
                         </a>
                     </div>
                     <div class="body">
@@ -204,10 +204,10 @@
 </section>
 
 <!-- Jquery Core Js --> 
-<script src="assets/bundles/libscripts.bundle.js"></script> <!-- Bootstrap JS and jQuery v3.2.1 -->
-<script src="assets/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->  
+<script src="/static/bundles/libscripts.bundle.js"></script> <!-- Bootstrap JS and jQuery v3.2.1 -->
+<script src="/static/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->  
 
-<script src="assets/plugins/dropzone/dropzone.js"></script> <!-- Dropzone Plugin Js -->
-<script src="assets/bundles/mainscripts.bundle.js"></script><!-- Custom Js --> 
+<script src="/static/plugins/dropzone/dropzone.js"></script> <!-- Dropzone Plugin Js -->
+<script src="/static/bundles/mainscripts.bundle.js"></script><!-- Custom Js --> 
 </body>
 </html>
