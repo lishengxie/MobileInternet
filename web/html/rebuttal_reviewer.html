@@ -12,8 +12,10 @@
 <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="/static/plugins/dropzone/dropzone.css">
 <link rel="stylesheet" href="/static/plugins/bootstrap-select/css/bootstrap-select.css"/>
+
 <!-- Custom Css -->
 <link rel="stylesheet" href="/static/css/main.css">
+<link rel="stylesheet" href="/static/css/chatapp.css">
 <link rel="stylesheet" href="/static/css/color_skins.css">
 </head>
 <body class="theme-cyan">
@@ -142,8 +144,8 @@
     <div class="block-header">
         <div class="row">
             <div class="col-lg-7 col-md-6 col-sm-12">
-                <h2>Rebuttal
-                <small class="text-muted">See Rebuttal and Reply</small>
+                <h2>
+                <small class="text-muted"></small>
                 </h2>
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12">               
@@ -160,33 +162,43 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Paper Information</strong></h2>
+                        <h2><strong>Rebuttal</strong></h2>
                     </div>
                     <div class="body">
-                        <div class="table-responsive table_middel">
-                            <table class="table m-b-0">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Title</th>
-                                        <th>Keywords</th>
-                                        <th>Committed Date</th>
-                                        <th>Reviewed Date</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>{{.Paper.Name}}</td>
-                                        <td>CV</td>
-                                        <td>Sept 13, 2017</td>
-                                        <td>-</td>
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
-                        </div>                            
+                        {{range $each:=.Paper}}
+                        <h2>Title {{$each.Name}}</h2>
+                        <h2>Review {{$each.Review}}</h2>
+                        <div class="chat" style="width: 70%;">
+                            <div class="chat-history">
+                                <ul>
+                                    <li>
+                                        <div class="message-data">
+                                            <span class="message-data-name"><i class="zmdi zmdi-circle online"></i> Author</span>
+                                        </div>
+                                        <div class="message my-message" style="max-width: 25ch;">
+                                            {{$each.RebuttalList.Question}}
+                                        </div>
+                                    </li>  
+                                    <li class="clearfix">
+                                        <div class="message-data text-right">
+                                            <span class="message-data-name" >Reviewer</span> <i class="zmdi zmdi-circle me"></i> 
+                                        </div>
+                                        <div class="message other-message float-right" style="width: 25ch">
+                                            {{$each.RebuttalList.Reply}}HAHA
+                                        </div>
+                                    </li>                      
+                                </ul>
+                            </div>
+                            <div class="chat-message clearfix">
+                                <div class="input-group p-t-15">
+                                    <input type="text" class="form-control" placeholder="Enter reply...">
+                                    <span class="input-group-addon">
+                                        <button class="zmdi zmdi-mail-send" ></button>
+                                    </span>
+                                </div>                        
+                            </div>
+                        </div>
+                        {{end}}                            
                     </div>
                 </div>
             </div>
