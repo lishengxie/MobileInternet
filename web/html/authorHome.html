@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+    <title>PR Chain</title>
+    <!-- BOOTSTRAP CORE STYLE  -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONT AWESOME ICONS  -->
+    <link href="/static/css/font-awesome.css" rel="stylesheet" />
+    <!-- CUSTOM STYLE  -->
+    <link href="/static/css/style.css" rel="stylesheet" />
+    <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <strong>Contact us</strong> &nbsp;&nbsp;
+                    <strong>Email: </strong>1141751053@qq.com
+                </div>
+
+            </div>
+        </div>
+    </header>
+    <!-- HEADER END-->
+    <div class="navbar navbar-inverse set-radius-zero">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/authorHome?name={{.Name}}">
+
+                    <img class="img-responsive" src="/static/img/prchain.png" />
+                </a>
+
+            </div>
+
+            <div class="left-div">
+                <div class="user-settings-wrapper">
+                    <ul class="nav">
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                                <span class="glyphicon glyphicon-user" style="font-size: 25px;"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-settings">
+                                <div class="media">
+                                    <a class="media-left" href="#">
+                                        <img src="/static/img/people_head.png" alt="" class="img-rounded" />
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{.Name}}</h4>
+                                        <!-- <h5>Developer & Designer</h5> -->
+
+                                    </div>
+                                </div>
+                                <hr />
+                                <h5><strong>Personal Identity : </strong></h5>
+                                Author
+                                <hr />
+                                <a href="/updateAuthor?name={{.Name}}" class="btn btn-info btn-sm">Edit Profile</a>&nbsp;
+                                <a href="/login" class="btn btn-danger btn-sm">Logout</a>
+                            </div>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- LOGO HEADER END-->
+    <section class="menu-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="navbar-collapse collapse ">
+                        <ul id="menu-top" class="nav navbar-nav navbar-left">
+                            {{$author := .Name}}
+                            <li><a class="menu-top-active" href="/authorHome?name={{.Name}}">Commited Papers</a></li>
+                            <li><a href="/authorCommit?name={{.Name}}">Call for Paper </a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- MENU SECTION END-->
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="page-head-line">Committed Papers</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                {{range $each:=.Paper}}
+					<div class="col-md-12 col-sm-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<strong>{{$each.Name}}</strong>
+                                <button class="btn btn-primary btn-md pull-right" data-toggle="modal" data-target="#myModal">
+                                    Update PaperInfo
+                                </button>
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                <h4 class="modal-title" id="myModalLabel">Update Paper Info</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form role="form" action="/paperUpdate" method="post">
+                                                        <div class="form-group">
+                                                            <label for="old_title">Old title</label>
+                                                            <input type="text" class="form-control" id="old_title" name="old_title" placeholder="Please input old title" />
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="new_title">New title</label>
+                                                            <input type="text" class="form-control" id="new_title" name="new_title" placeholder="Please input new title" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="addedauthor">Added Author</label>
+                                                            <input type="text" class="form-control" id="addedauthor" name="addedauthor" placeholder="Please input addedauthor, split by '/'" />
+                                                        </div>
+                                                        <button type="button" class="btn btn-primary">Commit Update</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+							<div class="panel-body">
+								<strong>Author List:</strong>
+								{{range $author:=$each.AuthorList}}
+									<span>{{$author}}&nbsp;</span>
+								{{end}}
+								<hr/>
+								<strong>Reviews:</strong>
+								<hr/> 
+								{{range $key, $value := $each.Reviews}}
+									<span>{{$value.Content}}</span>
+									{{$rebuttal := $value.RebuttalList}}
+									{{if ne $rebuttal.Question ""}}
+										<br />
+										<span><strong>Question:</strong>{{$rebuttal.Question}}</span><br/>
+										<span><strong>Reply:</strong>{{$rebuttal.Reply}}</span>										
+									{{ else }}
+										<a class="pull-right" href="/rebuttal?authorname={{$author}}&title={{$each.Name}}&reviewerid={{$value.ReviewerID}}">Go to Rebuttal</a>
+									{{end}}
+									<hr/> 
+								{{end}}
+							</div>
+						</div>
+					</div>
+                {{end}}
+            </div>
+        </div>
+    </div>
+    <!-- CONTENT-WRAPPER SECTION END-->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    &copy; PRChain | an blockchain-based Paper Review Application - <a href="https://github.com/lishengxie/MobileInternet">Our code</a>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+    <!-- FOOTER SECTION END-->
+    <!-- JAVASCRIPT AT THE BOTTOM TO REDUCE THE LOADING TIME  -->
+    <!-- CORE JQUERY SCRIPTS -->
+    <script src="/static/js/jquery-1.11.1.js"></script>
+    <!-- BOOTSTRAP SCRIPTS  -->
+    <script src="/static/js/bootstrap.js"></script>
+</body>
+
+</html>
