@@ -159,12 +159,36 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Paper Information</strong></h2>
+                        <h2><strong></strong>Paper Information</strong></h2>
                     </div>
                     <div class="body">
-                        <h2>{{.Title}}</h2> 
+                        <div class="row clearfix">
+                            <div class="col-lg-6 col-md-5 col-3">
+                                {{.Title}}
+                            </div>
+                            <div class="col-lg-1 col-md-2 col-3">
+                                <a href=" ">
+                                    <button type="button" class="btn btn-default btn-icon btn-simple btn-icon-mini btn-round hidden-sm-down">
+                                    <i class="zmdi zmdi-archive"></i>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
                         <!--展示文章的具体信息-->
                         <!-- review窗口 -->
+                        <form action="/commitReview?name={{.Name}}&title={{.Title}}" method="post"> 
+                            <div class="row clearfix">                
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <h5>Enter Your Review Here</h5>
+                                        <textarea rows="4" name="reviewcontent" id="reviewcontent" class="form-control no-resize" placeholder="Review"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-primary btn-round">Submit</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
