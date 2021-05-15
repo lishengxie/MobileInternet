@@ -165,17 +165,18 @@
                         <h2><strong>Rebuttal</strong></h2>
                     </div>
                     <div class="body">
-                        <h2>Title: {{$each.Name}}</h2>
-                        <h2>Review: {{$each.Review}}</h2>
+                        <h2>Title: {{.Title}}</h2>
+                        <h2>Review: {{.PaperReview.Content}}</h2>
                         <div class="chat" style="width: 70%;">
                             <div class="chat-history">
+                                {{range $_, $rebuttal := .PaperReview.RebuttalList}}
                                 <ul>
                                     <li>
                                         <div class="message-data">
                                             <span class="message-data-name"><i class="zmdi zmdi-circle online"></i> Author</span>
                                         </div>
                                         <div class="message my-message" style="max-width: 25ch;">
-                                            {{$each.RebuttalList.Question}}
+                                            {{$rebuttal.Question}}
                                         </div>
                                     </li>  
                                     <li class="clearfix">
@@ -183,13 +184,14 @@
                                             <span class="message-data-name" >Reviewer</span> <i class="zmdi zmdi-circle me"></i> 
                                         </div>
                                         <div class="message other-message float-right" style="width: 25ch">
-                                            {{$each.RebuttalList.Reply}}HAHA
+                                            {{$rebuttal.Reply}}HAHA
                                         </div>
                                     </li>                      
                                 </ul>
+                                {{end}}
                             </div>
                             <div class="chat-message clearfix">
-                                <form action="/commitReply?name={{.Name}}&title={{.Title}}&rebuttalid={{.PaperReview." method="post">
+                                <form action="/commitReply?name={{.Name}}&title={{.Title}}&rebuttalid={{.RebuttalID}}" method="post">
                                 <div class="input-group p-t-15">
                                     <input type="text" class="form-control" placeholder="Enter reply...">
                                     <span class="input-group-addon">
