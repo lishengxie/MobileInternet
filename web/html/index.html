@@ -182,7 +182,6 @@
                     </div>
                     <div class="body">
                         {{$name := .Name}}
-                        {{range $each:=.Paper}}
                         <div class="table-responsive table_middel">
                             <table class="table m-b-0">
                                 <thead>
@@ -195,6 +194,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {{range $each:=.Paper}}
                                     <tr>
                                         <td>1</td>
                                         <td><a href="/review?name={{$name}}&title={{$each.Name}}">{{$each.Name}}</td>
@@ -202,11 +202,10 @@
                                         <td>Sept 16, 2017</td>
                                         <td><span class="badge badge-success">Reviewed</span></td>
                                     </tr>
-                                    
+                                    {{end}}
                                 </tbody>
                             </table>
-                        </div>
-                        {{end}}                            
+                        </div>                     
                     </div>
                 </div>
             </div>
