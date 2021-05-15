@@ -7,7 +7,7 @@
 <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
 
 <title>PRchain</title>
-<link rel="icon" href="/staticfavicon.ico" type="image/x-icon">
+<link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
 <!-- Favicon-->
 <link rel="stylesheet" href="/static/plugins/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="/static/plugins/dropzone/dropzone.css">
@@ -122,8 +122,8 @@
             <li><a href="/home?name={{.Name}}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>            
             <li class="active open"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-calendar-check"></i><span>Author</span> </a>
                 <ul class="ml-menu">
-                    <li><a href="/authorCommit?name={{.Name}}">Commit Paper</a></li>
-                    <li class="active"><a href="/committedPaper?name={{.Name}}">Committed Papers</a></li>
+                    <li class="active"><a href="/authorCommit?name={{.Name}}">Commit Paper</a></li>
+                    <li><a href="/committedPaper?name={{.Name}}">Committed Papers</a></li>
                 </ul>
             </li>
             <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-calendar-check"></i><span>Reviewer</span> </a>
@@ -142,61 +142,59 @@
     <div class="block-header">
         <div class="row">
             <div class="col-lg-7 col-md-6 col-sm-12">
-                <h2>
-                <small class="text-muted"></small>
+                <h2>Update Paper
+                <small class="text-muted">Update Paper Info</small>
                 </h2>
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12">               
                 <ul class="breadcrumb float-md-right">
                     <li class="breadcrumb-item"><a href="/home?name={{.Name}}"><i class="zmdi zmdi-home"></i> PRchain</a></li>
-                    <li class="breadcrumb-item active">Committed Papers</li>
+                    <li class="breadcrumb-item"><a href="/home?name={{.Name}}">Committed Papers</a></li>
+                    <li class="breadcrumb-item active">Update Paper</li>
                 </ul>
             </div>
         </div>
     </div>
+    
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
                     <div class="header">
-                        <h2><strong> Your Committed Papers</strong></h2>
+                        <h2><strong>{{.Title}}</strong></h2>
                     </div>
                     <div class="body">
-                        {{$name := .Name}}
-                        
-                        <div class="table-responsive table_middel">
-                            <table class="table m-b-0">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Title</th>
-                                        <th>Keywords</th>
-                                        <th>Committed Date</th>
-                                        <th>Reviewed Date</th>
-                                        <th>Review</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{range $each:=.Paper}}
-                                    <tr>
-                                        <td>1</td>
-                                        <td><span class="text-info">{{$each.Name}}</span></td>
-                                        <td>CV</td>
-                                        <td>Sept 13, 2017</td>
-                                        <td>Oct 10, 2017</td>
-                                        <td><a class="pull-right" href="/review?name={{$name}}&title={{$each.Name}}">See Review</a></td>
-                                        <td><a class="pull-right" href="/updatePaper?name={{$name}}&title={{$each.Name}}">Update</a></td>
-                                    </tr>
-                                    {{end}}
-                                </tbody>
-                            </table>
-                        </div>
-                                                    
+                        <h5><strong>Author List: </strong>
+                        {{range $author:=.AuthorList}}
+                            <span>{{$author}}&nbsp;</span>
+                        {{end}}
+                        </h5>
+                        <br/>
+                        <br/>
+                        <strong>Keywords: </strong>
+                        {{range $keyword:=.Keywords}}
+                            <span>{{$keyword}}&nbsp;</span>
+                        {{end}}
+                        <br/>
+                        <br/>
+                        <form role="form" action="/commitUpdatePaper?title={{.Title}}" method="post">
+                            <div class="form-group">
+                                <label for="new_title">New Title</label>
+                                <input type="text" class="form-control" id="new_title" name="new_title" placeholder="Enter new title of paper" />
+                            </div>
+                            <div class="form-group">
+                                <label for="addedauthor">Add Authors</label>
+                                <input type="text" class="form-control" id="addedauthor" name="addedauthor" placeholder="Please enter new authors' names, split by '/'" />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-round">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </section>
 <!-- Jquery Core Js --> 
 <script src="/static/bundles/libscripts.bundle.js"></script> <!-- Bootstrap JS and jQuery v3.2.1 -->

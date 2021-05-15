@@ -165,9 +165,8 @@
                         <h2><strong>Rebuttal</strong></h2>
                     </div>
                     <div class="body">
-                        {{range $each:=.Paper}}
-                        <h2>Title {{$each.Name}}</h2>
-                        <h2>Review {{$each.Review}}</h2>
+                        <h2>Title: {{$each.Name}}</h2>
+                        <h2>Review: {{$each.Review}}</h2>
                         <div class="chat" style="width: 70%;">
                             <div class="chat-history">
                                 <ul>
@@ -190,15 +189,16 @@
                                 </ul>
                             </div>
                             <div class="chat-message clearfix">
+                                <form action="/commitReply?name={{.Name}}&title={{.Title}}&rebuttalid={{.PaperReview." method="post">
                                 <div class="input-group p-t-15">
                                     <input type="text" class="form-control" placeholder="Enter reply...">
                                     <span class="input-group-addon">
                                         <button class="zmdi zmdi-mail-send" ></button>
                                     </span>
-                                </div>                        
+                                </div>
+                                </form>                        
                             </div>
-                        </div>
-                        {{end}}                            
+                        </div>                        
                     </div>
                 </div>
             </div>

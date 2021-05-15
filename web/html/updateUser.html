@@ -162,13 +162,14 @@
             <div class="col-lg-4 col-md-12">
                 <div class="card member-card">
                     <div class="header l-orange">
-                        <h4 class="m-t-10">Dr. Michael Dorsey</h4>
+                        <h4 class="m-t-10">{{.Name}}</h4>
                     </div>
                     <div class="member-img">
                         <a href="updateUser.html" class="">
                         <img src="/static/images/profile_av.jpg" class="rounded-circle" alt="profile-image">
                         </a>
                     </div>
+                    <br/>
                     <div class="body">
                         <div class="row">
                             E-mail
@@ -187,21 +188,25 @@
                         <h2><strong>Update User Info</strong></h2>
                     </div>
                     <div class="body">
-                        <form role="form" enctype="multipart/form-data" action="/commitPaper" method="post">
+                        <form role="form" action="/updateUserCommit?name={{.Name}}" method="post">
                             <div class="form-group">
-                                <label for="title">Title</label>
-                                <input type="text" class="form-control" id="title" name="title" placeholder="Enter title of paper" />
+                                <label for="new_email">New Email</label>
+                                <input type="email" class="form-control" id="new_email" name="new_email" placeholder="Enter new email" />
                             </div>
                             <div class="form-group">
-                                <label for="authorlist">Author List</label>
-                                <input type="text" class="form-control" id="authorlist" name="authorlist" placeholder="Please input authors, split by '/'" />
+                                <label for="old_passwd">Old Password</label>
+                                <input type="password" class="form-control" id="old_passwd" name="old_passwd" placeholder="Please enter old password" />
                             </div>
                             <div class="form-group">
-                                <label for="keywords">Keywords</label>
-                                <input type="text" class="form-control" id="keywords" name="keywords" placeholder="Please keywords, split by '/'" />
+                                <label for="new_passwd">New Password</label>
+                                <input type="password" class="form-control" id="new_passwd" name="new_passwd" placeholder="Please enter new password" />
+                            </div>
+                            <div class="form-group">
+                                <label for="researchTarget">Research Target</label>
+                                <input type="text" class="form-control" id="researchTarget" name="researchTarget" placeholder="Please enter research target" />
                             </div>
                             <div>
-                                <button class="btn btn-primary btn-round">Submit</button>
+                                <button type="submit" class="btn btn-primary btn-round">Submit</button>
                             </div>
                         </form>
                     </div>

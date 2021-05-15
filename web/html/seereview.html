@@ -163,6 +163,28 @@
                         <h2><strong>Paper Information</strong></h2>
                     </div>
                     <div class="body">
+                        <div class="row">
+                            Title: {{.Title}}
+                        </div>
+
+                    <!-- 显示文章基本信息-->
+                    
+                    <!-- 显示review并提供rebuttal按钮 -->                
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Review</strong></h2>
+                    </div>
+                    <div class="body">
+                        {{$title := .Title}}
+                        {{$name := .Name}}
+                        {{range $id, $review:=.Review}}
+                        <div class="row">
+                            {{$review.Content}}
+                            <a class="pull-right" href="/rebuttal_author?reviewerid={{$id}}&title={{$title}}&authorname={{$name}}">Rebuttal</a>
+                        </div>
+                        {{end}}
                     <!-- 显示文章基本信息和review -->
                     
                     <!-- 提供rebuttal按钮 -->                
