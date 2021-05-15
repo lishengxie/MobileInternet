@@ -163,7 +163,7 @@
                     </div>
                     <div class="body">
                         {{$name := .Name}}
-                        {{range $id, $each:=.Paper}}
+                        
                         <div class="table-responsive table_middel">
                             <table class="table m-b-0">
                                 <thead>
@@ -176,6 +176,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {{range $id, $each:=.Paper}}
                                     <tr>
                                         <td>1</td>
                                         <td>70 Bowman St. South Windsor, CT 06074</td>
@@ -183,11 +184,10 @@
                                         <td>Oct 10, 2017</td>
                                         <td><a class="pull-right" href="/rebuttal_reviewer?name={{$name}}&title={{$each.Name}}&">See Rebuttal</a></td>
                                     </tr>
-                                    
+                                    {{end}}
                                 </tbody>
                             </table>
-                        </div>   
-                        {{end}}                         
+                        </div>                  
                     </div>
                 </div>
             </div>
