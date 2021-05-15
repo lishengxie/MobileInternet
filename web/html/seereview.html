@@ -179,15 +179,26 @@
                     <div class="body">
                         {{$title := .Title}}
                         {{$name := .Name}}
-                        {{range $id, $review:=.Review}}
-                        <div class="row">
-                            {{$review.Content}}
-                            <a class="pull-right" href="/rebuttal_author?reviewerid={{$id}}&title={{$title}}&authorname={{$name}}">Rebuttal</a>
-                        </div>
-                        {{end}}
-                    <!-- 显示文章基本信息和review -->
-                    
-                    <!-- 提供rebuttal按钮 -->                
+                        <div class="table-responsive table_middel">
+                            <table class="table m-b-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Review Content</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{range $id, $review:=.Review}}
+                                    <tr>
+                                        <td>1</td>
+                                        <td><span class="text-info">{{$review.Content}}</span></td>
+                                        <td><a class="pull-right" href="/rebuttal_author?reviewerid={{$id}}&title={{$title}}&authorname={{$name}}">Rebuttal</a></td>
+                                    </tr>
+                                    {{end}}
+                                </tbody>
+                            </table>
+                        </div>             
                     </div>
                 </div>
             </div>
