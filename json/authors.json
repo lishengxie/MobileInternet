@@ -1,0 +1,58 @@
+{
+  "author1": {
+    "Name": "author1",
+    "ID": "id_author1",
+    "Passwd": "123456",
+    "Email": "1141751053@qq.com",
+    "ResearchTarget": "Web IR/Interactive IR & Feedback/User Studies (behavior & modeling)"
+  },
+  "author2": {
+    "Name": "author2",
+    "ID": "id_author2",
+    "Passwd": "123456",
+    "Email": "1141751053@qq.com",
+    "ResearchTarget": "Interactive IR & Feedback/Text mining/NLP for IR/Language models"
+  },
+  "author3": {
+    "Name": "author3",
+    "ID": "id_author3",
+    "Passwd": "123456",
+    "Email": "1141751053@qq.com",
+    "ResearchTarget": "User Studies (behavior & modeling)/Evaluation/Other IR applications"
+  },
+  "author4": {
+    "Name": "author4",
+    "ID": "id_author4",
+    "Passwd": "123456",
+    "Email": "1141751053@qq.com",
+    "ResearchTarget": "Adaptive Information filtering/Evaluation/Interactive IR & Feedback"
+  },
+  "author5": {
+    "Name": "author5",
+    "ID": "id_author5",
+    "Passwd": "123456",
+    "Email": "1141751053@qq.com",
+    "ResearchTarget": "Evaluation/Other IR theory"
+  },
+  "author6": {
+    "Name": "author6",
+    "ID": "id_author6",
+    "Passwd": "123456",
+    "Email": "1141751053@qq.com",
+    "ResearchTarget": "Interactive IR & Feedback/User Studies (behavior & modeling)/Clustering"
+  },
+  "author7": {
+    "Name": "author7",
+    "ID": "id_author7",
+    "Passwd": "123456",
+    "Email": "1141751053@qq.com",
+    "ResearchTarget": "Clustering/Other machine learning"
+  },
+  "author8": {
+    "Name": "author8",
+    "ID": "id_author8",
+    "Passwd": "123456",
+    "Email": "1141751053@qq.com",
+    "ResearchTarget": "Other Web/Text mining/Multimedia IR"
+  }
+}

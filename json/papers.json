@@ -1,0 +1,66 @@
+{
+  "Learn from web search logs to organize search results": {
+    "Submitter": "author6",
+    "Title": "Learn from web search logs to organize search results",
+    "ID": "id_paper6",
+    "AuthorList": "author6",
+    "Keywords": "Search result organization/search engine logs/interesting aspects",
+    "Path": "./upload/Learn from web search logs to organize search results.pdf"
+  },
+  "Personalized query expansion for the web": {
+    "Submitter": "author1",
+    "Title": "Personalized query expansion for the web",
+    "ID": "id_paper1",
+    "AuthorList": "author1",
+    "Keywords": "Personalized Web Search/Query Expansion/Desktop Profile/Keyword Extraction/Keyword Co-occurrences",
+    "Path": "./upload/Personalized query expansion for the web.pdf"
+  },
+  "Regularized clustering for documents": {
+    "Submitter": "author7",
+    "Title": "Regularized clustering for documents",
+    "ID": "id_paper7",
+    "AuthorList": "author7",
+    "Keywords": "Document clustering/Regularization",
+    "Path": "./upload/Regularized clustering for documents.pdf"
+  },
+  "Robust test collections for retrieval evaluation": {
+    "Submitter": "author5",
+    "Title": "Robust test collections for retrieval evaluation",
+    "ID": "id_paper5",
+    "AuthorList": "author5",
+    "Keywords": "information retrieval/evaluation/test collections/reusability",
+    "Path": "./upload/Robust test collections for retrieval evaluation.pdf"
+  },
+  "Towards automatic extraction of event and place semantics from flickr tags": {
+    "Submitter": "author8",
+    "Title": "Towards automatic extraction of event and place semantics from flickr tags",
+    "ID": "id_paper8",
+    "AuthorList": "author8",
+    "Keywords": "tagging systems/event identification/place identification/tag semantics/word semantics",
+    "Path": "./upload/Towards automatic extraction of event and place semantics from flickr tags.pdf"
+  },
+  "Towards task-based personal information management evaluations": {
+    "Submitter": "author3",
+    "Title": "Towards task-based personal information management evaluations",
+    "ID": "id_paper3",
+    "AuthorList": "author3",
+    "Keywords": "Personal Information Management/User Evaluation",
+    "Path": "./upload/Towards task-based personal information management evaluations.pdf"
+  },
+  "Using query contexts in information retrieval": {
+    "Submitter": "author2",
+    "Title": "Using query contexts in information retrieval",
+    "ID": "id_paper2",
+    "AuthorList": "author2",
+    "Keywords": "Query contexts/Domain model/Term relation/Language model",
+    "Path": "./upload/Using query contexts in information retrieval.pdf"
+  },
+  "Utility-based information distillation over temporally sequenced documents": {
+    "Submitter": "author4",
+    "Title": "Utility-based information distillation over temporally sequenced documents",
+    "ID": "id_paper4",
+    "AuthorList": "author4",
+    "Keywords": "Utility-based distillation/unified framework/adaptive filtering/novelty detection/passage ranking/flexible user feedback/evaluation methodology",
+    "Path": "./upload/Utility-based information distillation over temporally sequenced documents.pdf"
+  }
+}

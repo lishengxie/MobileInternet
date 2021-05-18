@@ -1,0 +1,1260 @@
+{
+  "1": [
+    "Evaluation",
+    "Efficiency",
+    "Web IR",
+    "Other Web",
+    "XML and structured data retrieval",
+    "Distributed IR"
+  ],
+  "2": [
+    "Other Web",
+    "XML and structured data retrieval"
+  ],
+  "3": [
+    "Document representation",
+    "NLP for IR",
+    "Multimedia IR"
+  ],
+  "4": [
+    "Efficiency",
+    "Other retrieval models"
+  ],
+  "5": [
+    "Web IR",
+    "Other Web",
+    "XML and structured data retrieval"
+  ],
+  "6": [
+    "Other IR applications",
+    "Other Web"
+  ],
+  "7": [
+    "XML and structured data retrieval",
+    "Clustering",
+    "User Studies (behavior & modeling)"
+  ],
+  "8": [
+    "XML and structured data retrieval",
+    "Other retrieval models"
+  ],
+  "9": [
+    "XML and structured data retrieval",
+    "Language models",
+    "Collaborative filtering",
+    "Efficiency"
+  ],
+  "10": [
+    "Efficiency"
+  ],
+  "11": [
+    "Other IR applications",
+    "Document representation",
+    "Text mining"
+  ],
+  "12": [
+    "Efficiency",
+    "Text mining",
+    "Evaluation",
+    "Document representation",
+    "NLP for IR"
+  ],
+  "13": [
+    "Interactive IR & Feedback",
+    "User Studies (behavior & modeling)"
+  ],
+  "14": [
+    "Text categorization",
+    "Clustering",
+    "Web Structures",
+    "Document representation"
+  ],
+  "15": [
+    "Web IR",
+    "Web Structures",
+    "Text mining",
+    "Interactive IR & Feedback",
+    "Other Web",
+    "Other retrieval models",
+    "Other machine learning"
+  ],
+  "16": [
+    "Text mining",
+    "Summarization",
+    "Other Web",
+    "NLP for IR",
+    "Web Structures",
+    "Document representation",
+    "Text categorization",
+    "Other machine learning",
+    "Clustering"
+  ],
+  "17": [
+    "Other Web",
+    "Text mining",
+    "Web IR",
+    "Web Structures",
+    "Document representation"
+  ],
+  "18": [
+    "Web IR",
+    "Web Structures"
+  ],
+  "19": [
+    "Other Web",
+    "Other retrieval models",
+    "Efficiency",
+    "Question answering",
+    "Other IR applications",
+    "Distributed IR",
+    "XML and structured data retrieval"
+  ],
+  "20": [
+    "Other machine learning",
+    "Web IR",
+    "Interactive IR & Feedback",
+    "Other retrieval models",
+    "Language models",
+    "Other IR theory",
+    "Text mining",
+    "Collaborative filtering",
+    "Adaptive Information filtering"
+  ],
+  "21": [
+    "Evaluation",
+    "Efficiency",
+    "Other retrieval models",
+    "Interactive IR & Feedback"
+  ],
+  "22": [
+    "Web Structures",
+    "Summarization",
+    "Text mining",
+    "Interactive IR & Feedback",
+    "Other IR applications"
+  ],
+  "23": [
+    "Other retrieval models",
+    "Other IR theory",
+    "Evaluation",
+    "Efficiency",
+    "Document representation",
+    "NLP for IR",
+    "Multimedia IR",
+    "Clustering",
+    "Summarization",
+    "Text categorization",
+    "Interactive IR & Feedback",
+    "Text mining",
+    "Language models"
+  ],
+  "24": [
+    "Other IR applications",
+    "Other Web",
+    "Web IR",
+    "Web Structures",
+    "Text mining",
+    "Efficiency",
+    "Distributed IR"
+  ],
+  "25": [
+    "Distributed IR",
+    "Web IR",
+    "Document representation",
+    "Interactive IR & Feedback",
+    "Other IR applications",
+    "NLP for IR"
+  ],
+  "26": [
+    "Cross-lingual IR",
+    "Other IR applications",
+    "Text categorization",
+    "Adaptive Information filtering"
+  ],
+  "27": [
+    "Evaluation",
+    "Efficiency",
+    "Other IR theory",
+    "Other Web",
+    "Other IR applications",
+    "NLP for IR",
+    "Document representation"
+  ],
+  "28": [
+    "Evaluation",
+    "Efficiency",
+    "Web IR",
+    "Other Web",
+    "Interactive IR & Feedback",
+    "Other retrieval models",
+    "Other IR applications"
+  ],
+  "29": [
+    "Evaluation",
+    "Web IR",
+    "Web Structures",
+    "Other Web",
+    "Other IR applications",
+    "Other retrieval models"
+  ],
+  "30": [
+    "Web Structures",
+    "Collaborative filtering",
+    "Summarization",
+    "Text mining",
+    "Text categorization",
+    "Clustering"
+  ],
+  "31": [
+    "Language models",
+    "Other retrieval models",
+    "Other IR theory",
+    "Other IR applications"
+  ],
+  "32": [
+    "Document representation",
+    "Other machine learning",
+    "Web Structures"
+  ],
+  "33": [
+    "Interactive IR & Feedback",
+    "User Studies (behavior & modeling)"
+  ],
+  "34": [
+    "Language models",
+    "XML and structured data retrieval",
+    "Efficiency"
+  ],
+  "35": [
+    "Document representation",
+    "Interactive IR & Feedback",
+    "Other retrieval models",
+    "Evaluation"
+  ],
+  "36": [
+    "Text categorization",
+    "Clustering",
+    "Document representation",
+    "Other IR applications"
+  ],
+  "37": [
+    "Question answering",
+    "Text mining",
+    "Document representation"
+  ],
+  "38": [
+    "Evaluation",
+    "Interactive IR & Feedback",
+    "Other retrieval models"
+  ],
+  "39": [
+    "Cross-lingual IR",
+    "Evaluation",
+    "Other IR applications",
+    "Multimedia IR",
+    "Text categorization"
+  ],
+  "40": [
+    "Text categorization",
+    "Other Web",
+    "Web Structures",
+    "Clustering",
+    "Other IR applications"
+  ],
+  "41": [
+    "Summarization",
+    "Question answering",
+    "NLP for IR",
+    "Evaluation",
+    "XML and structured data retrieval"
+  ],
+  "42": [
+    "Efficiency",
+    "Other retrieval models",
+    "Web IR",
+    "Web Structures",
+    "Other Web",
+    "Text categorization",
+    "Interactive IR & Feedback"
+  ],
+  "43": [
+    "Document representation",
+    "Language models",
+    "Other machine learning"
+  ],
+  "44": [
+    "Text categorization",
+    "Multimedia IR",
+    "Other IR applications",
+    "Other retrieval models",
+    "Text mining",
+    "User Studies (behavior & modeling)",
+    "Interactive IR & Feedback",
+    "Document representation",
+    "Web Structures"
+  ],
+  "45": [
+    "Clustering",
+    "Efficiency"
+  ],
+  "46": [
+    "Evaluation",
+    "Document representation",
+    "NLP for IR",
+    "Efficiency",
+    "Clustering"
+  ],
+  "47": [
+    "Evaluation"
+  ],
+  "48": [
+    "Efficiency",
+    "Clustering"
+  ],
+  "49": [
+    "User Studies (behavior & modeling)",
+    "Web Structures",
+    "Interactive IR & Feedback",
+    "Web IR",
+    "Other Web",
+    "Question answering"
+  ],
+  "50": [
+    "Question answering",
+    "Clustering",
+    "Efficiency",
+    "Other IR applications"
+  ],
+  "51": [
+    "Evaluation",
+    "Distributed IR",
+    "Other Web",
+    "Efficiency"
+  ],
+  "52": [
+    "Other Web",
+    "Interactive IR & Feedback",
+    "Text categorization",
+    "Adaptive Information filtering"
+  ],
+  "53": [
+    "Text mining",
+    "Efficiency",
+    "Interactive IR & Feedback"
+  ],
+  "54": [
+    "Efficiency",
+    "Summarization",
+    "Interactive IR & Feedback",
+    "Distributed IR",
+    "Evaluation"
+  ],
+  "55": [
+    "Clustering",
+    "Efficiency",
+    "Evaluation",
+    "Document representation"
+  ],
+  "56": [
+    "Web IR",
+    "Web Structures",
+    "Other Web",
+    "Document representation",
+    "Distributed IR"
+  ],
+  "57": [
+    "Evaluation",
+    "Efficiency",
+    "User Studies (behavior & modeling)",
+    "Other retrieval models",
+    "Other IR theory",
+    "NLP for IR",
+    "Document representation",
+    "Other IR applications"
+  ],
+  "58": [
+    "Text categorization",
+    "Text mining",
+    "Other Web",
+    "NLP for IR",
+    "Distributed IR",
+    "Interactive IR & Feedback"
+  ],
+  "59": [
+    "Document representation",
+    "Web IR",
+    "Web Structures",
+    "Collaborative filtering"
+  ],
+  "60": [
+    "Other IR applications",
+    "Other machine learning",
+    "Document representation",
+    "Text mining"
+  ],
+  "61": [
+    "Other IR applications",
+    "Text mining",
+    "NLP for IR",
+    "Other Web",
+    "Clustering"
+  ],
+  "62": [
+    "Other IR applications",
+    "Evaluation",
+    "Text categorization",
+    "Multimedia IR",
+    "User Studies (behavior & modeling)",
+    "Web IR",
+    "Distributed IR",
+    "Other retrieval models",
+    "Interactive IR & Feedback"
+  ],
+  "63": [
+    "Clustering",
+    "Efficiency",
+    "XML and structured data retrieval",
+    "Other Web"
+  ],
+  "64": [
+    "Text mining",
+    "Other machine learning",
+    "Other Web",
+    "Summarization",
+    "Web Structures",
+    "Other IR theory",
+    "Document representation",
+    "Clustering"
+  ],
+  "65": [
+    "Other Web",
+    "Interactive IR & Feedback",
+    "Collaborative filtering",
+    "Summarization",
+    "Clustering",
+    "Text categorization",
+    "Web Structures"
+  ],
+  "66": [
+    "Other retrieval models",
+    "Interactive IR & Feedback",
+    "Summarization",
+    "Efficiency",
+    "Text categorization"
+  ],
+  "67": [
+    "Other machine learning",
+    "Language models",
+    "Other retrieval models",
+    "XML and structured data retrieval"
+  ],
+  "68": [
+    "Other IR applications",
+    "Clustering"
+  ],
+  "69": [
+    "Interactive IR & Feedback",
+    "Clustering",
+    "XML and structured data retrieval",
+    "Language models",
+    "Other retrieval models",
+    "Other IR applications"
+  ],
+  "70": [
+    "Interactive IR & Feedback",
+    "User Studies (behavior & modeling)"
+  ],
+  "71": [
+    "Evaluation",
+    "User Studies (behavior & modeling)"
+  ],
+  "72": [
+    "Other Web",
+    "Other IR applications"
+  ],
+  "73": [
+    "Language models",
+    "Web IR",
+    "XML and structured data retrieval"
+  ],
+  "74": [
+    "Distributed IR",
+    "Other IR applications",
+    "Clustering"
+  ],
+  "75": [
+    "Adaptive Information filtering",
+    "Evaluation",
+    "Text mining",
+    "Summarization",
+    "Clustering",
+    "Interactive IR & Feedback",
+    "Language models",
+    "Other retrieval models",
+    "User Studies (behavior & modeling)"
+  ],
+  "76": [
+    "Cross-lingual IR",
+    "Evaluation",
+    "Document representation",
+    "Question answering"
+  ],
+  "77": [
+    "Distributed IR",
+    "Language models",
+    "Text mining",
+    "Clustering",
+    "Adaptive Information filtering",
+    "XML and structured data retrieval",
+    "Document representation",
+    "User Studies (behavior & modeling)",
+    "Collaborative filtering"
+  ],
+  "78": [
+    "Text categorization",
+    "Clustering",
+    "Web IR",
+    "Web Structures",
+    "Interactive IR & Feedback"
+  ],
+  "79": [
+    "Evaluation",
+    "Clustering",
+    "Document representation",
+    "Other retrieval models",
+    "Distributed IR"
+  ],
+  "80": [
+    "Cross-lingual IR",
+    "Web IR",
+    "Language models",
+    "Other retrieval models"
+  ],
+  "81": [
+    "Other Web",
+    "Document representation",
+    "Text categorization",
+    "User Studies (behavior & modeling)",
+    "Summarization"
+  ],
+  "82": [
+    "Cross-lingual IR",
+    "Other retrieval models",
+    "Other IR theory",
+    "Question answering",
+    "Language models",
+    "NLP for IR"
+  ],
+  "83": [
+    "Efficiency",
+    "Adaptive Information filtering",
+    "Cross-lingual IR",
+    "Text categorization"
+  ],
+  "84": [
+    "Other machine learning",
+    "Document representation",
+    "Text categorization",
+    "Efficiency"
+  ],
+  "85": [
+    "Interactive IR & Feedback",
+    "User Studies (behavior & modeling)",
+    "Question answering",
+    "Evaluation",
+    "NLP for IR"
+  ],
+  "86": [
+    "User Studies (behavior & modeling)",
+    "Other Web",
+    "Other machine learning",
+    "Web IR",
+    "Document representation",
+    "Other retrieval models",
+    "Interactive IR & Feedback",
+    "Web Structures",
+    "Other IR applications"
+  ],
+  "87": [
+    "Interactive IR & Feedback",
+    "Web IR",
+    "User Studies (behavior & modeling)",
+    "Summarization"
+  ],
+  "88": [
+    "Language models",
+    "Other IR theory"
+  ],
+  "89": [
+    "Multimedia IR",
+    "User Studies (behavior & modeling)",
+    "Summarization",
+    "Document representation",
+    "NLP for IR"
+  ],
+  "90": [
+    "Interactive IR & Feedback",
+    "Multimedia IR",
+    "Collaborative filtering",
+    "Cross-lingual IR",
+    "Question answering"
+  ],
+  "91": [
+    "Efficiency",
+    "Other retrieval models",
+    "Document representation",
+    "Cross-lingual IR",
+    "Clustering"
+  ],
+  "92": [
+    "Evaluation",
+    "Other IR theory"
+  ],
+  "93": [
+    "Efficiency",
+    "Other retrieval models",
+    "Document representation",
+    "Distributed IR",
+    "Evaluation",
+    "Clustering"
+  ],
+  "94": [
+    "Other Web",
+    "Other retrieval models",
+    "Summarization",
+    "Evaluation",
+    "Clustering",
+    "Text categorization"
+  ],
+  "95": [
+    "Other Web",
+    "Interactive IR & Feedback",
+    "Other IR applications",
+    "Multimedia IR"
+  ],
+  "96": [
+    "Clustering",
+    "Efficiency"
+  ],
+  "97": [
+    "Distributed IR",
+    "Collaborative filtering",
+    "Other retrieval models",
+    "Other IR applications"
+  ],
+  "98": [
+    "Other machine learning",
+    "Other retrieval models",
+    "Interactive IR & Feedback",
+    "Document representation"
+  ],
+  "99": [
+    "Efficiency"
+  ],
+  "100": [
+    "Language models",
+    "Other retrieval models",
+    "Other IR theory",
+    "Interactive IR & Feedback"
+  ],
+  "101": [
+    "Clustering",
+    "Cross-lingual IR",
+    "Document representation",
+    "Other Web",
+    "Text mining",
+    "User Studies (behavior & modeling)"
+  ],
+  "102": [
+    "User Studies (behavior & modeling)",
+    "Other Web",
+    "Other IR applications",
+    "XML and structured data retrieval",
+    "Summarization",
+    "Web IR"
+  ],
+  "103": [
+    "Language models",
+    "Interactive IR & Feedback"
+  ],
+  "104": [
+    "Text mining",
+    "Clustering",
+    "Other IR applications",
+    "Other Web",
+    "Efficiency"
+  ],
+  "105": [
+    "NLP for IR",
+    "Other Web",
+    "Text categorization",
+    "Other IR applications"
+  ],
+  "106": [
+    "Collaborative filtering",
+    "Language models",
+    "Distributed IR"
+  ],
+  "107": [
+    "Other machine learning",
+    "Other retrieval models",
+    "Language models",
+    "XML and structured data retrieval",
+    "Other IR applications",
+    "Document representation",
+    "Question answering",
+    "Interactive IR & Feedback",
+    "Text mining",
+    "NLP for IR",
+    "Web Structures"
+  ],
+  "108": [
+    "Other Web"
+  ],
+  "109": [
+    "Other Web",
+    "Text categorization"
+  ],
+  "110": [
+    "Multimedia IR",
+    "Text categorization"
+  ],
+  "111": [
+    "Distributed IR"
+  ],
+  "112": [
+    "Evaluation",
+    "Cross-lingual IR",
+    "Multimedia IR",
+    "Summarization",
+    "Distributed IR",
+    "User Studies (behavior & modeling)"
+  ],
+  "113": [
+    "Document representation",
+    "Efficiency",
+    "Other IR applications",
+    "Evaluation",
+    "Clustering",
+    "Cross-lingual IR"
+  ],
+  "114": [
+    "Clustering",
+    "Text mining",
+    "Question answering",
+    "Text categorization"
+  ],
+  "115": [
+    "Text categorization",
+    "XML and structured data retrieval",
+    "Distributed IR",
+    "Evaluation",
+    "Other IR theory"
+  ],
+  "116": [
+    "Distributed IR",
+    "Question answering",
+    "Interactive IR & Feedback",
+    "User Studies (behavior & modeling)",
+    "Efficiency"
+  ],
+  "117": [
+    "Web Structures",
+    "Efficiency",
+    "Other IR applications",
+    "Document representation",
+    "NLP for IR"
+  ],
+  "118": [
+    "Web IR",
+    "Other retrieval models",
+    "Text mining",
+    "Other Web",
+    "Multimedia IR",
+    "Web Structures"
+  ],
+  "119": [
+    "NLP for IR",
+    "Interactive IR & Feedback",
+    "Web IR",
+    "Text categorization",
+    "Other Web",
+    "Efficiency",
+    "Other retrieval models"
+  ],
+  "120": [
+    "Other retrieval models",
+    "Other IR theory",
+    "Text categorization",
+    "Distributed IR",
+    "XML and structured data retrieval"
+  ],
+  "121": [
+    "Document representation",
+    "NLP for IR",
+    "Other Web",
+    "Evaluation"
+  ],
+  "122": [
+    "Efficiency",
+    "Evaluation",
+    "Document representation",
+    "Cross-lingual IR",
+    "Clustering",
+    "Distributed IR",
+    "Text categorization",
+    "Other retrieval models",
+    "User Studies (behavior & modeling)"
+  ],
+  "123": [
+    "Other Web",
+    "Efficiency",
+    "Other retrieval models",
+    "Document representation"
+  ],
+  "124": [
+    "Evaluation",
+    "Web Structures"
+  ],
+  "125": [
+    "Summarization",
+    "Evaluation",
+    "XML and structured data retrieval"
+  ],
+  "126": [
+    "Other IR theory",
+    "Multimedia IR",
+    "Efficiency",
+    "Document representation"
+  ],
+  "127": [
+    "NLP for IR",
+    "Cross-lingual IR",
+    "Question answering"
+  ],
+  "128": [
+    "Other IR applications",
+    "Evaluation",
+    "Efficiency"
+  ],
+  "129": [
+    "Language models",
+    "XML and structured data retrieval",
+    "Distributed IR"
+  ],
+  "130": [
+    "Evaluation"
+  ],
+  "131": [
+    "Document representation",
+    "Other IR theory",
+    "Language models",
+    "Adaptive Information filtering",
+    "User Studies (behavior & modeling)"
+  ],
+  "132": [
+    "Collaborative filtering",
+    "Other Web",
+    "Other IR applications",
+    "Text mining",
+    "Web Structures",
+    "Distributed IR"
+  ],
+  "133": [
+    "Clustering",
+    "Efficiency",
+    "Other IR applications"
+  ],
+  "134": [
+    "Text categorization",
+    "Document representation",
+    "Clustering",
+    "Collaborative filtering",
+    "Other Web",
+    "Summarization",
+    "Web Structures"
+  ],
+  "135": [
+    "Multimedia IR",
+    "Collaborative filtering",
+    "Efficiency"
+  ],
+  "136": [
+    "Web IR",
+    "Web Structures",
+    "Other Web",
+    "XML and structured data retrieval"
+  ],
+  "137": [
+    "Other IR theory",
+    "Multimedia IR",
+    "Other IR applications",
+    "Evaluation"
+  ],
+  "138": [
+    "NLP for IR",
+    "Document representation",
+    "Other IR applications"
+  ],
+  "139": [
+    "Other retrieval models",
+    "Language models",
+    "Collaborative filtering",
+    "Text categorization",
+    "Multimedia IR",
+    "Interactive IR & Feedback",
+    "Cross-lingual IR",
+    "Distributed IR"
+  ],
+  "140": [
+    "Other Web",
+    "User Studies (behavior & modeling)",
+    "Interactive IR & Feedback",
+    "Web IR",
+    "Evaluation"
+  ],
+  "141": [
+    "Interactive IR & Feedback",
+    "User Studies (behavior & modeling)",
+    "Other IR applications",
+    "Summarization"
+  ],
+  "142": [
+    "Text mining",
+    "Other IR applications"
+  ],
+  "143": [
+    "Document representation",
+    "Summarization"
+  ],
+  "144": [
+    "Other IR applications",
+    "Multimedia IR",
+    "User Studies (behavior & modeling)",
+    "Text mining",
+    "Document representation"
+  ],
+  "145": [
+    "Other IR applications",
+    "Document representation",
+    "NLP for IR",
+    "Text mining",
+    "Text categorization"
+  ],
+  "146": [
+    "Efficiency"
+  ],
+  "147": [
+    "Other IR theory",
+    "Other retrieval models"
+  ],
+  "148": [
+    "Other IR applications",
+    "Web Structures",
+    "Other Web",
+    "Question answering",
+    "Document representation",
+    "Web IR"
+  ],
+  "149": [
+    "XML and structured data retrieval",
+    "Document representation",
+    "Language models",
+    "XML and structured data retrieval",
+    "Other IR theory",
+    "Web IR",
+    "Other machine learning",
+    "Evaluation"
+  ],
+  "150": [
+    "Text mining",
+    "Summarization",
+    "Other Web",
+    "Web Structures",
+    "Web IR",
+    "Other IR applications",
+    "Distributed IR"
+  ],
+  "151": [
+    "Efficiency",
+    "Evaluation",
+    "Clustering",
+    "Distributed IR",
+    "User Studies (behavior & modeling)"
+  ],
+  "152": [
+    "Interactive IR & Feedback",
+    "User Studies (behavior & modeling)",
+    "Web IR",
+    "Question answering",
+    "Web Structures",
+    "Text categorization",
+    "Clustering",
+    "Evaluation",
+    "Other Web",
+    "Adaptive Information filtering"
+  ],
+  "153": [
+    "Clustering",
+    "Multimedia IR",
+    "Other machine learning",
+    "Text categorization"
+  ],
+  "154": [
+    "Other retrieval models",
+    "Other IR theory",
+    "Interactive IR & Feedback",
+    "Language models",
+    "Web Structures",
+    "Other Web"
+  ],
+  "155": [
+    "Text mining",
+    "Question answering",
+    "Text categorization",
+    "Document representation"
+  ],
+  "156": [
+    "Other IR theory",
+    "Interactive IR & Feedback",
+    "User Studies (behavior & modeling)"
+  ],
+  "157": [
+    "Text mining",
+    "Other IR applications",
+    "Evaluation",
+    "Question answering"
+  ],
+  "158": [
+    "Language models",
+    "Multimedia IR",
+    "Web IR",
+    "XML and structured data retrieval",
+    "Evaluation"
+  ],
+  "159": [
+    "Adaptive Information filtering",
+    "Collaborative filtering",
+    "Web Structures",
+    "Other machine learning",
+    "Text categorization",
+    "Clustering",
+    "Text mining",
+    "Document representation"
+  ],
+  "160": [
+    "Other IR applications",
+    "Multimedia IR",
+    "Other Web"
+  ],
+  "161": [
+    "Text mining",
+    "Adaptive Information filtering",
+    "Language models",
+    "Clustering",
+    "Cross-lingual IR",
+    "Other retrieval models",
+    "Other IR theory",
+    "Other IR applications"
+  ],
+  "162": [
+    "Document representation",
+    "Clustering",
+    "Other retrieval models",
+    "NLP for IR",
+    "Other Web"
+  ],
+  "163": [
+    "Evaluation",
+    "Distributed IR"
+  ],
+  "164": [
+    "Other retrieval models",
+    "Evaluation"
+  ],
+  "165": [
+    "Text mining",
+    "Question answering",
+    "Document representation",
+    "Other IR applications",
+    "Other retrieval models",
+    "Interactive IR & Feedback",
+    "Evaluation",
+    "Language models",
+    "Other IR theory",
+    "Clustering",
+    "Cross-lingual IR",
+    "Other machine learning",
+    "Summarization",
+    "User Studies (behavior & modeling)"
+  ],
+  "166": [
+    "Question answering",
+    "Other Web",
+    "Text categorization",
+    "Other IR applications"
+  ],
+  "167": [
+    "Text categorization",
+    "Text mining",
+    "Question answering",
+    "Other retrieval models",
+    "Other IR theory",
+    "NLP for IR",
+    "Other Web"
+  ],
+  "168": [
+    "Clustering",
+    "Text categorization"
+  ],
+  "169": [
+    "Text mining",
+    "Interactive IR & Feedback",
+    "NLP for IR",
+    "Efficiency",
+    "Distributed IR",
+    "Clustering"
+  ],
+  "170": [
+    "Multimedia IR",
+    "Document representation",
+    "Clustering",
+    "Other retrieval models",
+    "Summarization",
+    "Other IR applications",
+    "Other Web",
+    "Web Structures",
+    "Text mining",
+    "Adaptive Information filtering"
+  ],
+  "171": [
+    "Document representation",
+    "Web Structures",
+    "Other retrieval models"
+  ],
+  "172": [
+    "Language models",
+    "Adaptive Information filtering",
+    "Web IR"
+  ],
+  "173": [
+    "Other Web",
+    "NLP for IR",
+    "Other machine learning",
+    "Other IR applications",
+    "Document representation",
+    "Text mining",
+    "Evaluation",
+    "Other retrieval models",
+    "Text categorization"
+  ],
+  "174": [
+    "Web IR",
+    "Document representation",
+    "Other Web",
+    "Other IR applications",
+    "NLP for IR",
+    "Interactive IR & Feedback",
+    "Efficiency"
+  ],
+  "175": [
+    "Text mining",
+    "Text categorization",
+    "Clustering",
+    "Document representation"
+  ],
+  "176": [
+    "Text mining",
+    "Document representation",
+    "Summarization",
+    "Other IR applications"
+  ],
+  "177": [
+    "Summarization",
+    "Web IR",
+    "Other IR applications",
+    "Efficiency",
+    "Text categorization"
+  ],
+  "178": [
+    "Other Web",
+    "Web IR",
+    "Clustering",
+    "Web Structures"
+  ],
+  "179": [
+    "Web IR",
+    "User Studies (behavior & modeling)",
+    "Interactive IR & Feedback"
+  ],
+  "180": [
+    "Web IR",
+    "Interactive IR & Feedback",
+    "Web Structures",
+    "Other retrieval models",
+    "Other IR theory",
+    "Other machine learning",
+    "Text categorization",
+    "Other IR applications"
+  ],
+  "181": [
+    "Efficiency"
+  ],
+  "182": [
+    "Text categorization",
+    "Clustering",
+    "Summarization",
+    "Other Web"
+  ],
+  "183": [
+    "Adaptive Information filtering",
+    "Text categorization",
+    "Cross-lingual IR",
+    "Text mining",
+    "Other machine learning",
+    "Document representation"
+  ],
+  "184": [
+    "XML and structured data retrieval",
+    "Efficiency",
+    "Interactive IR & Feedback",
+    "Other IR applications"
+  ],
+  "185": [
+    "Document representation",
+    "Collaborative filtering",
+    "Other Web",
+    "Clustering",
+    "Web IR",
+    "Web Structures"
+  ],
+  "186": [
+    "Text categorization",
+    "Document representation",
+    "Other Web",
+    "Interactive IR & Feedback",
+    "Text mining",
+    "Collaborative filtering",
+    "User Studies (behavior & modeling)",
+    "Clustering",
+    "Web Structures",
+    "Summarization",
+    "Web IR"
+  ],
+  "187": [
+    "XML and structured data retrieval"
+  ],
+  "188": [
+    "Other Web",
+    "Web IR",
+    "Other retrieval models",
+    "Text categorization",
+    "Interactive IR & Feedback"
+  ],
+  "189": [
+    "Evaluation",
+    "Document representation",
+    "Interactive IR & Feedback",
+    "Cross-lingual IR"
+  ]
+}
