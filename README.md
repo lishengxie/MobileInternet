@@ -1,4 +1,4 @@
-# MobileInternet
+# EE447 MobileInternet
 
 运行方法
 
